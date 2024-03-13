@@ -1,7 +1,10 @@
 package Pokemon;
 
-public class BasePokemon {
+import item.usage.Evolable;
+
+public class BasePokemon implements Evolable {
     private String name;
+    private double maxHp;
     private double hp;
     private double atk;
     private double def;
@@ -9,9 +12,10 @@ public class BasePokemon {
     private Element element;
 
 
-    public BasePokemon(String name, double hp, double atk, double def, double hunger, Element element) {
+    public BasePokemon(String name,double MaxHp, double atk, double def, double hunger, Element element) {
         setName(name);
-        setHp(hp);
+        setMaxHp(maxHp);
+        setHp(maxHp);
         setAtk(atk);
         setDef(def);
         setHunger(hunger);
@@ -83,5 +87,23 @@ public class BasePokemon {
 
     public void setElement(Element element) {
         this.element = element;
+    }
+
+    public double getMaxHp() {
+        return maxHp;
+    }
+
+    public void setMaxHp(double maxHp) {
+        this.maxHp = maxHp;
+    }
+
+    @Override
+    public boolean getIsEvoled() {
+        return false;
+    }
+
+    @Override
+    public void setIsEvoled(boolean bool) {
+
     }
 }
