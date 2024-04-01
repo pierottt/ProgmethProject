@@ -1,14 +1,14 @@
 package table;
 
 import item.usage.Evolable;
-import pokemon.Pokemon;
+import Pokemon.BasePokemon;
 
 public class Enchanter {
     private String name;
     public Enchanter(){
         setName("Enchanter");
     }
-    public String interact(Pokemon pokemon){
+    public String interact(BasePokemon pokemon){
         //TODO: something
         if(pokemon instanceof Evolable){
             if(!((Evolable) pokemon).getIsEvoled()){
