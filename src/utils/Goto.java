@@ -1,6 +1,10 @@
 package utils;
 
+import javafx.scene.control.ScrollPane;
+import panes.MapPane;
 import panes.RootPane;
+import panes.StartPane;
+
 
 public class Goto {
     private static RootPane rootPane;
@@ -13,5 +17,21 @@ public class Goto {
             rootPane.getChildren().subList(1, rootPane.getChildren().size()).clear();
         }
     }
+
+    public static void startPage(){
+        clear();
+        rootPane.getChildren().add(new StartPane());
+    }
+
+    public static void mapPage(){
+        clear();
+        rootPane.getChildren().add(new MapPane());
+    }
+
+    public static void Page(){
+        clear();
+        rootPane.getChildren().add(new MapPane());
+    }
+
 
 }

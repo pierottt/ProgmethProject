@@ -5,8 +5,11 @@ import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import utils.Goto;
 
@@ -14,20 +17,9 @@ public class RootPane extends StackPane {
     private static RootPane instance;
 
     public RootPane(){
-        setBackground(Background.fill(Color.WHITE));
-        Text t = new Text("This is root Pane");
-        setAlignment(t, Pos.TOP_CENTER);
-        getChildren().add(t);
-        Goto.setRootPane(this);
-        Button b = new Button();
-        b.setText("go to map");
-//        b.setOnMouseClicked(new EventHandler<MouseEvent>() {
-//            @Override
-//            public void handle(MouseEvent mouseEvent) {
-//                Goto.mapScene();
-//            }
-//        });
-//        getChildren().add(b);
+        setBackground(new Background(new BackgroundFill(Color.WHITE, null, null)));
+        Goto.setRootPane(this); // Set the root pane in Goto
+        Goto.startPage(); // Start with the start page
     }
     public static RootPane getRootPane() {
         if (instance == null)
