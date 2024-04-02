@@ -1,5 +1,6 @@
 package application;
 
+import game.GameController;
 import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
@@ -26,6 +27,8 @@ public class Main extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
+
+        GameController gameController = new GameController();
 
         RootPane parent = RootPane.getRootPane();
         Scene scene = new Scene(parent,1200,700);

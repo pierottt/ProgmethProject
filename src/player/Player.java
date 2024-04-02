@@ -17,6 +17,11 @@ public class Player {
         this.money=500;
         this.inventory=new ArrayList<BaseItem>();
     }
+
+    public int getMoney() {
+        return money;
+    }
+
     public boolean buyItem(BaseItem item){
         if(this.money>=item.getPrice()){
             this.money=this.money-item.getPrice();
