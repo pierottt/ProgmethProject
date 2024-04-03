@@ -1,8 +1,10 @@
 package utils;
 
 import javafx.scene.control.ScrollPane;
+import javafx.scene.layout.StackPane;
 import panes.MapPane;
 import panes.RootPane;
+import panes.ShopPane;
 import panes.StartPane;
 
 
@@ -26,6 +28,11 @@ public class Goto {
     public static void mapPage(){
         clear();
         rootPane.getChildren().add(new MapPane());
+    }
+
+    public static void shopPage(){
+        clear();
+        rootPane.getChildren().add(new ShopPane());
     }
 
     public static void Page(){
