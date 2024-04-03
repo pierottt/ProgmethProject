@@ -74,10 +74,47 @@ public class SellItemPane extends StackPane {
         btnBuy.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
-                System.out.println("Hello WOrld");
                 Goto.shopPage();
             }
         });
+
+        Button btnExit = new Button("EXIT");
+
+        btnExit.setTranslateX(-500);
+        btnExit.setTranslateY(300);
+
+        btnExit.setStyle("-fx-background-color: #ff0000; " +
+                "-fx-text-fill: #ffffff; " +
+                "-fx-font-size: 18px; " +  // Increased font size
+                "-fx-font-family: Arial;");
+        btnExit.setPrefWidth(100);  // Set preferred width
+        btnExit.setPrefHeight(40);  // Set preferred height
+
+// Set style for mouse entered
+        btnExit.setOnMouseEntered(e -> {
+            btnExit.setStyle("-fx-background-color: #ff6666; " +
+                    "-fx-text-fill: #ffffff; " +
+                    "-fx-font-size: 18px; " +  // Increased font size
+                    "-fx-font-family: Arial;");
+        });
+
+// Set style for mouse exited
+        btnExit.setOnMouseExited(e -> {
+            btnExit.setStyle("-fx-background-color: #ff0000; " +
+                    "-fx-text-fill: #ffffff; " +
+                    "-fx-font-size: 18px; " +  // Increased font size
+                    "-fx-font-family: Arial;");
+        });
+
+        btnExit.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                Goto.mapPage();
+            }
+        });
+
+
+        getChildren().add(btnExit);
 
         myMoney.setTranslateX(455);
         myMoney.setTranslateY(300);

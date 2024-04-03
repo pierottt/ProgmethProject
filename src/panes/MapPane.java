@@ -35,6 +35,13 @@ public class MapPane extends StackPane {
         ImageView ratView = createImageView("LocationGreen.png");
         ImageView homeView = createImageView("LocationGreen.png");
 
+        homeView.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                Goto.shopPage();
+            }
+        });
+
         // Set image positions
         StackPane.setAlignment(chickenView, Pos.TOP_CENTER);
         StackPane.setMargin(chickenView, new Insets(190, 210, 0, 0));
