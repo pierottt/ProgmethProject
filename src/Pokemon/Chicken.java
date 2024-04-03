@@ -14,4 +14,9 @@ public class Chicken extends BasePokemon{
             decreaseHp(getAtk()*0.5);
         }
     }
+
+    @Override
+    public int getPrice() {
+        return 1000;
+    }
 }

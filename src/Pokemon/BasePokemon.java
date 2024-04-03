@@ -2,7 +2,7 @@ package Pokemon;
 
 import item.usage.Evolable;
 
-public class BasePokemon implements Evolable {
+public abstract class BasePokemon implements Evolable {
     private String name;
     private double maxHp;
     private double hp;
@@ -10,6 +10,11 @@ public class BasePokemon implements Evolable {
     private double def;
     private double hunger;
     private Element element;
+
+    private int price;
+
+    //Abstact
+    public abstract int getPrice();
 
 
     public BasePokemon(String name,double MaxHp, double atk, double def, double hunger, Element element) {

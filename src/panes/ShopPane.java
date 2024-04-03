@@ -1,44 +1,43 @@
 package panes;
 
+import Pokemon.*;
 import game.GameController;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.StackPane;
 import item.*;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
 import player.*;
+import utils.Goto;
 
 public class ShopPane extends StackPane {
 
-    private AtkPotion atkPotion;
 
     public ShopPane() {
-        atkPotion = new AtkPotion();
         // Set padding for the StackPane
         setPadding(new Insets(20)); // 20 pixels of padding from all sides
-        Text error = new Text("Don't have enough money");
-        error.setFont(Font.font(50));
-        error.setVisible(false);
-        Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(1), event -> {
-            error.setVisible(true);
-        }));
-        timeline.setCycleCount(1);
+        setBackground(new Background(new BackgroundFill(Color.CHOCOLATE, null, null)));
         Button btn0 = new Button("AtkPotion");
-        Button btn1 = new Button("Item 2");
-        Button btn2 = new Button("Item 3");
-        Button btn3 = new Button("Item 4");
-        Button btn4 = new Button("Item 5");
-        Button btn5 = new Button("Item 6");
-        Button btn6 = new Button("Item 7");
-        Button btn7 = new Button("Item 8");
-        Label myMoney = new Label(GameController.getInstance().getPlayer().getMoney()+"");
+        Button btn1 = new Button("DefPotion");
+        Button btn2 = new Button("HealPotion");
+        Button btn3 = new Button("Pokeball");
+        Button btn4 = new Button("Dragon");
+        Button btn5 = new Button("Fox");
+        Button btn6 = new Button("Rat");
+        Button btn7 = new Button("Chicken");
+        Label myMoney = new Label(GameController.getInstance().getPlayer().getMoney() + "");
 
         Button[] buttons = {btn0, btn1, btn2, btn3, btn4, btn5, btn6, btn7};
         Button btnSell = new Button("Sell Items");
@@ -82,34 +81,163 @@ public class ShopPane extends StackPane {
         }
         btnSell.setTranslateX(550);
         btnSell.setTranslateY(300);
+        btnSell.setStyle("-fx-font-size: 18; -fx-font-weight: bold; -fx-text-fill: white; -fx-background-color: #FF5722; -fx-padding: 5px; -fx-border-color: black; -fx-border-width: 2px; -fx-border-radius: 5px; -fx-effect: dropshadow(three-pass-box, #000000, 10, 0, 0, 0);");
+
+        btnSell.setOnMouseEntered(e -> {
+            btnSell.setStyle("-fx-font-size: 18; -fx-font-weight: bold; -fx-text-fill: white; -fx-background-color: #FF8A65; -fx-padding: 5px; -fx-border-color: black; -fx-border-width: 2px; -fx-border-radius: 5px; -fx-effect: dropshadow(three-pass-box, #000000, 10, 0, 0, 0);");
+        });
+
+        btnSell.setOnMouseExited(e -> {
+            btnSell.setStyle("-fx-font-size: 18; -fx-font-weight: bold; -fx-text-fill: white; -fx-background-color: #FF5722; -fx-padding: 5px; -fx-border-color: black; -fx-border-width: 2px; -fx-border-radius: 5px; -fx-effect: dropshadow(three-pass-box, #000000, 10, 0, 0, 0);");
+        });
 
         getChildren().add(btnSell);
 
 
         //button functions
+
         btn0.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
-               if(GameController.getInstance().player.buyItem(new AtkPotion())){
-                myMoney.setText(GameController.getInstance().getPlayer().getMoney()+"");
-               }else{
-                   timeline.play();
-                   timeline.setOnFinished(event -> error.setVisible(false));
-               }
+                if (GameController.getInstance().player.buyItem(new AtkPotion())) {
+                    myMoney.setText(GameController.getInstance().getPlayer().getMoney() + "");
+                } else {
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert.setTitle("Not Enough");
+                    alert.setContentText("Not Enough");
+                    alert.showAndWait();
+                }
 
             }
         });
+
+        btn1.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                if (GameController.getInstance().player.buyItem(new DefPotion())) {
+                    myMoney.setText(GameController.getInstance().getPlayer().getMoney() + "");
+                } else {
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert.setTitle("Not Enough");
+                    alert.setContentText("Not Enough");
+                    alert.showAndWait();
+                }
+
+            }
+        });
+
+        btn2.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                if (GameController.getInstance().player.buyItem(new HealPotion())) {
+                    myMoney.setText(GameController.getInstance().getPlayer().getMoney() + "");
+                } else {
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert.setTitle("Not Enough");
+                    alert.setContentText("Not Enough");
+                    alert.showAndWait();
+                }
+
+            }
+        });
+
+        btn3.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                if (GameController.getInstance().player.buyItem(new Pokeball())) {
+                    myMoney.setText(GameController.getInstance().getPlayer().getMoney() + "");
+                } else {
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert.setTitle("Not Enough");
+                    alert.setContentText("Not Enough");
+                    alert.showAndWait();
+                }
+
+            }
+        });
+
+        btn4.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                if (GameController.getInstance().player.buyPokemon(new Dragon(1.5, 1.5, 1.5, 1.5))) {
+
+                    myMoney.setText(GameController.getInstance().getPlayer().getMoney() + "");
+                } else {
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert.setTitle("Not Enough");
+                    alert.setContentText("Not Enough");
+                    alert.showAndWait();
+                }
+
+            }
+        });
+
+        btn5.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                if (GameController.getInstance().player.buyPokemon(new Fox(1, 1, 1, 1))) {
+                    myMoney.setText(GameController.getInstance().getPlayer().getMoney() + "");
+                } else {
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert.setTitle("Not Enough");
+                    alert.setContentText("Not Enough");
+                    alert.showAndWait();
+                }
+
+            }
+        });
+
+        btn6.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                if (GameController.getInstance().player.buyPokemon(new Rat(1, 1, 1, 1))) {
+                    myMoney.setText(GameController.getInstance().getPlayer().getMoney() + "");
+                } else {
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert.setTitle("Not Enough");
+                    alert.setContentText("Not Enough");
+                    alert.showAndWait();
+                }
+
+            }
+        });
+
+        btn7.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                if (GameController.getInstance().player.buyPokemon(new Chicken(1, 1, 1, 1))) {
+                    myMoney.setText(GameController.getInstance().getPlayer().getMoney() + "");
+                } else {
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert.setTitle("Not Enough");
+                    alert.setContentText("Not Enough");
+                    alert.showAndWait();
+                }
+
+            }
+        });
+
+        btnSell.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                Goto.sellItemPage();
+            }
+        });
         ////Label
-        Label name0 = new Label("Name 1");
-        Label name1 = new Label("Name 2");
-        Label name2 = new Label("Name 3");
-        Label name3 = new Label("Name 4");
-        Label name4 = new Label("Name 5");
-        Label name5 = new Label("Name 6");
-        Label name6 = new Label("Name 7");
-        Label name7 = new Label("Name 8");
+        Label name0 = new Label("AtkPoiton");
+        Label name1 = new Label("DefPotion");
+        Label name2 = new Label("HealPotion");
+        Label name3 = new Label("Pokeball");
+        Label name4 = new Label("Dragon");
+        Label name5 = new Label("Fox");
+        Label name6 = new Label("Rat");
+        Label name7 = new Label("Chicken");
 
         Label[] names = {name0, name1, name2, name3, name4, name5, name6, name7};
+
+        for (Label nameLabel : names) {
+            nameLabel.setFont(Font.font("Arial", FontWeight.BOLD, 18)); // Setting font size to 18
+        }
 
 
         name0.setTranslateX(-490);
@@ -146,14 +274,14 @@ public class ShopPane extends StackPane {
         }
 
         //Price
-        Label price0 = new Label("Price1");
-        Label price1 = new Label("Price2");
-        Label price2 = new Label("Price3");
-        Label price3 = new Label("Price4");
-        Label price4 = new Label("Price5");
-        Label price5 = new Label("Price6");
-        Label price6 = new Label("Price7");
-        Label price7 = new Label("Price8");
+        Label price0 = new Label("500");
+        Label price1 = new Label("500");
+        Label price2 = new Label("500");
+        Label price3 = new Label("10");
+        Label price4 = new Label("1000");
+        Label price5 = new Label("1000");
+        Label price6 = new Label("1000");
+        Label price7 = new Label("1000");
 
         Label[] prices = {price0, price1, price2, price3, price4, price5, price6, price7};
 
@@ -186,23 +314,27 @@ public class ShopPane extends StackPane {
         price7.setTranslateX(490);
         price7.setTranslateY(-120);
 
+        for (Label priceLabel : prices) {
+            priceLabel.setFont(Font.font("Arial", FontWeight.BOLD, 18)); // Setting font size to 18
+        }
+
         for (int i = 0; i < 8; i++) {
             getChildren().add(prices[i]);
         }
-        getChildren().add(myMoney);
-        getChildren().add(error);
 
-
-        myMoney.setTranslateX(500);
+        myMoney.setTranslateX(455);
         myMoney.setTranslateY(300);
+
+        myMoney.setStyle("-fx-font-size: 20; -fx-font-weight: bold; -fx-text-fill: white; -fx-background-color: #4CAF50; -fx-padding: 5px;");
+
+        getChildren().add(myMoney);
+//        getChildren().add(error);
+
+
+
 
         //Function
 
 
     }
-//    public void setDisable() {
-//        if(atkPotion.getPrice()>GameController.getInstance().player.getMoney()){
-//            btn0.
-//        }
-//    }
 }
