@@ -4,7 +4,7 @@ public class DefPotion extends BaseItem{
     private final int DEF_BUFF;
     private final int BUFF_TURN;
     public DefPotion(){
-        super("DefPotion", 500,1);
+        super("DefPotion", 500);
         this.DEF_BUFF = 30;
         this.BUFF_TURN = 5;
     }

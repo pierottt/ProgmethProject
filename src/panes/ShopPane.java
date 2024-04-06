@@ -23,6 +23,15 @@ import utils.Goto;
 
 public class ShopPane extends StackPane {
 
+    Button btn0 = new Button("AtkPotion");
+    Button btn1 = new Button("DefPotion");
+    Button btn2 = new Button("Dragon");
+    Button btn3 = new Button("Fox");
+    Button btn4 = new Button("HealPotion");
+    Button btn5 = new Button("PokeBall");
+    Button btn6 = new Button("Rat");
+    Button btn7 = new Button("Chicken");
+
 
     public ShopPane() {
         Image bg = new Image("ShopBg.png");
@@ -36,16 +45,10 @@ public class ShopPane extends StackPane {
         Background background = new Background(backgroundImage);
         setBackground(background);
 
+        updateButtonDisableState();
+
         // Set padding for the StackPane
         setPadding(new Insets(20)); // 20 pixels of padding from all sides
-        Button btn0 = new Button("AtkPotion");
-        Button btn1 = new Button("DefPotion");
-        Button btn2 = new Button("HealPotion");
-        Button btn3 = new Button("Pokeball");
-        Button btn4 = new Button("Dragon");
-        Button btn5 = new Button("Fox");
-        Button btn6 = new Button("Rat");
-        Button btn7 = new Button("Chicken");
         Label myMoney = new Label(GameController.getInstance().getPlayer().getMoney() + "");
 
         Button[] buttons = {btn0, btn1, btn2, btn3, btn4, btn5, btn6, btn7};
@@ -54,6 +57,36 @@ public class ShopPane extends StackPane {
         for (Button button : buttons) {
             button.setPrefWidth(200); // Set preferred width to 200 pixels
             button.setPrefHeight(50); // Set preferred height to 100 pixels
+            button.setStyle(
+
+                    "-fx-background-color: linear-gradient(#f0ff35, #a9ff00)," +
+                            "radial-gradient(center 50% -40%, radius 200%, #b8ee36 45%, #80c800 50%);" +
+                            "-fx-background-radius: 6, 5;" +
+                            "-fx-background-insets: 0, 1;" +
+                            "-fx-text-fill: #395306;" +
+                            "-fx-font-size: 14px;" +
+                            "-fx-font-weight: bold;"
+            );
+
+            // Add hover effects
+            button.setOnMouseEntered(e -> button.setStyle(
+                    "-fx-background-color: linear-gradient(#d9ff00, #adff00)," +
+                            "radial-gradient(center 50% -40%, radius 200%, #b8ee36 45%, #80c800 50%);" +
+                            "-fx-background-radius: 6, 5;" +
+                            "-fx-background-insets: 0, 1;" +
+                            "-fx-text-fill: #395306;" +
+                            "-fx-font-size: 14px;" +
+                            "-fx-font-weight: bold;"
+            ));
+            button.setOnMouseExited(e -> button.setStyle(
+                    "-fx-background-color: linear-gradient(#f0ff35, #a9ff00)," +
+                            "radial-gradient(center 50% -40%, radius 200%, #b8ee36 45%, #80c800 50%);" +
+                            "-fx-background-radius: 6, 5;" +
+                            "-fx-background-insets: 0, 1;" +
+                            "-fx-text-fill: #395306;" +
+                            "-fx-font-size: 14px;" +
+                            "-fx-font-weight: bold;"
+            ));
         }
 
         btn0.setTranslateX(-490);
@@ -70,19 +103,19 @@ public class ShopPane extends StackPane {
 
 
         btn4.setTranslateX(-490);
-        btn4.setTranslateY(-70);
+        btn4.setTranslateY(-50);
 
 
         btn5.setTranslateX(-250);
-        btn5.setTranslateY(-70);
+        btn5.setTranslateY(-50);
 
 
         btn6.setTranslateX(250);
-        btn6.setTranslateY(-70);
+        btn6.setTranslateY(-50);
 
 
         btn7.setTranslateX(490);
-        btn7.setTranslateY(-70);
+        btn7.setTranslateY(-50);
 
 
         for (int i = 0; i < 8; i++) {
@@ -148,13 +181,8 @@ public class ShopPane extends StackPane {
             public void handle(MouseEvent mouseEvent) {
                 if (GameController.getInstance().player.buyItem(new AtkPotion())) {
                     myMoney.setText(GameController.getInstance().getPlayer().getMoney() + "");
-                } else {
-                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                    alert.setTitle("Not Enough");
-                    alert.setContentText("Not Enough");
-                    alert.showAndWait();
+                    updateButtonDisableState();
                 }
-
             }
         });
 
@@ -163,11 +191,8 @@ public class ShopPane extends StackPane {
             public void handle(MouseEvent mouseEvent) {
                 if (GameController.getInstance().player.buyItem(new DefPotion())) {
                     myMoney.setText(GameController.getInstance().getPlayer().getMoney() + "");
-                } else {
-                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                    alert.setTitle("Not Enough");
-                    alert.setContentText("Not Enough");
-                    alert.showAndWait();
+                    updateButtonDisableState();
+
                 }
 
             }
@@ -176,13 +201,10 @@ public class ShopPane extends StackPane {
         btn2.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
-                if (GameController.getInstance().player.buyItem(new HealPotion())) {
+                if (GameController.getInstance().player.buyPokemon(new Dragon(1,1,1,1))) {
                     myMoney.setText(GameController.getInstance().getPlayer().getMoney() + "");
-                } else {
-                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                    alert.setTitle("Not Enough");
-                    alert.setContentText("Not Enough");
-                    alert.showAndWait();
+                    updateButtonDisableState();
+
                 }
 
             }
@@ -191,13 +213,10 @@ public class ShopPane extends StackPane {
         btn3.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
-                if (GameController.getInstance().player.buyItem(new Pokeball())) {
+                if (GameController.getInstance().player.buyPokemon(new Fox(1,1,1,1))) {
                     myMoney.setText(GameController.getInstance().getPlayer().getMoney() + "");
-                } else {
-                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                    alert.setTitle("Not Enough");
-                    alert.setContentText("Not Enough");
-                    alert.showAndWait();
+                    updateButtonDisableState();
+
                 }
 
             }
@@ -206,14 +225,10 @@ public class ShopPane extends StackPane {
         btn4.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
-                if (GameController.getInstance().player.buyPokemon(new Dragon(1.5, 1.5, 1.5, 1.5))) {
-
+                if (GameController.getInstance().player.buyItem(new HealPotion())) {
                     myMoney.setText(GameController.getInstance().getPlayer().getMoney() + "");
-                } else {
-                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                    alert.setTitle("Not Enough");
-                    alert.setContentText("Not Enough");
-                    alert.showAndWait();
+                    updateButtonDisableState();
+
                 }
 
             }
@@ -222,13 +237,10 @@ public class ShopPane extends StackPane {
         btn5.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
-                if (GameController.getInstance().player.buyPokemon(new Fox(1, 1, 1, 1))) {
+                if (GameController.getInstance().player.buyItem(new Pokeball())) {
                     myMoney.setText(GameController.getInstance().getPlayer().getMoney() + "");
-                } else {
-                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                    alert.setTitle("Not Enough");
-                    alert.setContentText("Not Enough");
-                    alert.showAndWait();
+                    updateButtonDisableState();
+
                 }
 
             }
@@ -239,11 +251,8 @@ public class ShopPane extends StackPane {
             public void handle(MouseEvent mouseEvent) {
                 if (GameController.getInstance().player.buyPokemon(new Rat(1, 1, 1, 1))) {
                     myMoney.setText(GameController.getInstance().getPlayer().getMoney() + "");
-                } else {
-                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                    alert.setTitle("Not Enough");
-                    alert.setContentText("Not Enough");
-                    alert.showAndWait();
+                    updateButtonDisableState();
+
                 }
 
             }
@@ -254,13 +263,9 @@ public class ShopPane extends StackPane {
             public void handle(MouseEvent mouseEvent) {
                 if (GameController.getInstance().player.buyPokemon(new Chicken(1, 1, 1, 1))) {
                     myMoney.setText(GameController.getInstance().getPlayer().getMoney() + "");
-                } else {
-                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                    alert.setTitle("Not Enough");
-                    alert.setContentText("Not Enough");
-                    alert.showAndWait();
-                }
+                    updateButtonDisableState();
 
+                }
             }
         });
 
@@ -273,19 +278,22 @@ public class ShopPane extends StackPane {
         ////Label
         Label name0 = new Label("AtkPoiton");
         Label name1 = new Label("DefPotion");
-        Label name2 = new Label("HealPotion");
-        Label name3 = new Label("Pokeball");
-        Label name4 = new Label("Dragon");
-        Label name5 = new Label("Fox");
+        Label name2 = new Label("Dragon");
+        Label name3 = new Label("Fox");
+        Label name4 = new Label("HealPotion");
+        Label name5 = new Label("Pokeball");
         Label name6 = new Label("Rat");
         Label name7 = new Label("Chicken");
 
         Label[] names = {name0, name1, name2, name3, name4, name5, name6, name7};
 
         for (Label nameLabel : names) {
-            nameLabel.setFont(Font.font("Arial", FontWeight.BOLD, 18)); // Setting font size to 18
-        }
+                nameLabel.setFont(Font.font("Impact", FontWeight.BOLD, 18));
+                nameLabel.setTextFill(Color.WHITE); // Set text color to white
+                nameLabel.setPadding(new Insets(10));
+                nameLabel.setBackground(new Background(new BackgroundFill(Color.rgb(139, 69, 19), new CornerRadii(5), Insets.EMPTY))); // Brown color
 
+        }
 
         name0.setTranslateX(-490);
         name0.setTranslateY(-200);
@@ -301,19 +309,19 @@ public class ShopPane extends StackPane {
 
 
         name4.setTranslateX(-490);
-        name4.setTranslateY(-20);
+        name4.setTranslateY(0);
 
 
         name5.setTranslateX(-250);
-        name5.setTranslateY(-20);
+        name5.setTranslateY(0);
 
 
         name6.setTranslateX(250);
-        name6.setTranslateY(-20);
+        name6.setTranslateY(0);
 
 
         name7.setTranslateX(490);
-        name7.setTranslateY(-20);
+        name7.setTranslateY(0);
 
 
         for (int i = 0; i < 8; i++) {
@@ -323,12 +331,12 @@ public class ShopPane extends StackPane {
         //Price
         Label price0 = new Label("500");
         Label price1 = new Label("500");
-        Label price2 = new Label("500");
-        Label price3 = new Label("10");
-        Label price4 = new Label("1000");
-        Label price5 = new Label("1000");
+        Label price2 = new Label("1000");
+        Label price3 = new Label("1000");
+        Label price4 = new Label("500");
+        Label price5 = new Label("10");
         Label price6 = new Label("1000");
-        Label price7 = new Label("1000");
+        Label price7 = new Label("999999");
 
         Label[] prices = {price0, price1, price2, price3, price4, price5, price6, price7};
 
@@ -347,22 +355,25 @@ public class ShopPane extends StackPane {
 
 
         price4.setTranslateX(-490);
-        price4.setTranslateY(-120);
+        price4.setTranslateY(-100);
 
 
         price5.setTranslateX(-250);
-        price5.setTranslateY(-120);
+        price5.setTranslateY(-100);
 
 
         price6.setTranslateX(250);
-        price6.setTranslateY(-120);
+        price6.setTranslateY(-100);
 
 
         price7.setTranslateX(490);
-        price7.setTranslateY(-120);
+        price7.setTranslateY(-100);
 
         for (Label priceLabel : prices) {
-            priceLabel.setFont(Font.font("Arial", FontWeight.BOLD, 18)); // Setting font size to 18
+            priceLabel.setStyle("-fx-font-family: Impact; " +
+                    "-fx-font-weight: bold; " +
+                    "-fx-font-size: 24px; " + // Make font size bigger
+                    "-fx-text-fill: brown;"); // Change text color to brown
         }
 
         for (int i = 0; i < 8; i++) {
@@ -372,16 +383,20 @@ public class ShopPane extends StackPane {
         myMoney.setTranslateX(455);
         myMoney.setTranslateY(300);
 
-        myMoney.setStyle("-fx-font-size: 20; -fx-font-weight: bold; -fx-text-fill: white; -fx-background-color: #4CAF50; -fx-padding: 5px;");
+        myMoney.setStyle("-fx-font-family: Impact; -fx-font-size: 20; -fx-font-weight: bold; -fx-text-fill: white; -fx-background-color: #4CAF50; -fx-padding: 5px;");
 
         getChildren().add(myMoney);
 //        getChildren().add(error);
 
-
-
-
-        //Function
-
-
+    }
+    private void updateButtonDisableState() {
+        btn0.setDisable(GameController.getInstance().getPlayer().getMoney()<500);
+        btn1.setDisable(GameController.getInstance().getPlayer().getMoney()<500);
+        btn2.setDisable(GameController.getInstance().getPlayer().getMoney()<1000);
+        btn3.setDisable(GameController.getInstance().getPlayer().getMoney()<1000);
+        btn4.setDisable(GameController.getInstance().getPlayer().getMoney()<500);
+        btn5.setDisable(GameController.getInstance().getPlayer().getMoney()<10);
+        btn6.setDisable(GameController.getInstance().getPlayer().getMoney()<1000);
+        btn7.setDisable(GameController.getInstance().getPlayer().getMoney()<999999);
     }
 }

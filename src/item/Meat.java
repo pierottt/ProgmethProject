@@ -10,7 +10,7 @@ public class Meat extends BaseItem implements Cookable {
     private final HashMap<CookState, Integer> RECOVER_PT;
 
     public Meat(CookState cookState){
-        super("Meat",20,1);
+        super("Meat",20);
         this.cookState = cookState;
         RECOVER_PT = new HashMap<>();
         RECOVER_PT.put(CookState.RAW,5);

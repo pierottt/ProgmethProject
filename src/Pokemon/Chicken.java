@@ -17,6 +17,6 @@ public class Chicken extends BasePokemon{
 
     @Override
     public int getPrice() {
-        return 1000;
+        return 999999;
     }
 }

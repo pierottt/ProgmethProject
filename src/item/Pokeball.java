@@ -2,7 +2,7 @@ package item;
 
 public class Pokeball extends BaseItem{
     public Pokeball(){
-        super("Pokeball",10,1);
+        super("Pokeball",10);
     }
     public String catchPokemon(int maxHp,int hp){
         //TODO: randomizer
