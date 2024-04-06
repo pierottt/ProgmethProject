@@ -9,10 +9,9 @@ import javafx.geometry.Insets;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
-import javafx.scene.layout.StackPane;
+import javafx.scene.layout.*;
 import item.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
@@ -26,9 +25,19 @@ public class ShopPane extends StackPane {
 
 
     public ShopPane() {
+        Image bg = new Image("ShopBg.png");
+        BackgroundImage backgroundImage = new BackgroundImage(
+                bg,
+                BackgroundRepeat.NO_REPEAT,
+                BackgroundRepeat.NO_REPEAT,
+                BackgroundPosition.DEFAULT,
+                new BackgroundSize(BackgroundSize.AUTO, BackgroundSize.AUTO, false, false, true, true)
+        );
+        Background background = new Background(backgroundImage);
+        setBackground(background);
+
         // Set padding for the StackPane
         setPadding(new Insets(20)); // 20 pixels of padding from all sides
-        setBackground(new Background(new BackgroundFill(Color.CHOCOLATE, null, null)));
         Button btn0 = new Button("AtkPotion");
         Button btn1 = new Button("DefPotion");
         Button btn2 = new Button("HealPotion");
