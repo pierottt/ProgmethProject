@@ -28,17 +28,24 @@ public class MapPane extends StackPane {
         Background background = new Background(backgroundImage);
         setBackground(background);
 
-        ImageView chickenView = createImageView("LocationGreen.png");
-        ImageView dragonView = createImageView("LocationGreen.png");
-        ImageView foxView = createImageView("LocationGreen.png");
-        ImageView pikachuView = createImageView("LocationGreen.png");
-        ImageView ratView = createImageView("LocationGreen.png");
-        ImageView homeView = createImageView("LocationGreen.png");
+        ImageView chickenView = createImageView("LocationBlue.png");
+        ImageView dragonView = createImageView("LocationBlue.png");
+        ImageView foxView = createImageView("LocationBlue.png");
+        ImageView pikachuView = createImageView("LocationBlue.png");
+        ImageView ratView = createImageView("LocationBlue.png");
+        ImageView homeView = createImageView("LocationBlue.png");
 
         homeView.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
                 Goto.shopPage();
+            }
+        });
+
+        chickenView.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                Goto.fightPane1();
             }
         });
 

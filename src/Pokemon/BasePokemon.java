@@ -1,6 +1,8 @@
 package Pokemon;
 
 import item.usage.Evolable;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 
 public abstract class BasePokemon implements Evolable {
     private String name;
@@ -8,23 +10,24 @@ public abstract class BasePokemon implements Evolable {
     private double hp;
     private double atk;
     private double def;
-    private double hunger;
     private Element element;
-
+    private ImageView PokemonImg;
+    private ImageView enemyImg;
+    private ImageView skillImg;
     private int price;
 
     //Abstact
     public abstract int getPrice();
 
 
-    public BasePokemon(String name,double MaxHp, double atk, double def, double hunger, Element element) {
+    public BasePokemon(String name,double MaxHp, double atk, double def, int price,Element element) {
         setName(name);
-        setMaxHp(maxHp);
-        setHp(maxHp);
+        setMaxHp(MaxHp);
+        setHp(MaxHp);
         setAtk(atk);
         setDef(def);
-        setHunger(hunger);
         setElement(element);
+        setPrice(price);
     }
 
     public boolean isDead() {
@@ -33,7 +36,8 @@ public abstract class BasePokemon implements Evolable {
     }
 
     public void decreaseHp (double amount) {
-        setHp(getHp()-(amount-getDef()));
+        if(amount < 0) amount = 0;
+        setHp(getHp()-amount);
     }
 
 
@@ -55,8 +59,9 @@ public abstract class BasePokemon implements Evolable {
     public void setHp(double hp) {
         if (hp < 0) {
             this.hp = 0;
-        }
-        else this.hp = hp;
+        } else if (hp > maxHp) {
+            this.hp = maxHp;
+        } else this.hp = hp;
     }
 
     public double getAtk() {
@@ -73,17 +78,6 @@ public abstract class BasePokemon implements Evolable {
 
     public void setDef(double def) {
         this.def = def;
-    }
-
-    public double getHunger() {
-        return hunger;
-    }
-
-    public void setHunger(double hunger) {
-        if (hunger < 0) {
-            this.hunger = 0;
-        }
-        this.hunger = hunger;
     }
 
     public Element getElement() {
@@ -111,4 +105,34 @@ public abstract class BasePokemon implements Evolable {
     public void setIsEvoled(boolean bool) {
 
     }
+
+    public ImageView getPokemonImg() {
+        return PokemonImg;
+    }
+
+    public void setPokemonImg(ImageView pokemonImg) {
+        PokemonImg = pokemonImg;
+    }
+
+    public ImageView getEnemyImg() {
+        return enemyImg;
+    }
+
+    public void setEnemyImg(ImageView enemyImg) {
+        this.enemyImg = enemyImg;
+    }
+
+    public ImageView getSkillImg() {
+        return skillImg;
+    }
+
+    public void setSkillImg(ImageView skillImg) {
+        this.skillImg = skillImg;
+    }
+
+    public void setPrice(int price) {
+        this.price = price;
+    }
+    public abstract void attack(BasePokemon pokemon);
+    public abstract void useSkill(BasePokemon pokemon);
 }

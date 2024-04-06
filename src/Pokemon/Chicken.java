@@ -1,18 +1,34 @@
 package Pokemon;
 
+import com.sun.javafx.runtime.async.BackgroundExecutor;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+
 public class Chicken extends BasePokemon{
-    public Chicken(double hp, double atk, double def, double hunger) {
-        super("Chicken", hp, atk, def, hunger, Element.LIGHT);
+    public Chicken() {
+        super("Chicken", 99999, 100, 100, 999999999, Element.LIGHT);
+        Image pokemon = new Image("ChickenLeft.png");
+        Image enemy = new Image("ChickenRight.png");
+        ImageView pokemonImg = new ImageView(pokemon);
+        pokemonImg.setFitHeight(500);
+        pokemonImg.setFitWidth(500);
+        ImageView enemyImg = new ImageView(enemy);
+        this.setPokemonImg(pokemonImg);
+        this.setEnemyImg(enemyImg);
     }
 
     public void attack(BasePokemon pokemon) {
         if(pokemon.getElement()==Element.LIGHT) {
-            decreaseHp(getAtk());
+            pokemon.decreaseHp(getAtk() - pokemon.getDef());
         } else if (pokemon.getElement()==Element.FIRE || pokemon.getElement()==Element.ELECTRIC) {
-            decreaseHp(getAtk()*1.5);
+            pokemon.decreaseHp(getAtk()*1.5 - pokemon.getDef());
         } else {
-            decreaseHp(getAtk()*0.5);
+            pokemon.decreaseHp(getAtk()*0.5 - pokemon.getDef());
         }
+    }
+    @Override
+    public void useSkill(BasePokemon pokemon){
+        pokemon.decreaseHp(50000);
     }
 
     @Override

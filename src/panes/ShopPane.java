@@ -213,7 +213,7 @@ public class ShopPane extends StackPane {
         btn3.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
-                if (GameController.getInstance().player.buyPokemon(new Fox(1,1,1,1))) {
+                if (GameController.getInstance().player.buyPokemon(new Fox())) {
                     myMoney.setText(GameController.getInstance().getPlayer().getMoney() + "");
                     updateButtonDisableState();
 
@@ -249,7 +249,7 @@ public class ShopPane extends StackPane {
         btn6.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
-                if (GameController.getInstance().player.buyPokemon(new Rat(1, 1, 1, 1))) {
+                if (GameController.getInstance().player.buyPokemon(new Rat())) {
                     myMoney.setText(GameController.getInstance().getPlayer().getMoney() + "");
                     updateButtonDisableState();
 
@@ -261,7 +261,7 @@ public class ShopPane extends StackPane {
         btn7.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
-                if (GameController.getInstance().player.buyPokemon(new Chicken(1, 1, 1, 1))) {
+                if (GameController.getInstance().player.buyPokemon(new Chicken())) {
                     myMoney.setText(GameController.getInstance().getPlayer().getMoney() + "");
                     updateButtonDisableState();
 

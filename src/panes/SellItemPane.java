@@ -220,7 +220,7 @@ public class SellItemPane extends StackPane {
         btn3.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
-                GameController.getInstance().getPlayer().sellPokemon(new Fox(1,1,1,1));
+                GameController.getInstance().getPlayer().sellPokemon(new Fox());
                 myMoney.setText(GameController.getInstance().getPlayer().getMoney() + "");
                 GameController.getInstance().getPlayer().setFox(GameController.getInstance().getPlayer().getFox()-1);
                 amount3.setText(GameController.getInstance().getPlayer().getFox()+"");
@@ -254,7 +254,7 @@ public class SellItemPane extends StackPane {
         btn6.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
-                GameController.getInstance().getPlayer().sellPokemon(new Rat(1,1,1,1));
+                GameController.getInstance().getPlayer().sellPokemon(new Rat());
                 myMoney.setText(GameController.getInstance().getPlayer().getMoney() + "");
                 GameController.getInstance().getPlayer().setRat(GameController.getInstance().getPlayer().getRat()-1);
                 amount6.setText(GameController.getInstance().getPlayer().getRat()+"");
@@ -265,7 +265,7 @@ public class SellItemPane extends StackPane {
         btn7.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
-                GameController.getInstance().getPlayer().sellPokemon(new Chicken(1,1,1,1));
+                GameController.getInstance().getPlayer().sellPokemon(new Chicken());
                 myMoney.setText(GameController.getInstance().getPlayer().getMoney() + "");
                 GameController.getInstance().getPlayer().setChicken(GameController.getInstance().getPlayer().getChicken()-1);
                 amount7.setText(GameController.getInstance().getPlayer().getChicken()+"");
