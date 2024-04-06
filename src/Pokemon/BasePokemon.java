@@ -86,6 +86,9 @@ public abstract class BasePokemon implements Evolable {
         this.hunger = hunger;
     }
 
+    public abstract boolean equals(BasePokemon pokemon);
+
+
     public Element getElement() {
         return element;
     }

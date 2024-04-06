@@ -7,8 +7,12 @@ import java.util.ArrayList;
 
 public class Player {
     private String name;
+
+
     private int money;
     private ArrayList<BaseItem> inventory;
+
+    private BasePokemon currentPokemon;
 
     private PokeDeck pokeDeck;
 
@@ -123,7 +127,7 @@ public class Player {
 
     public Player(String name){
         this.name=name;
-        this.money=500;
+        this.money=5000;
         this.inventory= new ArrayList<BaseItem>();
         //dumb code for test
         this.pokeDeck = new PokeDeck();
@@ -136,8 +140,18 @@ public class Player {
         setDefPotion(0);
         setHealPotion(0);
         setPokeBall(5);
+        setCurrentPokemon(new Pikachu(1,1,1,1));
     }
     //getter and setter
+
+
+    public BasePokemon getCurrentPokemon() {
+        return currentPokemon;
+    }
+
+    public void setCurrentPokemon(BasePokemon currentPokemon) {
+        this.currentPokemon = currentPokemon;
+    }
 
     public int getMoney() {
         return money;
@@ -174,6 +188,7 @@ public class Player {
         else if(pokemon instanceof Chicken){
             setChicken(getChicken()+1);
         }
+        getPokeDeck().getPokeDeck().add(pokemon);
     }
 
 
@@ -200,12 +215,11 @@ public class Player {
     }
     public void sellItem(BaseItem item){
         setMoney(this.money+item.getPrice()/2);
-        this.inventory.remove(item);
     }
 
     public void sellPokemon(BasePokemon pokemon){
         setMoney(this.money=this.money+pokemon.getPrice()/2);
-        this.pokeDeck.getPokeDeck().remove(pokemon);
+        getPokeDeck().getPokeDeck().remove(pokemon);
     }
     public void usePokemon(BasePokemon pokemon){}
 

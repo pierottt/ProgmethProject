@@ -9,7 +9,9 @@ import javafx.geometry.Insets;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import item.*;
@@ -21,7 +23,12 @@ import javafx.util.Duration;
 import player.*;
 import utils.Goto;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+
 public class ShopPane extends StackPane {
+
+//    ImageView name0 = createImageView("purchaseButtonOnClick.png","purchaseButton.png");
 
     Button btn0 = new Button("AtkPotion");
     Button btn1 = new Button("DefPotion");
@@ -30,9 +37,38 @@ public class ShopPane extends StackPane {
     Button btn4 = new Button("HealPotion");
     Button btn5 = new Button("PokeBall");
     Button btn6 = new Button("Rat");
-    Button btn7 = new Button("Chicken");
+    Button btn7 = new Button("Pikachu");
 
+    private ImageView createImageView(String imagePath, String newImagePath) {
+            Image image = new Image((imagePath));
+            ImageView imageView = new ImageView(image);
+            double imageSize = 200;
+            imageView.setFitWidth(imageSize);
+            imageView.setFitHeight(imageSize);
+            // Add mouse entered event handler
+            imageView.addEventHandler(MouseEvent.MOUSE_ENTERED, new EventHandler<MouseEvent>() {
+                @Override
+                public void handle(MouseEvent event) {
+                    // Change the image when mouse enters
 
+                        Image newImage = new Image((newImagePath));
+                        imageView.setImage(newImage);
+
+                }
+            });
+        imageView.addEventHandler(MouseEvent.MOUSE_EXITED, new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                // Change the image when mouse enters
+
+                Image newImage = new Image((imagePath));
+                imageView.setImage(newImage);
+
+            }
+        });
+
+            return imageView;
+    }
     public ShopPane() {
         Image bg = new Image("ShopBg.png");
         BackgroundImage backgroundImage = new BackgroundImage(
@@ -176,6 +212,16 @@ public class ShopPane extends StackPane {
 
         //button functions
 
+//        name0.setOnMouseClicked(new EventHandler<MouseEvent>() {
+//            @Override
+//            public void handle(MouseEvent mouseEvent) {
+//                if (GameController.getInstance().player.buyItem(new AtkPotion())) {
+//                    myMoney.setText(GameController.getInstance().getPlayer().getMoney() + "");
+//                    updateButtonDisableState();
+//                }
+//            }
+//        });
+
         btn0.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
@@ -261,7 +307,7 @@ public class ShopPane extends StackPane {
         btn7.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
-                if (GameController.getInstance().player.buyPokemon(new Chicken(1, 1, 1, 1))) {
+                if (GameController.getInstance().player.buyPokemon(new Pikachu(1, 1, 1, 1))) {
                     myMoney.setText(GameController.getInstance().getPlayer().getMoney() + "");
                     updateButtonDisableState();
 
@@ -276,27 +322,26 @@ public class ShopPane extends StackPane {
             }
         });
         ////Label
-        Label name0 = new Label("AtkPoiton");
         Label name1 = new Label("DefPotion");
         Label name2 = new Label("Dragon");
         Label name3 = new Label("Fox");
         Label name4 = new Label("HealPotion");
         Label name5 = new Label("Pokeball");
         Label name6 = new Label("Rat");
-        Label name7 = new Label("Chicken");
+        Label name7 = new Label("Pikachu");
 
-        Label[] names = {name0, name1, name2, name3, name4, name5, name6, name7};
+//        Label[] names = {name0, name1, name2, name3, name4, name5, name6, name7};
+//
+//        for (Label nameLabel : names) {
+//                nameLabel.setFont(Font.font("Impact", FontWeight.BOLD, 18));
+//                nameLabel.setTextFill(Color.WHITE); // Set text color to white
+//                nameLabel.setPadding(new Insets(10));
+//                nameLabel.setBackground(new Background(new BackgroundFill(Color.rgb(139, 69, 19), new CornerRadii(5), Insets.EMPTY))); // Brown color
+//
+//        }
 
-        for (Label nameLabel : names) {
-                nameLabel.setFont(Font.font("Impact", FontWeight.BOLD, 18));
-                nameLabel.setTextFill(Color.WHITE); // Set text color to white
-                nameLabel.setPadding(new Insets(10));
-                nameLabel.setBackground(new Background(new BackgroundFill(Color.rgb(139, 69, 19), new CornerRadii(5), Insets.EMPTY))); // Brown color
-
-        }
-
-        name0.setTranslateX(-490);
-        name0.setTranslateY(-200);
+//        name0.setTranslateX(-490);
+//        name0.setTranslateY(-200);
 
         name1.setTranslateX(-250);
         name1.setTranslateY(-200);
@@ -324,9 +369,9 @@ public class ShopPane extends StackPane {
         name7.setTranslateY(0);
 
 
-        for (int i = 0; i < 8; i++) {
-            getChildren().add(names[i]);
-        }
+//        for (int i = 0; i < 8; i++) {
+//            getChildren().add(names[i]);
+//        }
 
         //Price
         Label price0 = new Label("500");
@@ -336,7 +381,7 @@ public class ShopPane extends StackPane {
         Label price4 = new Label("500");
         Label price5 = new Label("10");
         Label price6 = new Label("1000");
-        Label price7 = new Label("999999");
+        Label price7 = new Label("100");
 
         Label[] prices = {price0, price1, price2, price3, price4, price5, price6, price7};
 
@@ -386,7 +431,7 @@ public class ShopPane extends StackPane {
         myMoney.setStyle("-fx-font-family: Impact; -fx-font-size: 20; -fx-font-weight: bold; -fx-text-fill: white; -fx-background-color: #4CAF50; -fx-padding: 5px;");
 
         getChildren().add(myMoney);
-//        getChildren().add(error);
+//        getChildren().add(name0);
 
     }
     private void updateButtonDisableState() {
@@ -397,6 +442,6 @@ public class ShopPane extends StackPane {
         btn4.setDisable(GameController.getInstance().getPlayer().getMoney()<500);
         btn5.setDisable(GameController.getInstance().getPlayer().getMoney()<10);
         btn6.setDisable(GameController.getInstance().getPlayer().getMoney()<1000);
-        btn7.setDisable(GameController.getInstance().getPlayer().getMoney()<999999);
+        btn7.setDisable(GameController.getInstance().getPlayer().getMoney()<100);
     }
 }

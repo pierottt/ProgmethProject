@@ -1,9 +1,6 @@
 package panes;
 
-import Pokemon.Chicken;
-import Pokemon.Dragon;
-import Pokemon.Fox;
-import Pokemon.Rat;
+import Pokemon.*;
 import game.GameController;
 import item.*;
 import javafx.event.EventHandler;
@@ -30,7 +27,7 @@ public class SellItemPane extends StackPane {
     Button btn4 = new Button("HealPotion");
     Button btn5 = new Button("PokeBall");
     Button btn6 = new Button("Rat");
-    Button btn7 = new Button("Chicken");
+    Button btn7 = new Button("Pikachu");
 
     public SellItemPane(){
 
@@ -57,7 +54,7 @@ public class SellItemPane extends StackPane {
         Label amount4 = new Label(GameController.getInstance().getPlayer().getHealPotion() + "");
         Label amount5 = new Label(GameController.getInstance().getPlayer().getPokeBall() + "");
         Label amount6 = new Label(GameController.getInstance().getPlayer().getRat() + "");
-        Label amount7 = new Label(GameController.getInstance().getPlayer().getChicken() + "");
+        Label amount7 = new Label(GameController.getInstance().getPlayer().getPikachu() + "");
 
         Label[] amounts = {amount0, amount1, amount2, amount3, amount4, amount5, amount6, amount7};
 
@@ -265,10 +262,10 @@ public class SellItemPane extends StackPane {
         btn7.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
-                GameController.getInstance().getPlayer().sellPokemon(new Chicken(1,1,1,1));
+                GameController.getInstance().getPlayer().sellPokemon(new Pikachu(1,1,1,1));
                 myMoney.setText(GameController.getInstance().getPlayer().getMoney() + "");
-                GameController.getInstance().getPlayer().setChicken(GameController.getInstance().getPlayer().getChicken()-1);
-                amount7.setText(GameController.getInstance().getPlayer().getChicken()+"");
+                GameController.getInstance().getPlayer().setPikachu(GameController.getInstance().getPlayer().getPikachu()-1);
+                amount7.setText(GameController.getInstance().getPlayer().getPikachu()+"");
                 updateButtonDisableState();
 
             }
@@ -313,7 +310,7 @@ public class SellItemPane extends StackPane {
         Label price4 = new Label("250");
         Label price5 = new Label("5");
         Label price6 = new Label("500");
-        Label price7 = new Label("999999");
+        Label price7 = new Label("100");
 
         Label[] prices = {price0, price1, price2, price3, price4, price5, price6, price7};
 
@@ -356,17 +353,16 @@ public class SellItemPane extends StackPane {
             getChildren().add(prices[i]);
         }
 
-
     }
     private void updateButtonDisableState() {
-        btn0.setDisable(GameController.getInstance().getPlayer().getAtkPotion() == 0);
-        btn1.setDisable(GameController.getInstance().getPlayer().getDefPotion() == 0);
-        btn2.setDisable(GameController.getInstance().getPlayer().getDragon() == 0);
-        btn3.setDisable(GameController.getInstance().getPlayer().getFox() == 0);
-        btn4.setDisable(GameController.getInstance().getPlayer().getHealPotion() == 0);
-        btn5.setDisable(GameController.getInstance().getPlayer().getPokeBall() == 0);
-        btn6.setDisable(GameController.getInstance().getPlayer().getRat() == 0);
-        btn7.setDisable(GameController.getInstance().getPlayer().getChicken() == 0);
+        btn0.setDisable(GameController.getInstance().getPlayer().getAtkPotion() == 0 ||GameController.getInstance().getPlayer().getPokeDeck().getPokeDeck().size()<=1);
+        btn1.setDisable(GameController.getInstance().getPlayer().getDefPotion() == 0 ||GameController.getInstance().getPlayer().getPokeDeck().getPokeDeck().size()<=1);
+        btn2.setDisable(GameController.getInstance().getPlayer().getDragon() == 0 ||GameController.getInstance().getPlayer().getPokeDeck().getPokeDeck().size()<=1 || GameController.getInstance().getPlayer().getCurrentPokemon().equals(new Dragon(1,1,1,1)));
+        btn3.setDisable(GameController.getInstance().getPlayer().getFox() == 0 ||GameController.getInstance().getPlayer().getPokeDeck().getPokeDeck().size()<=1 || GameController.getInstance().getPlayer().getCurrentPokemon().equals(new Fox(1,1,1,1)));
+        btn4.setDisable(GameController.getInstance().getPlayer().getHealPotion() == 0 ||GameController.getInstance().getPlayer().getPokeDeck().getPokeDeck().size()<=1 );
+        btn5.setDisable(GameController.getInstance().getPlayer().getPokeBall() == 0 ||GameController.getInstance().getPlayer().getPokeDeck().getPokeDeck().size()<=1);
+        btn6.setDisable(GameController.getInstance().getPlayer().getRat() == 0 ||GameController.getInstance().getPlayer().getPokeDeck().getPokeDeck().size()<=1 || GameController.getInstance().getPlayer().getCurrentPokemon().equals(new Rat(1,1,1,1)));
+        btn7.setDisable(GameController.getInstance().getPlayer().getPikachu() == 0 ||GameController.getInstance().getPlayer().getPokeDeck().getPokeDeck().size()<=1 || GameController.getInstance().getPlayer().getCurrentPokemon().equals(new Pikachu(1,1,1,1)));
     }
 
 }

@@ -19,4 +19,12 @@ public class Rat extends BasePokemon{
     public int getPrice() {
         return 1000;
     }
+
+    @Override
+    public boolean equals(BasePokemon pokemon) {
+        if(pokemon instanceof Rat){
+            return true;
+        }
+        return false;
+    }
 }
