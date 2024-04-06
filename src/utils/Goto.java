@@ -41,6 +41,9 @@ public class Goto {
         clear();
         rootPane.getChildren().add(new MapPane());
     }
-
+    public static void fightPane1(){
+        clear();
+        rootPane.getChildren().add(new fightPane1());
+    }
 
 }
