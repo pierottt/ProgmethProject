@@ -5,7 +5,7 @@ public class Evolution extends BaseItem{
     private final int DEF_BUFF;
     private final int HP_BUFF;
     public Evolution(){
-        super("Evolution",5000);
+        super("Evolution",5000,1);
         this.ATT_BUFF = 100;
         this.DEF_BUFF = 100;
         this.HP_BUFF = 1000;

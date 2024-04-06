@@ -6,10 +6,7 @@ import javafx.event.EventHandler;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.StackPane;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
@@ -46,8 +43,15 @@ public class SellItemPane extends StackPane {
             sellButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
                 @Override
                 public void handle(MouseEvent mouseEvent) {
+                    // Sell the item
                     GameController.getInstance().getPlayer().sellItem(baseItem);
-                    myMoney.setText(GameController.getInstance().getPlayer().getMoney() + "");
+
+                    // Remove the sold item's UI node from the inventoryPane
+                    getChildren().remove(text);
+                    getChildren().remove(sellButton);
+
+                    // Update the displayed money
+                    myMoney.setText(Integer.toString(GameController.getInstance().getPlayer().getMoney()));
 
                 }
             });
@@ -57,6 +61,7 @@ public class SellItemPane extends StackPane {
             gridPane.add(sellButton, col, 1);
             col++;
         }
+
 
         Button btnBuy = new Button("Buy Items");
         btnBuy.setTranslateX(550);
@@ -125,6 +130,32 @@ public class SellItemPane extends StackPane {
         getChildren().add(btnBuy);
 
 
+    }
+    private void refreshInventoryPane(Pane inventoryPane) {
+        inventoryPane.getChildren().clear(); // Clear the current contents
+
+        // Iterate over the player's inventory and add UI nodes for each item
+        for (BaseItem item : GameController.getInstance().getPlayer().getInventory()) {
+            Text text = new Text(item.getName());
+            text.setFont(Font.font("Arial", FontWeight.BOLD, 16));
+            text.setStyle("-fx-fill:red; -fx-letter-spacing: 0.1em;");
+
+            Button sellButton = new Button("Sell");
+            sellButton.setStyle("-fx-background-color: #008CBA; -fx-background-radius: 5em; -fx-text-fill: white; -fx-font-size: 14px; -fx-padding: 8px 16px;");
+            sellButton.setOnMouseEntered(e -> sellButton.setStyle("-fx-background-color: #005F6B; -fx-background-radius: 5em; -fx-text-fill: white; -fx-font-size: 14px; -fx-padding: 8px 16px;"));
+            sellButton.setOnMouseExited(e -> sellButton.setStyle("-fx-background-color: #008CBA; -fx-background-radius: 5em; -fx-text-fill: white; -fx-font-size: 14px; -fx-padding: 8px 16px;"));
+
+            sellButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
+                @Override
+                public void handle(MouseEvent mouseEvent) {
+                    GameController.getInstance().getPlayer().sellItem(item);
+                    myMoney.setText(Integer.toString(GameController.getInstance().getPlayer().getMoney()));
+                    refreshInventoryPane(inventoryPane); // Refresh the inventoryPane
+                }
+            });
+
+            inventoryPane.getChildren().addAll(text, sellButton);
+        }
     }
 
 }

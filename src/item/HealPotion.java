@@ -3,7 +3,7 @@ package item;
 public class HealPotion extends BaseItem{
     private final int HEAL;
     public HealPotion(){
-        super("HealPotion",500);
+        super("HealPotion",500,1);
         this.HEAL = 300;
     }
 
