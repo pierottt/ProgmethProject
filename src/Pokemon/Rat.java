@@ -1,17 +1,32 @@
 package Pokemon;
 
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+
 public class Rat extends BasePokemon{
-    public Rat(double hp, double atk, double def, double hunger) {
-        super("Rat", hp, atk, def, hunger, Element.POISON);
+    public Rat() {
+        super("Rat", 2000, 200, 0, 10000,Element.POISON);
+        Image pokemon = new Image("RatLeft.png");
+        Image enemy = new Image("RatRight.png");
+        ImageView pokemonImg = new ImageView(pokemon);
+        ImageView enemyImg = new ImageView(enemy);
+        this.setPokemonImg(pokemonImg);
+        this.setEnemyImg(enemyImg);
+
+    }
+
+    @Override
+    public void useSkill(BasePokemon pokemon){
+        pokemon.decreaseHp(1500);
     }
 
     public void attack(BasePokemon pokemon) {
         if(pokemon.getElement()==Element.POISON) {
-            decreaseHp(getAtk());
+            pokemon.decreaseHp(getAtk() - pokemon.getDef());
         } else if (pokemon.getElement()==Element.ELECTRIC || pokemon.getElement()==Element.LIGHT) {
-            decreaseHp(getAtk()*1.5);
+            pokemon.decreaseHp(getAtk()*1.5 - pokemon.getDef());
         } else {
-            decreaseHp(getAtk()*0.5);
+            pokemon.decreaseHp(getAtk()*0.5 - pokemon.getDef());
         }
     }
 

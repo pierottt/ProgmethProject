@@ -42,6 +42,13 @@ public class MapPane extends StackPane {
             }
         });
 
+        chickenView.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                Goto.fightPane1();
+            }
+        });
+
         // Set image positions
         StackPane.setAlignment(chickenView, Pos.TOP_CENTER);
         StackPane.setMargin(chickenView, new Insets(190, 210, 0, 0));
