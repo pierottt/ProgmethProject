@@ -35,4 +35,12 @@ public class Chicken extends BasePokemon{
     public int getPrice() {
         return 999999;
     }
+
+    @Override
+    public boolean equals(BasePokemon pokemon) {
+        if(pokemon instanceof Chicken){
+            return true;
+        }
+        return false;
+    }
 }

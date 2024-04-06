@@ -23,6 +23,14 @@ public class Pikachu extends BasePokemon{
 
     @Override
     public int getPrice() {
-        return 1000;
+        return 100;
+    }
+
+    @Override
+    public boolean equals(BasePokemon pokemon) {
+        if(pokemon instanceof Pikachu) {
+            return true;
+        }
+        return false;
     }
 }
