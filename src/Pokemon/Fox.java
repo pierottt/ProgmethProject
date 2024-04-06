@@ -1,20 +1,33 @@
 package Pokemon;
 
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+
 public class Fox extends BasePokemon{
-    public Fox(double hp, double atk, double def, double hunger) {
-        super("Fox", hp, atk, def, hunger, Element.ICE);
+    public Fox() {
+        super("Fox", 2000, 100, 50, 3000, Element.ICE);
+        Image pokemon = new Image("FoxLeft.png");
+        Image enemy = new Image("FoxRight.png");
+        ImageView pokemonImg = new ImageView(pokemon);
+        ImageView enemyImg = new ImageView(enemy);
+        this.setPokemonImg(pokemonImg);
+        this.setEnemyImg(enemyImg);
     }
 
     public void attack(BasePokemon pokemon) {
         if(pokemon.getElement()==Element.ICE) {
-            decreaseHp(getAtk());
+            pokemon.decreaseHp(getAtk() - pokemon.getDef());
         } else if (pokemon.getElement()==Element.LIGHT || pokemon.getElement()==Element.POISON) {
-            decreaseHp(getAtk()*1.5);
+            pokemon.decreaseHp(getAtk()*1.5 - pokemon.getDef());
         } else {
-            decreaseHp(getAtk()*0.5);
+            pokemon.decreaseHp(getAtk()*0.5 - pokemon.getDef());
         }
     }
 
+    @Override
+    public void useSkill(BasePokemon pokemon){
+        pokemon.decreaseHp(500);
+    }
     @Override
     public int getPrice() {
         return 1000;
