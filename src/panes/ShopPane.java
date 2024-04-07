@@ -28,6 +28,15 @@ public class ShopPane extends StackPane {
 
 
     public ShopPane() {
+        Label BuyItem = new Label("Buy Items");
+        BuyItem.setFont(Font.font("Arial", FontWeight.EXTRA_BOLD, 25));
+        BuyItem.setStyle("-fx-text-fill: white; -fx-background-color: #7C3014; -fx-padding: 5px;");
+        BuyItem.setPrefWidth(300);
+        BuyItem.setPrefHeight(20);
+        BuyItem.setAlignment(Pos.CENTER);
+        BuyItem.setTranslateY(-320);
+        getChildren().add(BuyItem);
+
         Image bg = new Image("ShopBg.png");
         BackgroundImage backgroundImage = new BackgroundImage(
                 bg,
@@ -92,7 +101,7 @@ public class ShopPane extends StackPane {
         Button buyRatBtn = new Button("BUY");
         Button buyPikachuBtn = new Button("BUY");
 
-        Label myMoney = new Label(GameController.getInstance().getPlayer().getMoney() + "");
+        Label myMoney = new Label(GameController.getInstance().getPlayer().getMoney() + "$");
 
         Button[] buttons = {buyAtkBtn, buyDefBtn, buyHealBtn, buyPokeballBtn, buyDragonBtn, buyFoxBtn, buyRatBtn, buyPikachuBtn};
 
@@ -302,7 +311,7 @@ public class ShopPane extends StackPane {
         buyPikachuBtn.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
-                if (GameController.getInstance().player.buyPokemon(new Chicken())) {
+                if (GameController.getInstance().player.buyPokemon(new Pikachu(1.5,1.5,1.5,1.5))) {
                     myMoney.setText(GameController.getInstance().getPlayer().getMoney() + "");
                 } else {
                     Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -372,7 +381,7 @@ public class ShopPane extends StackPane {
         Label defPrice = new Label("500$");
         Label healPrice = new Label("500$");
         Label pokeballPrice = new Label("10$");
-        Label pikachuPrice = new Label("1000$");
+        Label pikachuPrice = new Label("100$");
         Label dragonPrice = new Label("1000$");
         Label ratPrice = new Label("1000$");
         Label foxPrice = new Label("1000$");
