@@ -3,6 +3,8 @@ package item;
 public class BaseItem {
     private String name;
     private int price;
+
+
     BaseItem(String name, int price){
         this.setName(name);
         this.setPrice(price);
@@ -22,4 +24,8 @@ public class BaseItem {
     public void setPrice(int price) {
         this.price = price;
     }
+
+
+
+
 }

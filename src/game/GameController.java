@@ -24,7 +24,9 @@ public class GameController {
         PokeDeck pokeDeck = new PokeDeck();
         this.player=p;
     }
+
     public Player getPlayer(){
         return player;
     }
+
 }

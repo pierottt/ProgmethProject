@@ -19,6 +19,8 @@ public abstract class BasePokemon implements Evolable {
     //Abstact
     public abstract int getPrice();
 
+    public abstract boolean equals(BasePokemon pokemon);
+
 
     public BasePokemon(String name,double MaxHp, double atk, double def, int price,Element element) {
         setName(name);
