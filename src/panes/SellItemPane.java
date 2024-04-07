@@ -5,11 +5,9 @@ import item.BaseItem;
 import javafx.event.EventHandler;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.StackPane;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
@@ -22,8 +20,22 @@ public class SellItemPane extends StackPane {
 
     public SellItemPane(){
         GridPane gridPane = new GridPane();
+        javafx.scene.image.Image bg = new Image("ShopBg.png");
+        BackgroundImage backgroundImage = new BackgroundImage(
+                bg,
+                BackgroundRepeat.NO_REPEAT,
+                BackgroundRepeat.NO_REPEAT,
+                BackgroundPosition.DEFAULT,
+                new BackgroundSize(BackgroundSize.AUTO, BackgroundSize.AUTO, false, false, true, true)
+        );
+        Background background = new Background(backgroundImage);
+        setBackground(background);
+
+
+
+
         Label myMoney = new Label(GameController.getInstance().getPlayer().getMoney() + "");
-        setBackground(new Background(new BackgroundFill(Color.CHOCOLATE, null, null)));
+
 
         int col=0;
         gridPane.setHgap(10); // Horizontal gap between items
@@ -57,6 +69,7 @@ public class SellItemPane extends StackPane {
             gridPane.add(sellButton, col, 1);
             col++;
         }
+
 
         Button btnBuy = new Button("Buy Items");
         btnBuy.setTranslateX(550);

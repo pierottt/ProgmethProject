@@ -6,10 +6,13 @@ import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import item.*;
@@ -38,96 +41,146 @@ public class ShopPane extends StackPane {
 
         // Set padding for the StackPane
         setPadding(new Insets(20)); // 20 pixels of padding from all sides
-        Button btn0 = new Button("AtkPotion");
-        Button btn1 = new Button("DefPotion");
-        Button btn2 = new Button("HealPotion");
-        Button btn3 = new Button("Pokeball");
-        Button btn4 = new Button("Dragon");
-        Button btn5 = new Button("Fox");
-        Button btn6 = new Button("Rat");
-        Button btn7 = new Button("Chicken");
-        Label myMoney = new Label(GameController.getInstance().getPlayer().getMoney() + "");
 
-        Button[] buttons = {btn0, btn1, btn2, btn3, btn4, btn5, btn6, btn7};
-        Button btnSell = new Button("Sell Items");
-        // Set preferred width and height for all buttons
-        for (Button button : buttons) {
-            button.setPrefWidth(200); // Set preferred width to 200 pixels
-            button.setPrefHeight(50); // Set preferred height to 100 pixels
+        // ImageView add picture
+        ImageView atkPotionImage = new ImageView(new Image("Attack.png"));
+        ImageView defPotionImage = new ImageView(new Image("Defense.png"));
+        ImageView healPotionImage = new ImageView(new Image("Heal.png"));
+        ImageView pokeballImage = new ImageView(new Image("pokeball.png"));
+        ImageView dragonImage = new ImageView(new Image("DragonCircle.png"));
+        ImageView foxImage = new ImageView(new Image("FoxCircle.png"));
+        ImageView ratImage = new ImageView(new Image("RatCircle.png"));
+        ImageView pikachuImage = new ImageView(new Image("PikachuCircle.png"));
+        ImageView[] images = {atkPotionImage, defPotionImage, healPotionImage, pokeballImage, dragonImage, foxImage, ratImage, pikachuImage};
+        for (ImageView imageView : images) {
+            if(imageView == atkPotionImage || imageView==defPotionImage || imageView==healPotionImage){
+                imageView.setFitWidth(160);
+                imageView.setFitHeight(160);
+            }
+            else {
+                imageView.setFitWidth(120);
+                imageView.setFitHeight(120);
+            }
+        }
+        atkPotionImage.setTranslateX(-490);
+        atkPotionImage.setTranslateY(-205);
+        defPotionImage.setTranslateX(-250);
+        defPotionImage.setTranslateY(-205);
+        healPotionImage.setTranslateX(-490);
+        healPotionImage.setTranslateY(30);
+        pokeballImage.setTranslateX(-250);
+        pokeballImage.setTranslateY(35);
+        pikachuImage.setTranslateX(250);
+        pikachuImage.setTranslateY(-200);
+        dragonImage.setTranslateX(490);
+        dragonImage.setTranslateY(-200);
+        foxImage.setTranslateX(250);
+        foxImage.setTranslateY(35);
+        ratImage.setTranslateX(490);
+        ratImage.setTranslateY(35);
+        for (int i = 0; i < 8; i++) {
+            getChildren().add(images[i]);
         }
 
-        btn0.setTranslateX(-490);
-        btn0.setTranslateY(-250);
+        //Buy Button
+        Button buyAtkBtn = new Button("BUY");
+        Button buyDefBtn = new Button("BUY");
+        Button buyHealBtn = new Button("BUY");
+        Button buyPokeballBtn = new Button("BUY");
+        Button buyDragonBtn = new Button("BUY");
+        Button buyFoxBtn = new Button("BUY");
+        Button buyRatBtn = new Button("BUY");
+        Button buyPikachuBtn = new Button("BUY");
 
-        btn1.setTranslateX(-250);
-        btn1.setTranslateY(-250);
+        Label myMoney = new Label(GameController.getInstance().getPlayer().getMoney() + "");
 
-        btn2.setTranslateX(250);
-        btn2.setTranslateY(-250);
+        Button[] buttons = {buyAtkBtn, buyDefBtn, buyHealBtn, buyPokeballBtn, buyDragonBtn, buyFoxBtn, buyRatBtn, buyPikachuBtn};
 
-        btn3.setTranslateX(490);
-        btn3.setTranslateY(-250);
+        for (Button button : buttons) {
+            button.setFont(Font.font("Arial", FontWeight.EXTRA_BOLD, 22));
+            button.setPrefWidth(70);
+            button.setPrefHeight(30);
+            button.setStyle(" -fx-background-color: #20CD27; -fx-padding: 5px; -fx-text-fill: white;");
+        }
 
+        buyAtkBtn.setTranslateX(-490);
+        buyAtkBtn.setTranslateY(-200);
 
-        btn4.setTranslateX(-490);
-        btn4.setTranslateY(-70);
+        buyDefBtn.setTranslateX(-250);
+        buyDefBtn.setTranslateY(-200);
 
+        buyHealBtn.setTranslateX(-490);
+        buyHealBtn.setTranslateY(30);
 
-        btn5.setTranslateX(-250);
-        btn5.setTranslateY(-70);
+        buyPokeballBtn.setTranslateX(-250);
+        buyPokeballBtn.setTranslateY(30);
 
+        buyPikachuBtn.setTranslateX(250);
+        buyPikachuBtn.setTranslateY(-200);
 
-        btn6.setTranslateX(250);
-        btn6.setTranslateY(-70);
+        buyDragonBtn.setTranslateX(490);
+        buyDragonBtn.setTranslateY(-200);
 
+        buyFoxBtn.setTranslateX(250);
+        buyFoxBtn.setTranslateY(30);
 
-        btn7.setTranslateX(490);
-        btn7.setTranslateY(-70);
-
+        buyRatBtn.setTranslateX(490);
+        buyRatBtn.setTranslateY(30);
 
         for (int i = 0; i < 8; i++) {
             getChildren().add(buttons[i]);
+            buttons[i].setVisible(false); // Initially hide the button
+            buttons[i].setTranslateZ(20);
+            int finalI = i;
+            images[i].setOnMouseEntered(e -> buttons[finalI].setVisible(true));
+            images[i].setOnMouseExited(e -> buttons[finalI].setVisible(false));
+            buttons[i].setOnMouseEntered(e -> buttons[finalI].setVisible(true));
+            buttons[i].setOnMouseExited(e -> buttons[finalI].setVisible(false));
         }
-        btnSell.setTranslateX(550);
+        //show myMoney
+        myMoney.setTranslateX(370);
+        myMoney.setTranslateY(300);
+        myMoney.setPrefHeight(30);
+        myMoney.setFont(Font.font("Arial", FontWeight.EXTRA_BOLD, 22));
+        myMoney.setStyle("-fx-text-fill: white; -fx-background-color: #4CAF50; -fx-padding: 5px; -fx-border-width: 2px; -fx-border-radius: 5px;");
+
+        getChildren().add(myMoney);
+
+        //Go to SellItemPane
+        Button btnSell = new Button("Sell Items");
+
+        btnSell.setTranslateX(520);
         btnSell.setTranslateY(300);
-        btnSell.setStyle("-fx-font-size: 18; -fx-font-weight: bold; -fx-text-fill: white; -fx-background-color: #FF5722; -fx-padding: 5px; -fx-border-color: black; -fx-border-width: 2px; -fx-border-radius: 5px; -fx-effect: dropshadow(three-pass-box, #000000, 10, 0, 0, 0);");
+        btnSell.setPrefWidth(120);
+        btnSell.setPrefHeight(30);
+        btnSell.setFont(Font.font("Arial", FontWeight.EXTRA_BOLD, 22));
+        btnSell.setStyle("-fx-text-fill: white; -fx-background-color: #2C8FDC; -fx-padding: 5px; -fx-border-radius: 5px;");
 
         btnSell.setOnMouseEntered(e -> {
-            btnSell.setStyle("-fx-font-size: 18; -fx-font-weight: bold; -fx-text-fill: white; -fx-background-color: #FF8A65; -fx-padding: 5px; -fx-border-color: black; -fx-border-width: 2px; -fx-border-radius: 5px; -fx-effect: dropshadow(three-pass-box, #000000, 10, 0, 0, 0);");
+            btnSell.setStyle("-fx-text-fill: white; -fx-background-color: #509DDA; -fx-padding: 5px; -fx-border-radius: 5px;");
         });
 
         btnSell.setOnMouseExited(e -> {
-            btnSell.setStyle("-fx-font-size: 18; -fx-font-weight: bold; -fx-text-fill: white; -fx-background-color: #FF5722; -fx-padding: 5px; -fx-border-color: black; -fx-border-width: 2px; -fx-border-radius: 5px; -fx-effect: dropshadow(three-pass-box, #000000, 10, 0, 0, 0);");
+            btnSell.setStyle("-fx-text-fill: white; -fx-background-color: #2C8FDC; -fx-padding: 5px; -fx-border-radius: 5px;");
         });
 
         getChildren().add(btnSell);
 
+        //Go to MapPane
         Button btnExit = new Button("EXIT");
-
-        btnExit.setTranslateX(-500);
+        btnExit.setTranslateX(-520);
         btnExit.setTranslateY(300);
+        btnExit.setPrefWidth(70);
+        btnExit.setPrefHeight(30);
+        btnExit.setFont(Font.font("Arial", FontWeight.EXTRA_BOLD, 22));
+        btnExit.setStyle("-fx-text-fill: white; -fx-background-color: #E62727; -fx-padding: 5px; -fx-border-radius: 5px;");
 
-        btnExit.setStyle("-fx-background-color: #ff0000; " +
-                "-fx-text-fill: #ffffff; " +
-                "-fx-font-size: 18px; " +  // Increased font size
-                "-fx-font-family: Arial;");
-        btnExit.setPrefWidth(100);  // Set preferred width
-        btnExit.setPrefHeight(40);  // Set preferred height
-
-// Set style for mouse entered
         btnExit.setOnMouseEntered(e -> {
-            btnExit.setStyle("-fx-background-color: #ff6666; " +
-                    "-fx-text-fill: #ffffff; " +
-                    "-fx-font-size: 18px; " +  // Increased font size
-                    "-fx-font-family: Arial;");
+            btnExit.setStyle("-fx-text-fill: white; -fx-background-color: #EB5D5D; -fx-padding: 5px; -fx-border-radius: 5px;");
         });
 
-// Set style for mouse exited
         btnExit.setOnMouseExited(e -> {
-            btnExit.setStyle("-fx-background-color: #ff0000; " +
-                    "-fx-text-fill: #ffffff; " +
-                    "-fx-font-size: 18px; " +  // Increased font size
-                    "-fx-font-family: Arial;");
+            btnExit.setStyle("-fx-text-fill: white; -fx-background-color: #E62727; -fx-padding: 5px; -fx-border-radius: 5px;");
         });
 
         btnExit.setOnMouseClicked(new EventHandler<MouseEvent>() {
@@ -137,13 +190,11 @@ public class ShopPane extends StackPane {
             }
         });
 
-
         getChildren().add(btnExit);
 
 
         //button functions
-
-        btn0.setOnMouseClicked(new EventHandler<MouseEvent>() {
+        buyAtkBtn.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
                 if (GameController.getInstance().player.buyItem(new AtkPotion())) {
@@ -154,11 +205,10 @@ public class ShopPane extends StackPane {
                     alert.setContentText("Not Enough");
                     alert.showAndWait();
                 }
-
             }
         });
 
-        btn1.setOnMouseClicked(new EventHandler<MouseEvent>() {
+        buyDefBtn.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
                 if (GameController.getInstance().player.buyItem(new DefPotion())) {
@@ -173,7 +223,7 @@ public class ShopPane extends StackPane {
             }
         });
 
-        btn2.setOnMouseClicked(new EventHandler<MouseEvent>() {
+        buyHealBtn.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
                 if (GameController.getInstance().player.buyItem(new HealPotion())) {
@@ -188,7 +238,7 @@ public class ShopPane extends StackPane {
             }
         });
 
-        btn3.setOnMouseClicked(new EventHandler<MouseEvent>() {
+        buyPokeballBtn.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
                 if (GameController.getInstance().player.buyItem(new Pokeball())) {
@@ -203,7 +253,7 @@ public class ShopPane extends StackPane {
             }
         });
 
-        btn4.setOnMouseClicked(new EventHandler<MouseEvent>() {
+        buyDragonBtn.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
                 if (GameController.getInstance().player.buyPokemon(new Dragon(1.5, 1.5, 1.5, 1.5))) {
@@ -219,7 +269,7 @@ public class ShopPane extends StackPane {
             }
         });
 
-        btn5.setOnMouseClicked(new EventHandler<MouseEvent>() {
+        buyFoxBtn.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
                 if (GameController.getInstance().player.buyPokemon(new Fox())) {
@@ -234,7 +284,7 @@ public class ShopPane extends StackPane {
             }
         });
 
-        btn6.setOnMouseClicked(new EventHandler<MouseEvent>() {
+        buyRatBtn.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
                 if (GameController.getInstance().player.buyPokemon(new Rat())) {
@@ -249,7 +299,7 @@ public class ShopPane extends StackPane {
             }
         });
 
-        btn7.setOnMouseClicked(new EventHandler<MouseEvent>() {
+        buyPikachuBtn.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
                 if (GameController.getInstance().player.buyPokemon(new Chicken())) {
@@ -260,7 +310,6 @@ public class ShopPane extends StackPane {
                     alert.setContentText("Not Enough");
                     alert.showAndWait();
                 }
-
             }
         });
 
@@ -270,50 +319,48 @@ public class ShopPane extends StackPane {
                 Goto.sellItemPage();
             }
         });
-        ////Label
-        Label name0 = new Label("AtkPoiton");
-        Label name1 = new Label("DefPotion");
-        Label name2 = new Label("HealPotion");
-        Label name3 = new Label("Pokeball");
-        Label name4 = new Label("Dragon");
-        Label name5 = new Label("Fox");
-        Label name6 = new Label("Rat");
-        Label name7 = new Label("Chicken");
 
-        Label[] names = {name0, name1, name2, name3, name4, name5, name6, name7};
 
-        for (Label nameLabel : names) {
-            nameLabel.setFont(Font.font("Arial", FontWeight.BOLD, 18)); // Setting font size to 18
+
+        ////Name
+        Label atkName = new Label("AtkPoiton");
+        Label defName = new Label("DefPotion");
+        Label healName = new Label("HealPotion");
+        Label pokeballName = new Label("Pokeball");
+        Label dragonName = new Label("Dragon");
+        Label foxName = new Label("Fox");
+        Label ratName = new Label("Rat");
+        Label pikachuName = new Label("Pikachu");
+        Label[] names = {atkName, defName, healName, pokeballName, dragonName, foxName, ratName, pikachuName};
+
+        for (Label nameLable : names) {
+            nameLable.setFont(Font.font("Arial", FontWeight.EXTRA_BOLD, 18)); // Setting font size to 18
+            //nameLable.setStyle(" -fx-background-color: #D2B48C; -fx-padding: 5px;");
         }
 
+        atkName.setTranslateX(-490);
+        atkName.setTranslateY(-280);
 
-        name0.setTranslateX(-490);
-        name0.setTranslateY(-200);
+        defName.setTranslateX(-250);
+        defName.setTranslateY(-280);
 
-        name1.setTranslateX(-250);
-        name1.setTranslateY(-200);
+        healName.setTranslateX(-490);
+        healName.setTranslateY(-42);
 
-        name2.setTranslateX(250);
-        name2.setTranslateY(-200);
+        pokeballName.setTranslateX(-250);
+        pokeballName.setTranslateY(-42);
 
-        name3.setTranslateX(490);
-        name3.setTranslateY(-200);
+        pikachuName.setTranslateX(250);
+        pikachuName.setTranslateY(-280);
 
+        dragonName.setTranslateX(490);
+        dragonName.setTranslateY(-280);
 
-        name4.setTranslateX(-490);
-        name4.setTranslateY(-20);
+        foxName.setTranslateX(250);
+        foxName.setTranslateY(-42);
 
-
-        name5.setTranslateX(-250);
-        name5.setTranslateY(-20);
-
-
-        name6.setTranslateX(250);
-        name6.setTranslateY(-20);
-
-
-        name7.setTranslateX(490);
-        name7.setTranslateY(-20);
+        ratName.setTranslateX(490);
+        ratName.setTranslateY(-42);
 
 
         for (int i = 0; i < 8; i++) {
@@ -321,67 +368,51 @@ public class ShopPane extends StackPane {
         }
 
         //Price
-        Label price0 = new Label("500");
-        Label price1 = new Label("500");
-        Label price2 = new Label("500");
-        Label price3 = new Label("10");
-        Label price4 = new Label("1000");
-        Label price5 = new Label("1000");
-        Label price6 = new Label("1000");
-        Label price7 = new Label("1000");
+        Label atkPrice = new Label("500$");
+        Label defPrice = new Label("500$");
+        Label healPrice = new Label("500$");
+        Label pokeballPrice = new Label("10$");
+        Label pikachuPrice = new Label("1000$");
+        Label dragonPrice = new Label("1000$");
+        Label ratPrice = new Label("1000$");
+        Label foxPrice = new Label("1000$");
 
-        Label[] prices = {price0, price1, price2, price3, price4, price5, price6, price7};
+        Label[] prices = {atkPrice, defPrice, healPrice, pokeballPrice, pikachuPrice, dragonPrice, ratPrice, foxPrice};
 
-
-        price0.setTranslateX(-490);
-        price0.setTranslateY(-300);
-
-        price1.setTranslateX(-250);
-        price1.setTranslateY(-300);
-
-        price2.setTranslateX(250);
-        price2.setTranslateY(-300);
-
-        price3.setTranslateX(490);
-        price3.setTranslateY(-300);
-
-
-        price4.setTranslateX(-490);
-        price4.setTranslateY(-120);
-
-
-        price5.setTranslateX(-250);
-        price5.setTranslateY(-120);
-
-
-        price6.setTranslateX(250);
-        price6.setTranslateY(-120);
-
-
-        price7.setTranslateX(490);
-        price7.setTranslateY(-120);
-
-        for (Label priceLabel : prices) {
-            priceLabel.setFont(Font.font("Arial", FontWeight.BOLD, 18)); // Setting font size to 18
+        for (Label priceLable : prices) {
+            priceLable.setFont(Font.font("Arial", FontWeight.BOLD, 18)); // Setting font size to 18
+            priceLable.setStyle(" -fx-background-color: #D2B48C; -fx-padding: 5px;");
+            priceLable.setPrefWidth(65);
+            priceLable.setPrefHeight(20);
+            priceLable.setAlignment(Pos.CENTER);
         }
+        atkPrice.setTranslateX(-490);
+        atkPrice.setTranslateY(-130);
+
+        defPrice.setTranslateX(-250);
+        defPrice.setTranslateY(-130);
+
+        healPrice.setTranslateX(-490);
+        healPrice.setTranslateY(100);
+
+        pokeballPrice.setTranslateX(-250);
+        pokeballPrice.setTranslateY(100);
+
+        pikachuPrice.setTranslateX(250);
+        pikachuPrice.setTranslateY(-130);
+
+        dragonPrice.setTranslateX(490);
+        dragonPrice.setTranslateY(-130);
+
+        foxPrice.setTranslateX(250);
+        foxPrice.setTranslateY(100);
+
+        ratPrice.setTranslateX(490);
+        ratPrice.setTranslateY(100);
 
         for (int i = 0; i < 8; i++) {
             getChildren().add(prices[i]);
         }
-
-        myMoney.setTranslateX(455);
-        myMoney.setTranslateY(300);
-
-        myMoney.setStyle("-fx-font-size: 20; -fx-font-weight: bold; -fx-text-fill: white; -fx-background-color: #4CAF50; -fx-padding: 5px;");
-
-        getChildren().add(myMoney);
-//        getChildren().add(error);
-
-
-
-
-        //Function
-
 
     }
 }
