@@ -24,6 +24,13 @@ public class fightPane1 extends StackPane{
     int skillCoolDown = 0;
     int enemySkillCoolDown = 2;
     public fightPane1(){
+        Image backgroundImage = new Image("ChickenFightPane.png");
+        ImageView backgroundImageView = new ImageView(backgroundImage);
+        backgroundImageView.setPreserveRatio(false);
+        backgroundImageView.setFitWidth(1200);
+        backgroundImageView.setFitHeight(550); //
+        backgroundImageView.setTranslateY(-80);// move 50 pixels up
+
         BasePokemon playerPokemon;
         BasePokemon enemy;
         playerPokemon = new Rat();
@@ -57,13 +64,13 @@ public class fightPane1 extends StackPane{
         playerPokemonImg.setFitHeight(200);
         playerPokemonImg.setFitWidth(200);
         playerPokemonImg.setTranslateX(-350);
-        playerPokemonImg.setTranslateY(75);
+        playerPokemonImg.setTranslateY(65);
 
         //set enemy position and size
         enemyImg.setFitHeight(500);
         enemyImg.setFitWidth(500);
         enemyImg.setTranslateX(300);
-        enemyImg.setTranslateY(-40);
+        enemyImg.setTranslateY(-55);
 
 
         //attack animation
@@ -243,7 +250,7 @@ public class fightPane1 extends StackPane{
             skillButton.setDisable(false);
         }
 
-        getChildren().addAll(enemyImg,playerPokemonImg,leaveButton,atkButton,skillButton,catchButton,pokeballView);
+        getChildren().addAll(backgroundImageView,enemyImg,playerPokemonImg,leaveButton,atkButton,skillButton,catchButton,pokeballView);
         getChildren().add(hpBar);
         getChildren().add(enemyHpBar);
         getChildren().add(vs);
