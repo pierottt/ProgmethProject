@@ -11,7 +11,7 @@ public class PokeDeck {
 
     public PokeDeck(){
         setPokeDeck(new ArrayList<BasePokemon>());
-        this.pokeDeck.add(new Pikachu(1,1,1,1));
+        this.pokeDeck.add(new Pikachu());
     }
 
     public ArrayList<BasePokemon> getPokeDeck() {

@@ -2,8 +2,8 @@ package Pokemon;
 
 public class Pikachu extends BasePokemon{
 
-    public Pikachu(double hp, double atk, double def, double hunger) {
-        super("Pikachu", hp, atk, def, 100, Element.ELECTRIC);
+    public Pikachu() {
+        super("Pikachu", 1000, 150, 50, 100, Element.ELECTRIC);
     }
 
     public void attack(BasePokemon pokemon) {

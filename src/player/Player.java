@@ -131,7 +131,7 @@ public class Player {
         this.inventory= new ArrayList<BaseItem>();
         //dumb code for test
         this.pokeDeck = new PokeDeck();
-        this.getPokeDeck().getPokeDeck().add(new Pikachu(1,1,1,1));
+        this.getPokeDeck().getPokeDeck().add(new Pikachu());
         setChicken(0);
         setFox(0);
         setPikachu(1);
@@ -140,7 +140,7 @@ public class Player {
         setDefPotion(0);
         setHealPotion(0);
         setPokeBall(5);
-        setCurrentPokemon(new Pikachu(1,1,1,1));
+        setCurrentPokemon(new Pikachu());
     }
     //getter and setter
 
