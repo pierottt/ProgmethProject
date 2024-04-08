@@ -1,8 +1,8 @@
 package Pokemon;
 
 public class Dragon extends BasePokemon{
-    public Dragon(double hp, double atk, double def, double hunger) {
-        super("Dragon", hp, atk, def, 100, Element.FIRE);
+    public Dragon() {
+        super("Dragon", 5000, 1000, 200, 100, Element.FIRE);
     }
 
     public void attack(BasePokemon pokemon) {

@@ -265,7 +265,7 @@ public class ShopPane extends StackPane {
         buyDragonBtn.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
-                if (GameController.getInstance().player.buyPokemon(new Dragon(1.5, 1.5, 1.5, 1.5))) {
+                if (GameController.getInstance().player.buyPokemon(new Dragon())) {
 
                     myMoney.setText(GameController.getInstance().getPlayer().getMoney() + "");
                 } else {
@@ -311,7 +311,7 @@ public class ShopPane extends StackPane {
         buyPikachuBtn.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
-                if (GameController.getInstance().player.buyPokemon(new Pikachu(1.5,1.5,1.5,1.5))) {
+                if (GameController.getInstance().player.buyPokemon(new Pikachu())) {
                     myMoney.setText(GameController.getInstance().getPlayer().getMoney() + "");
                 } else {
                     Alert alert = new Alert(Alert.AlertType.INFORMATION);
