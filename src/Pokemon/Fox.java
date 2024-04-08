@@ -5,7 +5,7 @@ import javafx.scene.image.ImageView;
 
 public class Fox extends BasePokemon{
     public Fox() {
-        super("Fox", 2000, 100, 50, 3000, Element.ICE);
+        super("Fox", 2000, 200, 50, 3000, Element.ICE);
         Image pokemon = new Image("FoxLeft.png");
         Image enemy = new Image("FoxRight.png");
         ImageView pokemonImg = new ImageView(pokemon);

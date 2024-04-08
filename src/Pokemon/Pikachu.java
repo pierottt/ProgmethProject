@@ -1,9 +1,18 @@
 package Pokemon;
 
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+
 public class Pikachu extends BasePokemon{
 
     public Pikachu() {
         super("Pikachu", 1000, 150, 50, 100, Element.ELECTRIC);
+        Image pokemon = new Image("PikachuLeft.png");
+        Image enemy = new Image("PikachuRight.png");
+        ImageView pokemonImg = new ImageView(pokemon);
+        ImageView enemyImg = new ImageView(enemy);
+        this.setPokemonImg(pokemonImg);
+        this.setEnemyImg(enemyImg);
     }
 
     public void attack(BasePokemon pokemon) {

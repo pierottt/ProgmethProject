@@ -10,8 +10,6 @@ public class Chicken extends BasePokemon{
         Image pokemon = new Image("ChickenLeft.png");
         Image enemy = new Image("ChickenRight.png");
         ImageView pokemonImg = new ImageView(pokemon);
-        pokemonImg.setFitHeight(500);
-        pokemonImg.setFitWidth(500);
         ImageView enemyImg = new ImageView(enemy);
         this.setPokemonImg(pokemonImg);
         this.setEnemyImg(enemyImg);
