@@ -302,7 +302,7 @@ public class ShopPane extends StackPane {
         buyPikachuBtn.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
-                if (GameController.getInstance().player.buyPokemon(new Chicken())) {
+                if (GameController.getInstance().player.buyPokemon(new Pikachu(1,1,1,1))) {
                     myMoney.setText(GameController.getInstance().getPlayer().getMoney() + "");
                 } else {
                     Alert alert = new Alert(Alert.AlertType.INFORMATION);
