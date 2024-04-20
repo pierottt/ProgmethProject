@@ -9,10 +9,14 @@ public class Pikachu extends BasePokemon{
         super("Pikachu", 1000, 150, 50, 100, Element.ELECTRIC);
         Image pokemon = new Image("PikachuLeft.png");
         Image enemy = new Image("PikachuRight.png");
+        Image skill = new Image("PikachuSkill.png");
         ImageView pokemonImg = new ImageView(pokemon);
         ImageView enemyImg = new ImageView(enemy);
+        ImageView skillImg = new ImageView(skill);
         this.setPokemonImg(pokemonImg);
         this.setEnemyImg(enemyImg);
+        this.setSkillImg(skillImg);
+
     }
 
     public void attack(BasePokemon pokemon) {

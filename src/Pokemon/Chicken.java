@@ -9,10 +9,13 @@ public class Chicken extends BasePokemon{
         super("Chicken", 99999, 100, 100, 999999999, Element.LIGHT);
         Image pokemon = new Image("ChickenLeft.png");
         Image enemy = new Image("ChickenRight.png");
+        Image skill = new Image("ChickenSkill.png");
         ImageView pokemonImg = new ImageView(pokemon);
         ImageView enemyImg = new ImageView(enemy);
+        ImageView skillImg = new ImageView(skill);
         this.setPokemonImg(pokemonImg);
         this.setEnemyImg(enemyImg);
+        this.setSkillImg(skillImg);
     }
 
     public void attack(BasePokemon pokemon) {

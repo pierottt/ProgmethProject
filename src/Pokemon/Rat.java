@@ -8,11 +8,13 @@ public class Rat extends BasePokemon{
         super("Rat", 2000, 200, 0, 10000,Element.POISON);
         Image pokemon = new Image("RatLeft.png");
         Image enemy = new Image("RatRight.png");
+        Image skill = new Image("RatSkill.png");
         ImageView pokemonImg = new ImageView(pokemon);
         ImageView enemyImg = new ImageView(enemy);
+        ImageView skillImg = new ImageView(skill);
         this.setPokemonImg(pokemonImg);
         this.setEnemyImg(enemyImg);
-
+        this.setSkillImg(skillImg);
     }
 
     @Override

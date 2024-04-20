@@ -31,6 +31,19 @@ public class fightPane1_1 extends StackPane{
         BasePokemon playerPokemon;
         BasePokemon enemy;
         playerPokemon = GameController.getInstance().getPlayer().getCurrentPokemon();
+        ImageView skillImg = playerPokemon.getSkillImg();
+        skillImg.setFitHeight(300);
+        skillImg.setFitWidth(100);
+        skillImg.setVisible(false);
+
+        Path thunderPath = new Path();
+        thunderPath.getElements().add(new MoveTo(350,-200));
+        thunderPath.getElements().add(new LineTo(350,150));
+        PathTransition thunderTransition = new PathTransition();
+        thunderTransition.setDuration(Duration.seconds(1));
+        thunderTransition.setNode(skillImg);
+        thunderTransition.setPath(thunderPath);
+
         Text vs = new Text("Vs");
         vs.setFont(Font.font(50));
         setAlignment(vs, Pos.TOP_CENTER);
@@ -57,6 +70,10 @@ public class fightPane1_1 extends StackPane{
         enemy = new Pikachu();
         ImageView playerPokemonImg = playerPokemon.getPokemonImg();
         ImageView enemyImg = enemy.getEnemyImg();
+        ImageView enemySkillImg = enemy.getSkillImg();
+        enemySkillImg.setFitWidth(300);
+        enemySkillImg.setFitHeight(400);
+        enemySkillImg.setVisible(false);
         //set Pokemon position and size
         playerPokemonImg.setFitHeight(200);
         playerPokemonImg.setFitWidth(200);
@@ -69,6 +86,17 @@ public class fightPane1_1 extends StackPane{
         enemyImg.setTranslateX(300);
         enemyImg.setTranslateY(65);
 
+        //set enemy skill path
+        Path pikachuPath = new Path();
+        pikachuPath.getElements().add(new MoveTo(-150,-200));
+        pikachuPath.getElements().add(new LineTo(-150,150));
+        PathTransition pikachuTransition = new PathTransition();
+        pikachuTransition.setDuration(Duration.seconds(1));
+        pikachuTransition.setNode(enemySkillImg);
+        pikachuTransition.setPath(pikachuPath);
+        pikachuTransition.setOnFinished(event -> {
+            enemySkillImg.setVisible(false);
+        });
 
         //attack animation
         TranslateTransition forward = new TranslateTransition(Duration.seconds(1), playerPokemonImg);
@@ -158,7 +186,9 @@ public class fightPane1_1 extends StackPane{
         delay2.setOnFinished(event -> {
             enemySkillCoolDown = 5;
             enemyImg.toFront();
-//            enemyAttack.play();
+            enemySkillImg.setVisible(true);
+            enemySkillImg.toFront();
+            pikachuTransition.play();
             enemy.useSkill(playerPokemon);
             hpBar.setProgress((playerPokemon.getHp()/playerPokemon.getMaxHp()));
             atkButton.setDisable(false);
@@ -181,23 +211,23 @@ public class fightPane1_1 extends StackPane{
                 System.out.println("USE SKILLS");
                 //skillView.setVisible(true);
                 playerPokemon.useSkill(enemy);
+                enemyHpBar.setProgress((enemy.getHp()/enemy.getMaxHp()));
                 atkButton.setDisable(true);
                 skillButton.setDisable(true);
                 leaveButton.setDisable(true);
                 catchButton.setDisable(true);
-                if(enemySkillCoolDown == 0){
-                    delay2.play();
-                }else{
-                    delay.play();
-                }
-//                skillView.toFront();
-//                pathTransition.play();
-//                rotate.play();
-//                skillButton.setDisable(true);
-//                pathTransition.setOnFinished(event -> {
-//                    delay.play();
-//                    skillView.setVisible(false);
-//                });
+                skillImg.toFront();
+                skillImg.setVisible(true);
+                thunderTransition.play();
+                skillButton.setDisable(true);
+                thunderTransition.setOnFinished(event -> {
+                    skillImg.setVisible(false);
+                    if(enemySkillCoolDown == 0){
+                        delay2.play();
+                    }else{
+                        delay.play();
+                    }
+                });
             }
         });
         setAlignment(skillButton, Pos.BOTTOM_RIGHT);
@@ -251,6 +281,8 @@ public class fightPane1_1 extends StackPane{
         getChildren().add(hpBar);
         getChildren().add(enemyHpBar);
         getChildren().add(vs);
+        getChildren().add(skillImg);
+        getChildren().add(enemySkillImg);
 
     }
     public void decreaseCoolDown(){

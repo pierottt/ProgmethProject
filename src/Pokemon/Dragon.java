@@ -8,10 +8,13 @@ public class Dragon extends BasePokemon{
         super("Dragon", 5000, 1000, 200, 100, Element.FIRE);
         Image pokemon = new Image("DragonLeft.png");
         Image enemy = new Image("DragonRight.png");
+        Image skill = new Image("DragonSkillRight.png");
         ImageView pokemonImg = new ImageView(pokemon);
         ImageView enemyImg = new ImageView(enemy);
+        ImageView skillImg = new ImageView(skill);
         this.setPokemonImg(pokemonImg);
         this.setEnemyImg(enemyImg);
+        this.setSkillImg(skillImg);
     }
 
     public void attack(BasePokemon pokemon) {

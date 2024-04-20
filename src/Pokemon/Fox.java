@@ -8,10 +8,13 @@ public class Fox extends BasePokemon{
         super("Fox", 2000, 200, 50, 3000, Element.ICE);
         Image pokemon = new Image("FoxLeft.png");
         Image enemy = new Image("FoxRight.png");
+        Image skill = new Image("FoxSkillRight.png");
         ImageView pokemonImg = new ImageView(pokemon);
         ImageView enemyImg = new ImageView(enemy);
+        ImageView skillImg = new ImageView(skill);
         this.setPokemonImg(pokemonImg);
         this.setEnemyImg(enemyImg);
+        this.setSkillImg(skillImg);
     }
 
     public void attack(BasePokemon pokemon) {
