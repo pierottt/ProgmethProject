@@ -28,6 +28,7 @@ public class MapPane extends StackPane {
         );
         Background background = new Background(backgroundImage);
         setBackground(background);
+
         ImageView chickenView;
         ImageView dragonView;
         ImageView foxView;
@@ -163,7 +164,29 @@ public class MapPane extends StackPane {
         getChildren().addAll(chickenView, dragonView, foxView, pikachuView, ratView, homeView);
         getChildren().addAll(chickenPopup, dragonPopup, foxPopup, pikachuPopup, ratPopup);
 
-//        if(GameController.getInstance().player.getCurrentPokemon() === )
+        ImageView currentPokemon = GameController.getInstance().player.getCurrentPokemon().getCircleImg();
+        currentPokemon.setFitWidth(120);
+        currentPokemon.setFitHeight(120);
+        StackPane.setAlignment(currentPokemon, Pos.BOTTOM_LEFT);
+        StackPane.setMargin(currentPokemon, new Insets(0, 0, 0, 0));
+        getChildren().add(currentPokemon);
+        DropShadow dropShadow = new DropShadow();
+        dropShadow.setColor(Color.rgb(0, 0, 0, 0.6)); // Shadow color with transparency
+        dropShadow.setRadius(10);
+        dropShadow.setSpread(0.5);
+        dropShadow.setOffsetX(4);
+        dropShadow.setOffsetY(4);
+        currentPokemon.setEffect(dropShadow);
+        DropShadow dropShadowOn = new DropShadow();
+        dropShadowOn.setColor(Color.WHITE);
+        currentPokemon.addEventHandler(MouseEvent.MOUSE_ENTERED, event -> currentPokemon.setEffect(dropShadowOn));
+        currentPokemon.addEventHandler(MouseEvent.MOUSE_EXITED, event -> currentPokemon.setEffect(dropShadow));
+        currentPokemon.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                Goto.pokemonDeck();
+            }
+        });
     }
 
     private ImageView createImageView(String imagePath) {
