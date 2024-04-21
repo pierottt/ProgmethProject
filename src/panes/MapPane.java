@@ -163,7 +163,7 @@ public class MapPane extends StackPane {
         getChildren().addAll(chickenView, dragonView, foxView, pikachuView, ratView, homeView);
         getChildren().addAll(chickenPopup, dragonPopup, foxPopup, pikachuPopup, ratPopup);
 
-        if(GameController.getInstance().player.getCurrentPokemon() === )
+//        if(GameController.getInstance().player.getCurrentPokemon() === )
     }
 
     private ImageView createImageView(String imagePath) {
