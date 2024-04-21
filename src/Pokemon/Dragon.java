@@ -5,7 +5,7 @@ import javafx.scene.image.ImageView;
 
 public class Dragon extends BasePokemon{
     public Dragon() {
-        super("Dragon", 5000, 1000, 200, 100, Element.FIRE);
+        super("Dragon", 3500, 400, 200, 10000, Element.FIRE);
         Image pokemon = new Image("DragonLeft.png");
         Image enemy = new Image("DragonRight.png");
         Image skill = new Image("DragonSkillRight.png");
