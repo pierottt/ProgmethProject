@@ -221,7 +221,7 @@ public class SellItemPane extends StackPane {
             @Override
             public void handle(MouseEvent mouseEvent) {
                 GameController.getInstance().getPlayer().sellItem(new AtkPotion());
-                myMoney.setText(GameController.getInstance().getPlayer().getMoney() + "");
+                myMoney.setText(GameController.getInstance().getPlayer().getMoney() + "$");
                 GameController.getInstance().getPlayer().setAtkPotion(GameController.getInstance().getPlayer().getAtkPotion()-1);
                 amountAtk.setText("total : "+GameController.getInstance().getPlayer().getAtkPotion()+"");
                 updateButtonDisableState();
@@ -232,7 +232,7 @@ public class SellItemPane extends StackPane {
             @Override
             public void handle(MouseEvent mouseEvent) {
                 GameController.getInstance().getPlayer().sellItem(new DefPotion());
-                myMoney.setText(GameController.getInstance().getPlayer().getMoney() + "");
+                myMoney.setText(GameController.getInstance().getPlayer().getMoney() + "$");
                 GameController.getInstance().getPlayer().setDefPotion(GameController.getInstance().getPlayer().getDefPotion()-1);
                 amountDef.setText("total : "+GameController.getInstance().getPlayer().getDefPotion()+"");
                 updateButtonDisableState();
@@ -243,7 +243,7 @@ public class SellItemPane extends StackPane {
             @Override
             public void handle(MouseEvent mouseEvent) {
                 GameController.getInstance().getPlayer().sellPokemon(new Dragon());
-                myMoney.setText(GameController.getInstance().getPlayer().getMoney() + "");
+                myMoney.setText(GameController.getInstance().getPlayer().getMoney() + "$");
                 GameController.getInstance().getPlayer().setDragon(GameController.getInstance().getPlayer().getDragon()-1);
                 amountDragon.setText("total : "+GameController.getInstance().getPlayer().getDragon()+"");
                 updateButtonDisableState();
@@ -254,7 +254,7 @@ public class SellItemPane extends StackPane {
             @Override
             public void handle(MouseEvent mouseEvent) {
                 GameController.getInstance().getPlayer().sellPokemon(new Fox());
-                myMoney.setText(GameController.getInstance().getPlayer().getMoney() + "");
+                myMoney.setText(GameController.getInstance().getPlayer().getMoney() + "$");
                 GameController.getInstance().getPlayer().setFox(GameController.getInstance().getPlayer().getFox()-1);
                 amountFox.setText("total : "+GameController.getInstance().getPlayer().getFox()+"");
                 updateButtonDisableState();
@@ -265,7 +265,7 @@ public class SellItemPane extends StackPane {
             @Override
             public void handle(MouseEvent mouseEvent) {
                 GameController.getInstance().getPlayer().sellItem(new HealPotion());
-                myMoney.setText(GameController.getInstance().getPlayer().getMoney() + "");
+                myMoney.setText(GameController.getInstance().getPlayer().getMoney() + "$");
                 GameController.getInstance().getPlayer().setHealPotion(GameController.getInstance().getPlayer().getHealPotion()-1);
                 amountHeal.setText("total : "+GameController.getInstance().getPlayer().getHealPotion()+"");
                 updateButtonDisableState();
@@ -277,7 +277,7 @@ public class SellItemPane extends StackPane {
             @Override
             public void handle(MouseEvent mouseEvent) {
                 GameController.getInstance().getPlayer().sellItem(new Pokeball());
-                myMoney.setText(GameController.getInstance().getPlayer().getMoney() + "");
+                myMoney.setText(GameController.getInstance().getPlayer().getMoney() + "$");
                 GameController.getInstance().getPlayer().setPokeBall(GameController.getInstance().getPlayer().getPokeBall()-1);
                 amountPokeball.setText("total : "+GameController.getInstance().getPlayer().getPokeBall()+"");
                 updateButtonDisableState();
@@ -288,7 +288,7 @@ public class SellItemPane extends StackPane {
             @Override
             public void handle(MouseEvent mouseEvent) {
                 GameController.getInstance().getPlayer().sellPokemon(new Rat());
-                myMoney.setText(GameController.getInstance().getPlayer().getMoney() + "");
+                myMoney.setText(GameController.getInstance().getPlayer().getMoney() + "$");
                 GameController.getInstance().getPlayer().setRat(GameController.getInstance().getPlayer().getRat()-1);
                 amountRat.setText("total : "+GameController.getInstance().getPlayer().getRat()+"");
                 updateButtonDisableState();
@@ -299,7 +299,7 @@ public class SellItemPane extends StackPane {
             @Override
             public void handle(MouseEvent mouseEvent) {
                 GameController.getInstance().getPlayer().sellPokemon(new Pikachu());
-                myMoney.setText(GameController.getInstance().getPlayer().getMoney() + "");
+                myMoney.setText(GameController.getInstance().getPlayer().getMoney() + "$");
                 GameController.getInstance().getPlayer().setPikachu(GameController.getInstance().getPlayer().getPikachu()-1);
                 amountPikachu.setText("total : "+GameController.getInstance().getPlayer().getPikachu()+"");
                 updateButtonDisableState();
@@ -393,6 +393,6 @@ public class SellItemPane extends StackPane {
         sellDragonBtn.setDisable(GameController.getInstance().getPlayer().getDragon() == 0 ||GameController.getInstance().getPlayer().getPokeDeck().getPokeDeck().size()<=1 || (GameController.getInstance().getPlayer().getCurrentPokemon().equals(new Dragon()) && GameController.getInstance().getPlayer().getDragon() == 1));
         sellFoxBtn.setDisable(GameController.getInstance().getPlayer().getFox() == 0 ||GameController.getInstance().getPlayer().getPokeDeck().getPokeDeck().size()<=1 || (GameController.getInstance().getPlayer().getCurrentPokemon().equals(new Fox()) && GameController.getInstance().getPlayer().getFox() == 1));
         sellRatBtn.setDisable(GameController.getInstance().getPlayer().getRat() == 0 ||GameController.getInstance().getPlayer().getPokeDeck().getPokeDeck().size()<=1 || (GameController.getInstance().getPlayer().getCurrentPokemon().equals(new Rat()) && GameController.getInstance().getPlayer().getRat() == 1));
-            }
+    }
 
 }
