@@ -1,32 +1,35 @@
 package panes;
-import Pokemon.BasePokemon;
-import Pokemon.Chicken;
-import Pokemon.Rat;
+import Pokemon.*;
+import game.GameController;
 import javafx.animation.*;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
-import javafx.scene.paint.Color;
 import javafx.scene.shape.*;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
-import javafx.scene.transform.Rotate;
 import javafx.util.Duration;
 import utils.Goto;
 
-public class fightPane1 extends StackPane{
+public class fightPane1_2 extends StackPane{
     int skillCoolDown = 0;
     int enemySkillCoolDown = 2;
-    public fightPane1(){
+    public fightPane1_2(){
+        Image backgroundImage = new Image("FoxFightPane.png");
+        ImageView backgroundImageView = new ImageView(backgroundImage);
+        backgroundImageView.setPreserveRatio(false);
+        backgroundImageView.setFitWidth(1200);
+        backgroundImageView.setFitHeight(550); //
+        backgroundImageView.setTranslateY(-80);// move 50 pixels up
+
         BasePokemon playerPokemon;
         BasePokemon enemy;
-        playerPokemon = new Rat();
+        playerPokemon = GameController.getInstance().getPlayer().getCurrentPokemon();
         Text vs = new Text("Vs");
         vs.setFont(Font.font(50));
         setAlignment(vs, Pos.TOP_CENTER);
@@ -50,20 +53,20 @@ public class fightPane1 extends StackPane{
         enemyHpBar.setTranslateY(10);
 
 
-        enemy = new Chicken();
+        enemy = new Fox();
         ImageView playerPokemonImg = playerPokemon.getPokemonImg();
         ImageView enemyImg = enemy.getEnemyImg();
         //set Pokemon position and size
         playerPokemonImg.setFitHeight(200);
         playerPokemonImg.setFitWidth(200);
         playerPokemonImg.setTranslateX(-350);
-        playerPokemonImg.setTranslateY(75);
+        playerPokemonImg.setTranslateY(65);
 
         //set enemy position and size
-        enemyImg.setFitHeight(500);
-        enemyImg.setFitWidth(500);
+        enemyImg.setFitHeight(400);
+        enemyImg.setFitWidth(400);
         enemyImg.setTranslateX(300);
-        enemyImg.setTranslateY(-40);
+        enemyImg.setTranslateY(15);
 
 
         //attack animation
@@ -173,7 +176,7 @@ public class fightPane1 extends StackPane{
         skillButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
-                  skillCoolDown = 2;
+                skillCoolDown = 2;
                 System.out.println("USE SKILLS");
                 //skillView.setVisible(true);
                 playerPokemon.useSkill(enemy);
@@ -243,7 +246,7 @@ public class fightPane1 extends StackPane{
             skillButton.setDisable(false);
         }
 
-        getChildren().addAll(enemyImg,playerPokemonImg,leaveButton,atkButton,skillButton,catchButton,pokeballView);
+        getChildren().addAll(backgroundImageView,enemyImg,playerPokemonImg,leaveButton,atkButton,skillButton,catchButton,pokeballView);
         getChildren().add(hpBar);
         getChildren().add(enemyHpBar);
         getChildren().add(vs);

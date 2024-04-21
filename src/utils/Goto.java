@@ -1,7 +1,5 @@
 package utils;
 
-import javafx.scene.control.ScrollPane;
-import javafx.scene.layout.StackPane;
 import panes.*;
 
 
@@ -41,9 +39,26 @@ public class Goto {
         clear();
         rootPane.getChildren().add(new MapPane());
     }
-    public static void fightPane1(){
+    public static void bossPane(){
         clear();
-        rootPane.getChildren().add(new fightPane1());
+        rootPane.getChildren().add(new BossPane());
     }
+    public static void fightPane1_1(){
+        clear();
+        rootPane.getChildren().add(new fightPane1_1());
+    }
+    public static void fightPane1_2(){
+        clear();
+        rootPane.getChildren().add(new fightPane1_2());
+    }
+    public static void fightPane1_3(){
+        clear();
+        rootPane.getChildren().add(new fightPane1_3());
+    }
+    public static void fightPane1_4(){
+        clear();
+        rootPane.getChildren().add(new fightPane1_4());
+    }
+
 
 }
