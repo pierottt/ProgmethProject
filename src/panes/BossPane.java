@@ -89,8 +89,8 @@ public class BossPane extends StackPane{
         enemyImg.setTranslateY(-55);
         //set enemy skill path
         Path chickenPath = new Path();
-        chickenPath.getElements().add(new MoveTo(350,200));
-        chickenPath.getElements().add(new LineTo(-350,150));
+        chickenPath.getElements().add(new MoveTo(330,120));
+        chickenPath.getElements().add(new LineTo(-300,200));
         PathTransition chickenTransition = new PathTransition();
         chickenTransition.setDuration(Duration.seconds(3));
         chickenTransition.setNode(enemySkillImg);
