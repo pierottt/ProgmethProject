@@ -302,6 +302,14 @@ public class fightPane1_4 extends StackPane{
                         }
                         Goto.mapPage();
                     }
+                    else{
+                        atkButton.setDisable(false);
+                        skillButton.setDisable(skillCoolDown > 0);
+                        leaveButton.setDisable(false);
+                        if(GameController.getInstance().getPlayer().getPokeBall()>0){
+                            catchButton.setDisable(false);
+                        }
+                    }
                     GameController.getInstance().getPlayer().setPokeBall(GameController.getInstance().getPlayer().getPokeBall()-1);
 
                 });

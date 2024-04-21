@@ -172,8 +172,9 @@ public class BossPane extends StackPane{
             atkButton.setDisable(false);
             skillButton.setDisable(skillCoolDown > 0);
             leaveButton.setDisable(false);
-            if(GameController.getInstance().getPlayer().getPokeBall()>0)
+            if(GameController.getInstance().getPlayer().getPokeBall()>0){
                 catchButton.setDisable(false);
+            }
             if(GameController.getInstance().getPlayer().getCurrentPokemon().isDead()){
                 System.out.println("Your pokemon is faint");
                 Goto.mapPage();
@@ -307,6 +308,14 @@ public class BossPane extends StackPane{
                             GameController.getInstance().getPlayer().getPokeDeck().getPokeDeck().add(new Chicken());
                         }
                         Goto.mapPage();
+                    }
+                    else{
+                        atkButton.setDisable(false);
+                        skillButton.setDisable(skillCoolDown > 0);
+                        leaveButton.setDisable(false);
+                        if(GameController.getInstance().getPlayer().getPokeBall()>0){
+                            catchButton.setDisable(false);
+                        }
                     }
                     GameController.getInstance().getPlayer().setPokeBall(GameController.getInstance().getPlayer().getPokeBall()-1);
 
