@@ -10,12 +10,15 @@ public class Pikachu extends BasePokemon{
         Image pokemon = new Image("PikachuLeft.png");
         Image enemy = new Image("PikachuRight.png");
         Image skill = new Image("PikachuSkill.png");
+        Image circle = new Image("PikachuCircle.png");
         ImageView pokemonImg = new ImageView(pokemon);
         ImageView enemyImg = new ImageView(enemy);
         ImageView skillImg = new ImageView(skill);
+        ImageView cirlceImg = new ImageView(circle);
         this.setPokemonImg(pokemonImg);
         this.setEnemyImg(enemyImg);
         this.setSkillImg(skillImg);
+        this.setCircleImg(cirlceImg);
 
     }
 

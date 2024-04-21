@@ -14,6 +14,8 @@ public abstract class BasePokemon implements Evolable {
     private ImageView PokemonImg;
     private ImageView enemyImg;
     private ImageView skillImg;
+
+    private ImageView circleImg;
     private int price;
 
     //Abstact
@@ -106,6 +108,14 @@ public abstract class BasePokemon implements Evolable {
     @Override
     public void setIsEvoled(boolean bool) {
 
+    }
+
+    public ImageView getCircleImg() {
+        return circleImg;
+    }
+
+    public void setCircleImg(ImageView circleImg) {
+        this.circleImg = circleImg;
     }
 
     public ImageView getPokemonImg() {

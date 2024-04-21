@@ -25,7 +25,14 @@ import player.*;
 import utils.Goto;
 
 public class ShopPane extends StackPane {
-
+    Button buyAtkBtn = new Button("BUY");
+    Button buyDefBtn = new Button("BUY");
+    Button buyHealBtn = new Button("BUY");
+    Button buyPokeballBtn = new Button("BUY");
+    Button buyDragonBtn = new Button("BUY");
+    Button buyFoxBtn = new Button("BUY");
+    Button buyRatBtn = new Button("BUY");
+    Button buyPikachuBtn = new Button("BUY");
 
     public ShopPane() {
         Label BuyItem = new Label("Buy Items");
@@ -50,7 +57,7 @@ public class ShopPane extends StackPane {
 
         // Set padding for the StackPane
         setPadding(new Insets(20)); // 20 pixels of padding from all sides
-
+        updateButtonDisableState();
         // ImageView add picture
         ImageView atkPotionImage = new ImageView(new Image("Attack.png"));
         ImageView defPotionImage = new ImageView(new Image("Defense.png"));
@@ -91,15 +98,6 @@ public class ShopPane extends StackPane {
             getChildren().add(images[i]);
         }
 
-        //Buy Button
-        Button buyAtkBtn = new Button("BUY");
-        Button buyDefBtn = new Button("BUY");
-        Button buyHealBtn = new Button("BUY");
-        Button buyPokeballBtn = new Button("BUY");
-        Button buyDragonBtn = new Button("BUY");
-        Button buyFoxBtn = new Button("BUY");
-        Button buyRatBtn = new Button("BUY");
-        Button buyPikachuBtn = new Button("BUY");
 
         Label myMoney = new Label(GameController.getInstance().getPlayer().getMoney() + "$");
 
@@ -207,12 +205,8 @@ public class ShopPane extends StackPane {
             @Override
             public void handle(MouseEvent mouseEvent) {
                 if (GameController.getInstance().player.buyItem(new AtkPotion())) {
-                    myMoney.setText(GameController.getInstance().getPlayer().getMoney() + "");
-                } else {
-                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                    alert.setTitle("Not Enough");
-                    alert.setContentText("Not Enough");
-                    alert.showAndWait();
+                    myMoney.setText(GameController.getInstance().getPlayer().getMoney() + "$");
+                    updateButtonDisableState();
                 }
             }
         });
@@ -221,14 +215,9 @@ public class ShopPane extends StackPane {
             @Override
             public void handle(MouseEvent mouseEvent) {
                 if (GameController.getInstance().player.buyItem(new DefPotion())) {
-                    myMoney.setText(GameController.getInstance().getPlayer().getMoney() + "");
-                } else {
-                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                    alert.setTitle("Not Enough");
-                    alert.setContentText("Not Enough");
-                    alert.showAndWait();
+                    myMoney.setText(GameController.getInstance().getPlayer().getMoney() + "$");
+                updateButtonDisableState();
                 }
-
             }
         });
 
@@ -236,14 +225,9 @@ public class ShopPane extends StackPane {
             @Override
             public void handle(MouseEvent mouseEvent) {
                 if (GameController.getInstance().player.buyItem(new HealPotion())) {
-                    myMoney.setText(GameController.getInstance().getPlayer().getMoney() + "");
-                } else {
-                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                    alert.setTitle("Not Enough");
-                    alert.setContentText("Not Enough");
-                    alert.showAndWait();
+                    myMoney.setText(GameController.getInstance().getPlayer().getMoney() + "$");
+                updateButtonDisableState();
                 }
-
             }
         });
 
@@ -251,14 +235,9 @@ public class ShopPane extends StackPane {
             @Override
             public void handle(MouseEvent mouseEvent) {
                 if (GameController.getInstance().player.buyItem(new Pokeball())) {
-                    myMoney.setText(GameController.getInstance().getPlayer().getMoney() + "");
-                } else {
-                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                    alert.setTitle("Not Enough");
-                    alert.setContentText("Not Enough");
-                    alert.showAndWait();
+                    myMoney.setText(GameController.getInstance().getPlayer().getMoney() + "$");
+                    updateButtonDisableState();
                 }
-
             }
         });
 
@@ -267,14 +246,9 @@ public class ShopPane extends StackPane {
             public void handle(MouseEvent mouseEvent) {
                 if (GameController.getInstance().player.buyPokemon(new Dragon())) {
 
-                    myMoney.setText(GameController.getInstance().getPlayer().getMoney() + "");
-                } else {
-                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                    alert.setTitle("Not Enough");
-                    alert.setContentText("Not Enough");
-                    alert.showAndWait();
+                    myMoney.setText(GameController.getInstance().getPlayer().getMoney() + "$");
+                    updateButtonDisableState();
                 }
-
             }
         });
 
@@ -282,14 +256,9 @@ public class ShopPane extends StackPane {
             @Override
             public void handle(MouseEvent mouseEvent) {
                 if (GameController.getInstance().player.buyPokemon(new Fox())) {
-                    myMoney.setText(GameController.getInstance().getPlayer().getMoney() + "");
-                } else {
-                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                    alert.setTitle("Not Enough");
-                    alert.setContentText("Not Enough");
-                    alert.showAndWait();
+                    myMoney.setText(GameController.getInstance().getPlayer().getMoney() + "$");
+                    updateButtonDisableState();
                 }
-
             }
         });
 
@@ -297,14 +266,9 @@ public class ShopPane extends StackPane {
             @Override
             public void handle(MouseEvent mouseEvent) {
                 if (GameController.getInstance().player.buyPokemon(new Rat())) {
-                    myMoney.setText(GameController.getInstance().getPlayer().getMoney() + "");
-                } else {
-                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                    alert.setTitle("Not Enough");
-                    alert.setContentText("Not Enough");
-                    alert.showAndWait();
+                    myMoney.setText(GameController.getInstance().getPlayer().getMoney() + "$");
+                    updateButtonDisableState();
                 }
-
             }
         });
 
@@ -312,12 +276,8 @@ public class ShopPane extends StackPane {
             @Override
             public void handle(MouseEvent mouseEvent) {
                 if (GameController.getInstance().player.buyPokemon(new Pikachu())) {
-                    myMoney.setText(GameController.getInstance().getPlayer().getMoney() + "");
-                } else {
-                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                    alert.setTitle("Not Enough");
-                    alert.setContentText("Not Enough");
-                    alert.showAndWait();
+                    myMoney.setText(GameController.getInstance().getPlayer().getMoney() + "$");
+                    updateButtonDisableState();
                 }
             }
         });
@@ -328,8 +288,6 @@ public class ShopPane extends StackPane {
                 Goto.sellItemPage();
             }
         });
-
-
 
         ////Name
         Label atkName = new Label("AtkPoiton");
@@ -422,6 +380,15 @@ public class ShopPane extends StackPane {
         for (int i = 0; i < 8; i++) {
             getChildren().add(prices[i]);
         }
-
+    }
+    private void updateButtonDisableState() {
+        buyAtkBtn.setDisable(GameController.getInstance().getPlayer().getMoney() < new AtkPotion().getPrice());
+        buyDefBtn.setDisable(GameController.getInstance().getPlayer().getMoney() < new DefPotion().getPrice());
+        buyHealBtn.setDisable(GameController.getInstance().getPlayer().getMoney() < new HealPotion().getPrice());
+        buyPokeballBtn.setDisable(GameController.getInstance().getPlayer().getMoney() < new Pokeball().getPrice());
+        buyPikachuBtn.setDisable(GameController.getInstance().getPlayer().getMoney() < new Pikachu().getPrice());
+        buyDragonBtn.setDisable(GameController.getInstance().getPlayer().getMoney() < new Dragon().getPrice());
+        buyFoxBtn.setDisable(GameController.getInstance().getPlayer().getMoney() < new Fox().getPrice());
+        buyRatBtn.setDisable(GameController.getInstance().getPlayer().getMoney() < new Rat().getPrice());
     }
 }

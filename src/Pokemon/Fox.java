@@ -5,16 +5,19 @@ import javafx.scene.image.ImageView;
 
 public class Fox extends BasePokemon{
     public Fox() {
-        super("Fox", 2000, 200, 50, 3000, Element.ICE);
+        super("Fox", 2000, 250, 50, 3000, Element.ICE);
         Image pokemon = new Image("FoxLeft.png");
         Image enemy = new Image("FoxRight.png");
         Image skill = new Image("FoxSkillRight.png");
+        Image circle = new Image("FoxCircle.png");
         ImageView pokemonImg = new ImageView(pokemon);
         ImageView enemyImg = new ImageView(enemy);
         ImageView skillImg = new ImageView(skill);
+        ImageView cirlceImg = new ImageView(circle);
         this.setPokemonImg(pokemonImg);
         this.setEnemyImg(enemyImg);
         this.setSkillImg(skillImg);
+        this.setCircleImg(cirlceImg);
     }
 
     public void attack(BasePokemon pokemon) {

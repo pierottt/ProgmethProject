@@ -154,6 +154,9 @@ public class BossPane extends StackPane{
         Button catchButton = new Button("CATCH");
         catchButton.setPrefHeight(75);
         catchButton.setPrefWidth(200);
+        if(GameController.getInstance().getPlayer().getPokeBall()<1){
+            catchButton.setDisable(true);
+        }
 
 
         setAlignment(catchButton, Pos.BOTTOM_RIGHT);
@@ -165,46 +168,78 @@ public class BossPane extends StackPane{
         //enemy Attack
         PauseTransition delay = new PauseTransition(Duration.seconds(1));
         delay.setOnFinished(event -> {
+            // Disable all buttons
+            atkButton.setDisable(true);
+            skillButton.setDisable(true);
+            leaveButton.setDisable(true);
+            catchButton.setDisable(true);
+
             enemyImg.toFront();
+            enemyAttack.setOnFinished(animationEvent -> {
+                // Enable all buttons after enemyAttack animation is finished
+                atkButton.setDisable(false);
+                if (skillCoolDown > 0) {
+                    skillButton.setDisable(true);
+                } else {
+                    skillButton.setDisable(false);
+                }
+                leaveButton.setDisable(false);
+                if(GameController.getInstance().getPlayer().getPokeBall()>0)
+                    catchButton.setDisable(false);
+                if(GameController.getInstance().getPlayer().getCurrentPokemon().isDead()){
+                    System.out.println("Your pokemon is faint");
+                    Goto.mapPage();
+                }
+            });
             enemyAttack.play();
             enemy.attack(playerPokemon);
-            hpBar.setProgress((playerPokemon.getHp()/playerPokemon.getMaxHp()));
-            atkButton.setDisable(false);
-            if(skillCoolDown > 0){
-                skillButton.setDisable(true);
-            }else{
-                skillButton.setDisable(false);
-            }
-            leaveButton.setDisable(false);
-            catchButton.setDisable(false);
+            hpBar.setProgress((playerPokemon.getHp() / playerPokemon.getMaxHp()));
             System.out.println("A:" + playerPokemon.getAtk());
-            System.out.println("B:" + enemy.getAtk()*0.5);
+            System.out.println("B:" + enemy.getAtk() * 0.5);
             System.out.println("A:" + playerPokemon.getHp());
             System.out.println("B:" + enemy.getHp());
+
         });
+
         //enemy useSkill when cool down = 0;
         PauseTransition delay2 = new PauseTransition(Duration.seconds(1));
         delay2.setOnFinished(event -> {
+            // Disable all buttons
+            atkButton.setDisable(true);
+            skillButton.setDisable(true);
+            leaveButton.setDisable(true);
+            catchButton.setDisable(true);
+
             enemySkillCoolDown = 5;
             enemyImg.toFront();
             enemySkillImg.setVisible(true);
             enemySkillImg.toFront();
+            chickenTransition.setOnFinished(animationEvent -> {
+                // Enable all buttons after chickenTransition animation is finished
+                atkButton.setDisable(false);
+                if (skillCoolDown > 0) {
+                    skillButton.setDisable(true);
+                } else {
+                    skillButton.setDisable(false);
+                }
+                leaveButton.setDisable(false);
+                if(GameController.getInstance().getPlayer().getPokeBall()>0)
+                catchButton.setDisable(false);
+                enemySkillImg.setVisible(false);
+                if(GameController.getInstance().getPlayer().getCurrentPokemon().isDead()){
+                    System.out.println("Your pokemon is faint");
+                    Goto.mapPage();
+                }
+            });
             chickenTransition.play();
             enemy.useSkill(playerPokemon);
-            hpBar.setProgress((playerPokemon.getHp()/playerPokemon.getMaxHp()));
-            atkButton.setDisable(false);
-            if(skillCoolDown > 0){
-                skillButton.setDisable(true);
-            }else{
-                skillButton.setDisable(false);
-            }
-            leaveButton.setDisable(false);
-            catchButton.setDisable(false);
+            hpBar.setProgress((playerPokemon.getHp() / playerPokemon.getMaxHp()));
             System.out.println("A:" + playerPokemon.getAtk());
-            System.out.println("B:" + enemy.getAtk()*0.5);
+            System.out.println("B:" + enemy.getAtk() * 0.5);
             System.out.println("A:" + playerPokemon.getHp());
             System.out.println("B:" + enemy.getHp());
         });
+
         skillButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
@@ -226,7 +261,13 @@ public class BossPane extends StackPane{
                     }else{
                         delay.play();
                     }
+                    if(enemy.isDead()){
+                        System.out.println("Enemy pokemon is faint");
+                        GameController.getInstance().setChickenCheckpoint(true);
+                        Goto.mapPage();
+                    }
                 });
+
             }
         });
         setAlignment(skillButton, Pos.BOTTOM_RIGHT);
@@ -250,7 +291,13 @@ public class BossPane extends StackPane{
                     }else{
                         delay.play();
                     }
+                    if(enemy.isDead()){
+                        System.out.println("Enemy pokemon is faint");
+                        GameController.getInstance().setChickenCheckpoint(true);
+                        Goto.mapPage();
+                    }
                 });
+
             }
         });
         catchButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
@@ -264,11 +311,25 @@ public class BossPane extends StackPane{
                 pokeballView.toFront();
                 pokeTransition.play();
                 pokeTransition.setOnFinished(event -> {
-                    atkButton.setDisable(false);
-                    skillButton.setDisable(false);
-                    leaveButton.setDisable(false);
-                    catchButton.setDisable(false);
                     pokeballView.setVisible(false);
+
+                    if (GameController.getInstance().getPlayer().catched(enemy)) {
+                        GameController.getInstance().setChickenCheckpoint(true);
+                        GameController.getInstance().getPlayer().setChicken(GameController.getInstance().getPlayer().getChicken()+1);
+                        if(!GameController.getInstance().getPlayer().getPokeDeck().getPokeDeck().contains(new Chicken())){
+                            GameController.getInstance().getPlayer().getPokeDeck().getPokeDeck().add(new Chicken());
+                        }
+                        Goto.mapPage();
+                    }
+                    else {
+                        if(enemySkillCoolDown == 0){
+                            delay2.play();
+                        }else{
+                            delay.play();
+                        }
+                    }
+                    GameController.getInstance().getPlayer().setPokeBall(GameController.getInstance().getPlayer().getPokeBall()-1);
+
                 });
             }
         });

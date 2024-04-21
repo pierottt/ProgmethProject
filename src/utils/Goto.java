@@ -59,6 +59,9 @@ public class Goto {
         clear();
         rootPane.getChildren().add(new fightPane1_4());
     }
-
+    public static void pokemonDeck(){
+        clear();
+        rootPane.getChildren().add(new pokemonDeckPane());
+    }
 
 }
