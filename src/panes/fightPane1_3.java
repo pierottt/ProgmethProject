@@ -184,14 +184,14 @@ public class fightPane1_3 extends StackPane{
         //enemy Attack
         PauseTransition delay = new PauseTransition(Duration.seconds(1));
         delay.setOnFinished(event -> {
-            atkButton.setDisable(true);
-            skillButton.setDisable(true);
-            leaveButton.setDisable(true);
-            catchButton.setDisable(true);
             enemyImg.toFront();
             enemyAttack.play();
             enemy.attack(playerPokemon);
             hpBar.setProgress((playerPokemon.getHp() / playerPokemon.getMaxHp()));
+            if(playerPokemon.getHp()/playerPokemon.getMaxHp() <= 0.25)
+                hpBar.setStyle("-fx-accent: #FF0000;");
+            else if(playerPokemon.getHp()/playerPokemon.getMaxHp() <= 0.5)
+                hpBar.setStyle("-fx-accent: #FFFF00;");
             System.out.println("A:" + playerPokemon.getAtk());
             System.out.println("B:" + enemy.getAtk() * 0.5);
             System.out.println("A:" + playerPokemon.getHp());
@@ -222,6 +222,10 @@ public class fightPane1_3 extends StackPane{
             dragonTransition.play();
             enemy.useSkill(playerPokemon);
             hpBar.setProgress((playerPokemon.getHp() / playerPokemon.getMaxHp()));
+            if(playerPokemon.getHp()/playerPokemon.getMaxHp() <= 0.25)
+                hpBar.setStyle("-fx-accent: #FF0000;");
+            else if(playerPokemon.getHp()/playerPokemon.getMaxHp() <= 0.5)
+                hpBar.setStyle("-fx-accent: #FFFF00;");
             System.out.println("A:" + playerPokemon.getAtk());
             System.out.println("B:" + enemy.getAtk() * 0.5);
             System.out.println("A:" + playerPokemon.getHp());
@@ -237,6 +241,10 @@ public class fightPane1_3 extends StackPane{
                 System.out.println("USE SKILLS");
                 playerPokemon.useSkill(enemy);
                 enemyHpBar.setProgress((enemy.getHp()/enemy.getMaxHp()));
+                if((enemy.getHp()/enemy.getMaxHp()) <= 0.25)
+                    enemyHpBar.setStyle("-fx-accent: #FF0000;");
+                else if((enemy.getHp()/enemy.getMaxHp()) <= 0.50)
+                    enemyHpBar.setStyle("-fx-accent: #FFFF00;");
                 atkButton.setDisable(true);
                 skillButton.setDisable(true);
                 leaveButton.setDisable(true);
@@ -276,6 +284,10 @@ public class fightPane1_3 extends StackPane{
                 playerPokemonImg.toFront();
                 playerPokemon.attack(enemy);
                 enemyHpBar.setProgress((enemy.getHp()/enemy.getMaxHp()));
+                if((enemy.getHp()/enemy.getMaxHp()) <= 0.25)
+                    enemyHpBar.setStyle("-fx-accent: #FF0000;");
+                else if((enemy.getHp()/enemy.getMaxHp()) <= 0.50)
+                    enemyHpBar.setStyle("-fx-accent: #FFFF00;");
                 playerAttack.setOnFinished(event -> {
                     if(enemy.isDead()){
                         System.out.println("Enemy pokemon is faint");

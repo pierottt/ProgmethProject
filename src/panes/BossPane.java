@@ -4,6 +4,7 @@ import Pokemon.Chicken;
 import Pokemon.Rat;
 import game.GameController;
 import javafx.animation.*;
+import javafx.application.Platform;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -20,7 +21,7 @@ import utils.Goto;
 
 public class BossPane extends StackPane{
     int skillCoolDown = 0;
-    int enemySkillCoolDown = 2;
+    int enemySkillCoolDown = 5;
     public BossPane(){
         Image backgroundImage = new Image("ChickenFightPane.png");
         ImageView backgroundImageView = new ImageView(backgroundImage);
@@ -64,6 +65,7 @@ public class BossPane extends StackPane{
         ProgressBar enemyHpBar = new ProgressBar();
         enemyHpBar.setProgress(1.0);
         enemyHpBar.setStyle("-fx-accent: #00FF00;");
+
         enemyHpBar.setPrefSize(500,30);
         setAlignment(enemyHpBar,Pos.TOP_RIGHT);
         enemyHpBar.setTranslateX(-10);
@@ -104,18 +106,29 @@ public class BossPane extends StackPane{
         TranslateTransition forward = new TranslateTransition(Duration.seconds(1), playerPokemonImg);
         forward.setByX(650);
 
-        TranslateTransition backward = new TranslateTransition(Duration.seconds(1), playerPokemonImg);
+        TranslateTransition backward = new TranslateTransition(Duration.millis(1000), playerPokemonImg);
         backward.setByX(-650);
+        TranslateTransition enemyKnockBack = new TranslateTransition(Duration.millis(900),enemyImg);
+        enemyKnockBack.setByX(100);
+        TranslateTransition enemyComeBack = new TranslateTransition(Duration.millis(900),enemyImg);
+        enemyComeBack.setByX(-30);
 
         TranslateTransition forward2 = new TranslateTransition(Duration.seconds(1), enemyImg);
         forward2.setByX(650);
 
-        TranslateTransition backward2 = new TranslateTransition(Duration.seconds(1), enemyImg);
+        TranslateTransition backward2 = new TranslateTransition(Duration.millis(1000), enemyImg);
         backward2.setByX(-650);
+        TranslateTransition playerKnockBack = new TranslateTransition(Duration.millis(900),playerPokemonImg);
+        playerKnockBack.setByX(-100);
+        TranslateTransition playerComeBack = new TranslateTransition(Duration.millis(900),playerPokemonImg);
+        playerComeBack.setByX(30);
 
-        SequentialTransition playerAttack = new SequentialTransition(forward,backward);
-        SequentialTransition enemyAttack = new SequentialTransition(backward2,forward2);
-
+        ParallelTransition parallelTransition = new ParallelTransition(enemyComeBack,backward);
+        ParallelTransition parallelTransition2 = new ParallelTransition(playerComeBack,forward2);
+        SequentialTransition playerAttack = new SequentialTransition(forward);
+        enemyKnockBack.setDelay(Duration.millis(700));
+        playerKnockBack.setDelay(Duration.millis(700));
+        SequentialTransition enemyAttack = new SequentialTransition(backward2);
         //Pokeball
         Image pokeball = new Image("pokeball.png");
         ImageView pokeballView = new ImageView(pokeball);
@@ -166,9 +179,10 @@ public class BossPane extends StackPane{
         Button skillButton = new Button("SKILL");
         skillButton.setPrefHeight(75);
         skillButton.setPrefWidth(200);
-
         enemyAttack.setOnFinished(event -> {
-            // Enable all buttons after enemyAttack animation is finished
+            parallelTransition2.play();
+        });
+        parallelTransition2.setOnFinished(event -> {
             atkButton.setDisable(false);
             skillButton.setDisable(skillCoolDown > 0);
             leaveButton.setDisable(false);
@@ -185,15 +199,19 @@ public class BossPane extends StackPane{
         delay.setOnFinished(event -> {
             enemyImg.toFront();
             enemyAttack.play();
+            playerKnockBack.play();
             enemy.attack(playerPokemon);
             hpBar.setProgress((playerPokemon.getHp() / playerPokemon.getMaxHp()));
+            if(playerPokemon.getHp()/playerPokemon.getMaxHp() <= 0.5)
+                hpBar.setStyle("-fx-accent: #FFFF00;");
+            if(playerPokemon.getHp()/playerPokemon.getMaxHp() <= 0.25)
+                hpBar.setStyle("-fx-accent: #FF0000;");
             System.out.println("A:" + playerPokemon.getAtk());
             System.out.println("B:" + enemy.getAtk() * 0.5);
             System.out.println("A:" + playerPokemon.getHp());
             System.out.println("B:" + enemy.getHp());
 
         });
-
         chickenTransition.setOnFinished(event -> {
             atkButton.setDisable(false);
             skillButton.setDisable(skillCoolDown > 0);
@@ -222,26 +240,42 @@ public class BossPane extends StackPane{
             chickenTransition.play();
             enemy.useSkill(playerPokemon);
             hpBar.setProgress((playerPokemon.getHp() / playerPokemon.getMaxHp()));
+            if(playerPokemon.getHp()/playerPokemon.getMaxHp() <= 0.25)
+                hpBar.setStyle("-fx-accent: #FF0000;");
+            else if(playerPokemon.getHp()/playerPokemon.getMaxHp() <= 0.5)
+                hpBar.setStyle("-fx-accent: #FFFF00;");
             System.out.println("A:" + playerPokemon.getAtk());
             System.out.println("B:" + enemy.getAtk() * 0.5);
             System.out.println("A:" + playerPokemon.getHp());
             System.out.println("B:" + enemy.getHp());
         });
 
+        parallelTransition.setOnFinished(event -> {
+            if(enemySkillCoolDown == 0){
+                delay2.play();
+            }else{
+                delay.play();
+            }
+        });
+
         skillButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
-                  skillCoolDown = 2;
+                skillCoolDown = 2;
                 System.out.println("USE SKILLS");
                 skillImg.setVisible(true);
                 playerPokemon.useSkill(enemy);
+                enemyHpBar.setProgress((enemy.getHp()/enemy.getMaxHp()));
+                if((enemy.getHp()/enemy.getMaxHp()) <= 0.25)
+                    enemyHpBar.setStyle("-fx-accent: #FF0000;");
+                else if((enemy.getHp()/enemy.getMaxHp()) <= 0.50)
+                    enemyHpBar.setStyle("-fx-accent: #FFFF00;");
                 atkButton.setDisable(true);
                 skillButton.setDisable(true);
                 leaveButton.setDisable(true);
                 catchButton.setDisable(true);
                 skillImg.toFront();
                 thunderTransition.play();
-                skillButton.setDisable(true);
                 thunderTransition.setOnFinished(event -> {
                     skillImg.setVisible(false);
                     if(enemy.isDead()){
@@ -269,21 +303,22 @@ public class BossPane extends StackPane{
                 atkButton.setDisable(true);
                 skillButton.setDisable(true);
                 catchButton.setDisable(true);
-                playerAttack.play();
                 playerPokemonImg.toFront();
+                playerAttack.play();
+                enemyKnockBack.play();
                 playerPokemon.attack(enemy);
                 enemyHpBar.setProgress((enemy.getHp()/enemy.getMaxHp()));
+                if((enemy.getHp()/enemy.getMaxHp()) <= 0.25)
+                    enemyHpBar.setStyle("-fx-accent: #FF0000;");
+                else if((enemy.getHp()/enemy.getMaxHp()) <= 0.50)
+                    enemyHpBar.setStyle("-fx-accent: #FFFF00;");
                 playerAttack.setOnFinished(event -> {
                     if(enemy.isDead()){
                         System.out.println("Enemy pokemon is faint");
                         GameController.getInstance().setChickenCheckpoint(true);
                         Goto.mapPage();
                     }
-                    if(enemySkillCoolDown == 0){
-                        delay2.play();
-                    }else{
-                        delay.play();
-                    }
+                    parallelTransition.play();
                 });
 
             }
