@@ -190,6 +190,10 @@ public class fightPane1_1 extends StackPane{
                 leaveButton.setDisable(false);
                 if(GameController.getInstance().getPlayer().getPokeBall()>0)
                 catchButton.setDisable(false);
+                if(GameController.getInstance().getPlayer().getCurrentPokemon().isDead()){
+                    System.out.println("Your pokemon is faint");
+                    Goto.mapPage();
+                }
             });
             enemyAttack.play();
             enemy.attack(playerPokemon);
@@ -198,6 +202,7 @@ public class fightPane1_1 extends StackPane{
             System.out.println("B:" + enemy.getAtk() * 0.5);
             System.out.println("A:" + playerPokemon.getHp());
             System.out.println("B:" + enemy.getHp());
+
         });
 
         //enemy useSkill when cool down = 0;
@@ -225,6 +230,10 @@ public class fightPane1_1 extends StackPane{
                 if(GameController.getInstance().getPlayer().getPokeBall()>0)
                 catchButton.setDisable(false);
                 enemySkillImg.setVisible(false);
+                if(GameController.getInstance().getPlayer().getCurrentPokemon().isDead()){
+                    System.out.println("Your pokemon is faint");
+                    Goto.mapPage();
+                }
             });
             pikachuTransition.play();
             enemy.useSkill(playerPokemon);
@@ -233,6 +242,7 @@ public class fightPane1_1 extends StackPane{
             System.out.println("B:" + enemy.getAtk() * 0.5);
             System.out.println("A:" + playerPokemon.getHp());
             System.out.println("B:" + enemy.getHp());
+
         });
 
         skillButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
@@ -258,7 +268,13 @@ public class fightPane1_1 extends StackPane{
                     }else{
                         delay.play();
                     }
+                    if(enemy.isDead()){
+                        System.out.println("Enemy pokemon is faint");
+                        GameController.getInstance().setPikachuCheckpoint(true);
+                        Goto.mapPage();
+                    }
                 });
+
             }
         });
         setAlignment(skillButton, Pos.BOTTOM_RIGHT);
@@ -282,7 +298,13 @@ public class fightPane1_1 extends StackPane{
                     }else{
                         delay.play();
                     }
+                    if(enemy.isDead()){
+                        System.out.println("Enemy pokemon is faint");
+                        GameController.getInstance().setPikachuCheckpoint(true);
+                        Goto.mapPage();
+                    }
                 });
+
             }
         });
         catchButton.setOnMouseClicked(new EventHandler<MouseEvent>() {

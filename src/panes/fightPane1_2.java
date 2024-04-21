@@ -184,6 +184,10 @@ public class fightPane1_2 extends StackPane{
                 leaveButton.setDisable(false);
                 if(GameController.getInstance().getPlayer().getPokeBall()>0)
                 catchButton.setDisable(false);
+                if(GameController.getInstance().getPlayer().getCurrentPokemon().isDead()){
+                    System.out.println("Your pokemon is faint");
+                    Goto.mapPage();
+                }
             });
             enemyAttack.play();
             enemy.attack(playerPokemon);
@@ -192,6 +196,7 @@ public class fightPane1_2 extends StackPane{
             System.out.println("B:" + enemy.getAtk() * 0.5);
             System.out.println("A:" + playerPokemon.getHp());
             System.out.println("B:" + enemy.getHp());
+
         });
 
         //enemy useSkill when cool down = 0;
@@ -219,6 +224,10 @@ public class fightPane1_2 extends StackPane{
                 if(GameController.getInstance().getPlayer().getPokeBall()>0)
                 catchButton.setDisable(false);
                 enemySkillImg.setVisible(false);
+                if(GameController.getInstance().getPlayer().getCurrentPokemon().isDead()){
+                    System.out.println("Your pokemon is faint");
+                    Goto.mapPage();
+                }
             });
             foxTransition.play();
             enemy.useSkill(playerPokemon);
@@ -227,6 +236,7 @@ public class fightPane1_2 extends StackPane{
             System.out.println("B:" + enemy.getAtk() * 0.5);
             System.out.println("A:" + playerPokemon.getHp());
             System.out.println("B:" + enemy.getHp());
+
         });
         skillButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
@@ -250,7 +260,13 @@ public class fightPane1_2 extends StackPane{
                     }else{
                         delay.play();
                     }
+                    if(enemy.isDead()){
+                        System.out.println("Enemy pokemon is faint");
+                        GameController.getInstance().setFoxCheckpoint(true);
+                        Goto.mapPage();
+                    }
                 });
+
             }
         });
         setAlignment(skillButton, Pos.BOTTOM_RIGHT);
@@ -274,7 +290,13 @@ public class fightPane1_2 extends StackPane{
                     }else{
                         delay.play();
                     }
+                    if(enemy.isDead()){
+                        System.out.println("Enemy pokemon is faint");
+                        GameController.getInstance().setFoxCheckpoint(true);
+                        Goto.mapPage();
+                    }
                 });
+
             }
         });
         catchButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
