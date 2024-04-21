@@ -32,6 +32,7 @@ public class BossPane extends StackPane{
         BasePokemon playerPokemon;
         BasePokemon enemy;
         playerPokemon = GameController.getInstance().getPlayer().getCurrentPokemon();
+        playerPokemon.setHp(playerPokemon.getMaxHp());
         ImageView skillImg = playerPokemon.getSkillImg();
         skillImg.setFitHeight(300);
         skillImg.setFitWidth(100);
@@ -73,8 +74,8 @@ public class BossPane extends StackPane{
         ImageView playerPokemonImg = playerPokemon.getPokemonImg();
         ImageView enemyImg = enemy.getEnemyImg();
         ImageView enemySkillImg = enemy.getSkillImg();
-        enemySkillImg.setFitWidth(300);
-        enemySkillImg.setFitHeight(300);
+        enemySkillImg.setFitWidth(100);
+        enemySkillImg.setFitHeight(50);
         enemySkillImg.setVisible(false);
         //set Pokemon position and size
         playerPokemonImg.setFitHeight(200);
@@ -89,10 +90,10 @@ public class BossPane extends StackPane{
         enemyImg.setTranslateY(-55);
         //set enemy skill path
         Path chickenPath = new Path();
-        chickenPath.getElements().add(new MoveTo(330,120));
-        chickenPath.getElements().add(new LineTo(-300,200));
+        chickenPath.getElements().add(new MoveTo(150,0));
+        chickenPath.getElements().add(new LineTo(-250,100));
         PathTransition chickenTransition = new PathTransition();
-        chickenTransition.setDuration(Duration.seconds(3));
+        chickenTransition.setDuration(Duration.seconds(10));
         chickenTransition.setNode(enemySkillImg);
         chickenTransition.setPath(chickenPath);
         chickenTransition.setOnFinished(event -> {
@@ -165,32 +166,23 @@ public class BossPane extends StackPane{
         Button skillButton = new Button("SKILL");
         skillButton.setPrefHeight(75);
         skillButton.setPrefWidth(200);
+
+        enemyAttack.setOnFinished(event -> {
+            // Enable all buttons after enemyAttack animation is finished
+            atkButton.setDisable(false);
+            skillButton.setDisable(skillCoolDown > 0);
+            leaveButton.setDisable(false);
+            if(GameController.getInstance().getPlayer().getPokeBall()>0)
+                catchButton.setDisable(false);
+            if(GameController.getInstance().getPlayer().getCurrentPokemon().isDead()){
+                System.out.println("Your pokemon is faint");
+                Goto.mapPage();
+            }
+        });
         //enemy Attack
         PauseTransition delay = new PauseTransition(Duration.seconds(1));
         delay.setOnFinished(event -> {
-            // Disable all buttons
-            atkButton.setDisable(true);
-            skillButton.setDisable(true);
-            leaveButton.setDisable(true);
-            catchButton.setDisable(true);
-
             enemyImg.toFront();
-            enemyAttack.setOnFinished(animationEvent -> {
-                // Enable all buttons after enemyAttack animation is finished
-                atkButton.setDisable(false);
-                if (skillCoolDown > 0) {
-                    skillButton.setDisable(true);
-                } else {
-                    skillButton.setDisable(false);
-                }
-                leaveButton.setDisable(false);
-                if(GameController.getInstance().getPlayer().getPokeBall()>0)
-                    catchButton.setDisable(false);
-                if(GameController.getInstance().getPlayer().getCurrentPokemon().isDead()){
-                    System.out.println("Your pokemon is faint");
-                    Goto.mapPage();
-                }
-            });
             enemyAttack.play();
             enemy.attack(playerPokemon);
             hpBar.setProgress((playerPokemon.getHp() / playerPokemon.getMaxHp()));
@@ -201,6 +193,19 @@ public class BossPane extends StackPane{
 
         });
 
+        chickenTransition.setOnFinished(event -> {
+            atkButton.setDisable(false);
+            skillButton.setDisable(skillCoolDown > 0);
+            leaveButton.setDisable(false);
+            if(GameController.getInstance().getPlayer().getPokeBall()>0){
+                catchButton.setDisable(false);
+            }
+            enemySkillImg.setVisible(false);
+            if(GameController.getInstance().getPlayer().getCurrentPokemon().isDead()){
+                System.out.println("Your pokemon is faint");
+                Goto.mapPage();
+            }
+        });
         //enemy useSkill when cool down = 0;
         PauseTransition delay2 = new PauseTransition(Duration.seconds(1));
         delay2.setOnFinished(event -> {
@@ -209,28 +214,10 @@ public class BossPane extends StackPane{
             skillButton.setDisable(true);
             leaveButton.setDisable(true);
             catchButton.setDisable(true);
-
             enemySkillCoolDown = 5;
             enemyImg.toFront();
-            enemySkillImg.setVisible(true);
             enemySkillImg.toFront();
-            chickenTransition.setOnFinished(animationEvent -> {
-                // Enable all buttons after chickenTransition animation is finished
-                atkButton.setDisable(false);
-                if (skillCoolDown > 0) {
-                    skillButton.setDisable(true);
-                } else {
-                    skillButton.setDisable(false);
-                }
-                leaveButton.setDisable(false);
-                if(GameController.getInstance().getPlayer().getPokeBall()>0)
-                catchButton.setDisable(false);
-                enemySkillImg.setVisible(false);
-                if(GameController.getInstance().getPlayer().getCurrentPokemon().isDead()){
-                    System.out.println("Your pokemon is faint");
-                    Goto.mapPage();
-                }
-            });
+            enemySkillImg.setVisible(true);
             chickenTransition.play();
             enemy.useSkill(playerPokemon);
             hpBar.setProgress((playerPokemon.getHp() / playerPokemon.getMaxHp()));
@@ -256,15 +243,15 @@ public class BossPane extends StackPane{
                 skillButton.setDisable(true);
                 thunderTransition.setOnFinished(event -> {
                     skillImg.setVisible(false);
-                    if(enemySkillCoolDown == 0){
-                        delay2.play();
-                    }else{
-                        delay.play();
-                    }
                     if(enemy.isDead()){
                         System.out.println("Enemy pokemon is faint");
                         GameController.getInstance().setChickenCheckpoint(true);
                         Goto.mapPage();
+                    }
+                    if(enemySkillCoolDown == 0){
+                        delay2.play();
+                    }else{
+                        delay.play();
                     }
                 });
 
@@ -286,15 +273,15 @@ public class BossPane extends StackPane{
                 playerPokemon.attack(enemy);
                 enemyHpBar.setProgress((enemy.getHp()/enemy.getMaxHp()));
                 playerAttack.setOnFinished(event -> {
-                    if(enemySkillCoolDown == 0){
-                        delay2.play();
-                    }else{
-                        delay.play();
-                    }
                     if(enemy.isDead()){
                         System.out.println("Enemy pokemon is faint");
                         GameController.getInstance().setChickenCheckpoint(true);
                         Goto.mapPage();
+                    }
+                    if(enemySkillCoolDown == 0){
+                        delay2.play();
+                    }else{
+                        delay.play();
                     }
                 });
 
@@ -320,13 +307,6 @@ public class BossPane extends StackPane{
                             GameController.getInstance().getPlayer().getPokeDeck().getPokeDeck().add(new Chicken());
                         }
                         Goto.mapPage();
-                    }
-                    else {
-                        if(enemySkillCoolDown == 0){
-                            delay2.play();
-                        }else{
-                            delay.play();
-                        }
                     }
                     GameController.getInstance().getPlayer().setPokeBall(GameController.getInstance().getPlayer().getPokeBall()-1);
 
