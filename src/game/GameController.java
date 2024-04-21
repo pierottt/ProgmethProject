@@ -13,6 +13,13 @@ public class GameController {
 
     public boolean isGameEnd = false;
 
+    public boolean pikachuCheckpoint = false;
+    public boolean foxCheckpoint = false;
+    public boolean dragonCheckpoint = false;
+    public boolean ratCheckpoint = false;
+    public boolean chickenCheckpoint = false;
+
+
     public static GameController getInstance() {
         if (instance == null) {
             instance = new GameController();
