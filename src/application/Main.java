@@ -17,6 +17,7 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.scene.paint.Color;
 import panes.RootPane;
+import utils.SoundManager;
 
 public class Main extends Application {
 
@@ -29,7 +30,9 @@ public class Main extends Application {
     public void start(Stage stage) throws Exception {
 
         GameController gameController = new GameController();
-
+        Thread t = new Thread(() -> {
+            SoundManager.getInstance().play();
+        });
         RootPane parent = RootPane.getRootPane();
         Scene scene = new Scene(parent,1200,700);
 
@@ -41,5 +44,6 @@ public class Main extends Application {
 
         stage.setScene(scene);
         stage.show();
+        t.start();
     }
 }
