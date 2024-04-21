@@ -4,10 +4,11 @@ import Pokemon.*;
 import item.*;
 
 import java.util.ArrayList;
+import java.util.Random;
+import java.util.RandomAccess;
 
 public class Player {
     private String name;
-
 
     private int money;
     private ArrayList<BaseItem> inventory;
@@ -190,6 +191,24 @@ public class Player {
         }
         getPokeDeck().getPokeDeck().add(pokemon);
     }
+
+    public boolean catched(BasePokemon pokemon){
+        double percent = (pokemon.getHp()/pokemon.getMaxHp())*100;
+        if(percent>50){
+            System.out.println("unsuccessful catch!");
+            return false;
+        }
+        else if(percent>25){
+            Random random = new Random();
+            int randomNumber = random.nextInt(100) + 1;
+            if(randomNumber>50){
+                return true;
+            }
+            return false;
+        }
+        else return true;
+    }
+
 
 
 
