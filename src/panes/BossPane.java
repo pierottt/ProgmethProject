@@ -18,6 +18,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
 import utils.Goto;
+import utils.SoundManager;
 
 public class BossPane extends StackPane{
     int skillCoolDown = 0;
@@ -152,6 +153,7 @@ public class BossPane extends StackPane{
         leaveButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
+                SoundManager.getInstance().changeSound("res/backgroundMusic.mp3");
                 Goto.mapPage();
             }
         });
