@@ -16,6 +16,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
 import utils.Goto;
+import utils.SoundManager;
 
 public class fightPane1_1 extends StackPane{
     int skillCoolDown = 0;
@@ -25,7 +26,7 @@ public class fightPane1_1 extends StackPane{
         ImageView backgroundImageView = new ImageView(backgroundImage);
         backgroundImageView.setPreserveRatio(false);
         backgroundImageView.setFitWidth(1200);
-        backgroundImageView.setFitHeight(550); //
+        backgroundImageView.setFitHeight(550);
         backgroundImageView.setTranslateY(-80);// move 50 pixels up
 
         BasePokemon playerPokemon;
@@ -76,10 +77,10 @@ public class fightPane1_1 extends StackPane{
         enemySkillImg.setFitHeight(400);
         enemySkillImg.setVisible(false);
         //set Pokemon position and size
-        playerPokemonImg.setFitHeight(200);
-        playerPokemonImg.setFitWidth(200);
+        playerPokemonImg.setFitHeight(playerPokemon.getHeight());
+        playerPokemonImg.setFitWidth(playerPokemon.getWidth());
         playerPokemonImg.setTranslateX(-350);
-        playerPokemonImg.setTranslateY(65);
+        playerPokemonImg.setTranslateY(playerPokemon.getTranslateY());
 
         //set enemy position and size
         enemyImg.setFitHeight(200);
@@ -130,39 +131,83 @@ public class fightPane1_1 extends StackPane{
         pokeTransition.setCycleCount(1);
 
         //BUTTON
-        Button leaveButton = new Button("LEAVE");
-        leaveButton.setPrefHeight(75);
-        leaveButton.setPrefWidth(200);
+        ImageView leaveButton = new ImageView(new Image("LeaveButton.png"));
+        leaveButton.setFitHeight(75);
+        leaveButton.setFitWidth(200);
         leaveButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
+                SoundManager.getInstance().changeSound("res/backgroundMusic.mp3");
                 Goto.mapPage();
             }
         });
+        leaveButton.setOnMouseReleased(event -> {
+            // Revert back to the original image
+            leaveButton.setImage(new Image("LeaveButton.png"));
+        });
+
+        leaveButton.setOnMouseEntered(event -> {
+            leaveButton.setImage(new Image("LeaveButtonOnClick.png"));
+        });
+
+        leaveButton.setOnMouseExited(event -> {
+            leaveButton.setImage(new Image("LeaveButton.png"));
+        });
+
         setAlignment(leaveButton, Pos.BOTTOM_RIGHT);
 
-        Button atkButton = new Button("ATTACK");
-        atkButton.setPrefHeight(75);
-        atkButton.setPrefWidth(200);
+        ImageView atkButton = new ImageView(new Image("AttackButton.png"));
+        atkButton.setFitHeight(75);
+        atkButton.setFitWidth(200);
+
+        atkButton.setOnMouseReleased(event -> {
+            // Revert back to the original image
+            atkButton.setImage(new Image("AttackButton.png"));
+        });
+        atkButton.setOnMouseEntered(event -> {
+            atkButton.setImage(new Image("AttackButtonOnClick.png"));
+        });
+        atkButton.setOnMouseExited(event -> {
+            atkButton.setImage(new Image("AttackButton.png"));
+        });
+
+
 
         setAlignment(atkButton, Pos.BOTTOM_RIGHT);
         atkButton.setTranslateY(-80);
         atkButton.setTranslateX(-200);
 
-        Button catchButton = new Button("CATCH");
-        catchButton.setPrefHeight(75);
-        catchButton.setPrefWidth(200);
+        ImageView catchButton = new ImageView(new Image("CatchButton.png"));
+
+        catchButton.setFitHeight(75);
+        catchButton.setFitWidth(200);
         if(GameController.getInstance().getPlayer().getPokeBall()<1){
             catchButton.setDisable(true);
         }
+        catchButton.setOnMouseReleased(event -> {
+            // Revert back to the original image
+            catchButton.setImage(new Image("CatchButton.png"));
+        });
+
+        catchButton.setOnMouseEntered(event -> {
+            catchButton.setImage(new Image("CatchButtonOnClick.png"));
+        });
+
+        catchButton.setOnMouseExited(event -> {
+            catchButton.setImage(new Image("CatchButton.png"));
+        });
+
 
 
         setAlignment(catchButton, Pos.BOTTOM_RIGHT);
         catchButton.setTranslateX(-200);
 
-        Button skillButton = new Button("SKILL");
-        skillButton.setPrefHeight(75);
-        skillButton.setPrefWidth(200);
+        ImageView skillButton = new ImageView(new Image("SkillButton.png"));
+        skillButton.setFitHeight(75);
+        skillButton.setFitWidth(200);
+
+
+
 
         enemyAttack.setOnFinished(event -> {
             atkButton.setDisable(false);
@@ -227,7 +272,7 @@ public class fightPane1_1 extends StackPane{
 
         });
 
-        skillButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
+        skillButton.setOnMousePressed(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
                 skillCoolDown = 2;
@@ -256,18 +301,22 @@ public class fightPane1_1 extends StackPane{
                     if(enemy.isDead()){
                         System.out.println("Enemy pokemon is faint");
                         GameController.getInstance().setPikachuCheckpoint(true);
+                        SoundManager.getInstance().changeSound("res/backgroundMusic.mp3");
                         Goto.mapPage();
                     }
                 });
 
+
             }
         });
+
         setAlignment(skillButton, Pos.BOTTOM_RIGHT);
         skillButton.setTranslateY(-80);
-        atkButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
+        atkButton.setOnMousePressed(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
                 System.out.println("ATTACK");
+                atkButton.setImage(new Image("AttackButtonOnClick.png"));
                 decreaseCoolDown();
                 leaveButton.setDisable(true);
                 atkButton.setDisable(true);
@@ -285,6 +334,7 @@ public class fightPane1_1 extends StackPane{
                     if(enemy.isDead()){
                         System.out.println("Enemy pokemon is faint");
                         GameController.getInstance().setPikachuCheckpoint(true);
+                        SoundManager.getInstance().changeSound("res/backgroundMusic.mp3");
                         Goto.mapPage();
                     }
                     if(enemySkillCoolDown == 0){
@@ -296,6 +346,9 @@ public class fightPane1_1 extends StackPane{
 
             }
         });
+
+
+
         catchButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
@@ -330,9 +383,27 @@ public class fightPane1_1 extends StackPane{
             }
         });
 
-        if(skillCoolDown == 0){
+        if (skillCoolDown == 0) {
             skillButton.setDisable(false);
+            skillButton.setImage(new Image("SkillButton.png"));
+            skillButton.setOnMouseReleased(event -> {
+                // Revert back to the original image
+                skillButton.setImage(new Image("SkillButtonOnClick.png"));
+            });
+            skillButton.setOnMouseEntered(event -> {
+                skillButton.setImage(new Image("SkillButtonOnClick.png"));
+            });
+            skillButton.setOnMouseExited(event -> {
+                skillButton.setImage(new Image("SkillButton.png"));
+            });
+        } else {
+            skillButton.setDisable(true); // Disable button when skillCooldown is more than 0
+            skillButton.setImage(new Image("SkillButtonOnClick.png"));
+            skillButton.setOnMouseReleased(null); // Remove mouse released event handler
+            skillButton.setOnMouseEntered(null); // Remove mouse entered event handler
+            skillButton.setOnMouseExited(null); // Remove mouse exited event handler
         }
+
 
         getChildren().addAll(backgroundImageView,enemyImg,playerPokemonImg,leaveButton,atkButton,skillButton,catchButton,pokeballView);
         getChildren().add(hpBar);

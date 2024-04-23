@@ -19,7 +19,9 @@ public class Pikachu extends BasePokemon{
         this.setEnemyImg(enemyImg);
         this.setSkillImg(skillImg);
         this.setCircleImg(cirlceImg);
-
+        this.setHeight(200);
+        this.setWidth(200);
+        this.setTranslateY(65);
     }
 
     public void attack(BasePokemon pokemon) {

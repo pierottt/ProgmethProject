@@ -15,6 +15,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import utils.Goto;
+import utils.SoundManager;
 
 public class MapPane extends StackPane {
     public MapPane(){
@@ -104,30 +105,35 @@ public class MapPane extends StackPane {
         chickenView.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
+                SoundManager.getInstance().changeSound("res/fighting.mp3");
                 Goto.bossPane();
             }
         });
         pikachuView.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
+                SoundManager.getInstance().changeSound("res/fighting.mp3");
                 Goto.fightPane1_1();
             }
         });
         foxView.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
+                SoundManager.getInstance().changeSound("res/fighting.mp3");
                 Goto.fightPane1_2();
             }
         });
         dragonView.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
+                SoundManager.getInstance().changeSound("res/fighting.mp3");
                 Goto.fightPane1_3();
             }
         });
         ratView.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
+                SoundManager.getInstance().changeSound("res/fighting.mp3");
                 Goto.fightPane1_4();
             }
         });
