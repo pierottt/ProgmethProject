@@ -14,8 +14,10 @@ public abstract class BasePokemon implements Evolable {
     private ImageView PokemonImg;
     private ImageView enemyImg;
     private ImageView skillImg;
-
     private ImageView circleImg;
+    private int height;
+    private int width;
+    private int translateY;
     private int price;
 
     //Abstact
@@ -147,4 +149,28 @@ public abstract class BasePokemon implements Evolable {
     }
     public abstract void attack(BasePokemon pokemon);
     public abstract void useSkill(BasePokemon pokemon);
+
+    public int getHeight() {
+        return height;
+    }
+
+    public void setHeight(int height) {
+        this.height = height;
+    }
+
+    public int getWidth() {
+        return width;
+    }
+
+    public void setWidth(int width) {
+        this.width = width;
+    }
+
+    public int getTranslateY() {
+        return translateY;
+    }
+
+    public void setTranslateY(int translateY) {
+        this.translateY = translateY;
+    }
 }

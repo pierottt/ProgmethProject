@@ -19,6 +19,9 @@ public class Chicken extends BasePokemon{
         this.setEnemyImg(enemyImg);
         this.setSkillImg(skillImg);
         this.setCircleImg(cirlceImg);
+        this.setHeight(500);
+        this.setWidth(500);
+        this.setTranslateY(-55);
     }
 
     public void attack(BasePokemon pokemon) {

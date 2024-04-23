@@ -25,7 +25,7 @@ public class fightPane1_1 extends StackPane{
         ImageView backgroundImageView = new ImageView(backgroundImage);
         backgroundImageView.setPreserveRatio(false);
         backgroundImageView.setFitWidth(1200);
-        backgroundImageView.setFitHeight(550); //
+        backgroundImageView.setFitHeight(550);
         backgroundImageView.setTranslateY(-80);// move 50 pixels up
 
         BasePokemon playerPokemon;
@@ -76,10 +76,10 @@ public class fightPane1_1 extends StackPane{
         enemySkillImg.setFitHeight(400);
         enemySkillImg.setVisible(false);
         //set Pokemon position and size
-        playerPokemonImg.setFitHeight(200);
-        playerPokemonImg.setFitWidth(200);
+        playerPokemonImg.setFitHeight(playerPokemon.getHeight());
+        playerPokemonImg.setFitWidth(playerPokemon.getWidth());
         playerPokemonImg.setTranslateX(-350);
-        playerPokemonImg.setTranslateY(65);
+        playerPokemonImg.setTranslateY(playerPokemon.getTranslateY());
 
         //set enemy position and size
         enemyImg.setFitHeight(200);

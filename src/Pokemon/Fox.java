@@ -18,6 +18,9 @@ public class Fox extends BasePokemon{
         this.setEnemyImg(enemyImg);
         this.setSkillImg(skillImg);
         this.setCircleImg(cirlceImg);
+        this.setHeight(400);
+        this.setWidth(400);
+        this.setTranslateY(15);
     }
 
     public void attack(BasePokemon pokemon) {
