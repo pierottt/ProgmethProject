@@ -81,10 +81,10 @@ public class BossPane extends StackPane{
         enemySkillImg.setFitHeight(50);
         enemySkillImg.setVisible(false);
         //set Pokemon position and size
-        playerPokemonImg.setFitHeight(200);
-        playerPokemonImg.setFitWidth(200);
+        playerPokemonImg.setFitHeight(playerPokemon.getHeight());
+        playerPokemonImg.setFitWidth(playerPokemon.getWidth());
         playerPokemonImg.setTranslateX(-350);
-        playerPokemonImg.setTranslateY(65);
+        playerPokemonImg.setTranslateY(playerPokemon.getTranslateY());
 
         //set enemy position and size
         enemyImg.setFitHeight(500);
