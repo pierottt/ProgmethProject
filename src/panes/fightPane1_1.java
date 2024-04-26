@@ -14,6 +14,7 @@ import javafx.scene.shape.*;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
+import table.Grave;
 import utils.Goto;
 import utils.SoundManager;
 
@@ -73,7 +74,7 @@ public class fightPane1_1 extends StackPane{
         enemyHpBar.setTranslateX(-10);
         enemyHpBar.setTranslateY(10);
 
-
+        //Img for pokemon and enemy
         enemy = new Pikachu();
         ImageView playerPokemonImg = playerPokemon.getPokemonImg();
         ImageView playerPokemonImgAttacked = playerPokemon.getPokemonImgAttacked();
@@ -85,7 +86,12 @@ public class fightPane1_1 extends StackPane{
         ImageView playerPokemongif = playerPokemon.getPlayerGif();
         ImageView enemyPokemongif = enemy.getEnemyGif();
 
+        //grave
+        Grave grave = new Grave("Grave.png",false,playerPokemon);
+        Grave graveEnemy = new Grave("GraveRight.png",true,enemy);
 
+        grave.getPicture().setVisible(false);
+        graveEnemy.getPicture().setVisible(false);
 
         enemySkillImg.setFitWidth(300);
         enemySkillImg.setFitHeight(400);
@@ -112,7 +118,6 @@ public class fightPane1_1 extends StackPane{
         playerPokemongif.setTranslateY(playerPokemon.getTranslateY());
 
 
-
         //set enemy position and size
         enemyImg.setFitHeight(200);
         enemyImg.setFitWidth(200);
@@ -124,10 +129,10 @@ public class fightPane1_1 extends StackPane{
         enemyImgAttacked.setTranslateX(300);
         enemyImgAttacked.setTranslateY(65);
 
-        enemyPokemongif.setFitHeight(playerPokemon.getHeight());
-        enemyPokemongif.setFitWidth(playerPokemon.getWidth());
+        enemyPokemongif.setFitHeight(enemy.getHeight());
+        enemyPokemongif.setFitWidth(enemy.getWidth());
         enemyPokemongif.setTranslateX(300);
-        enemyPokemongif.setTranslateY(playerPokemon.getTranslateY());
+        enemyPokemongif.setTranslateY(enemy.getTranslateY());
 
         //set enemy skill path
         Path pikachuPath = new Path();
@@ -619,8 +624,7 @@ public class fightPane1_1 extends StackPane{
                     if(enemy.isDead()){
                         System.out.println("Enemy pokemon is faint");
                         GameController.getInstance().setPikachuCheckpoint(true);
-                        SoundManager.getInstance().changeSound("res/backgroundMusic.mp3");
-                        Goto.mapPage();
+                        endBattle(enemy.getPokemonImg());
 
                     }
                 });
@@ -737,9 +741,29 @@ public class fightPane1_1 extends StackPane{
         getChildren().add(enemySkillImg);
         getChildren().addAll(attackPotion,attackPotionLeft,healPotion,healPotionLeft,defPotion,defPotionLeft,pokeballItem,pokeballItemLeft,itemsBar);
         getChildren().addAll(playerPokemongif,enemyPokemongif);
+        getChildren().addAll(graveEnemy.getPicture(),grave.getPicture());
     }
     public void decreaseCoolDown(){
         if(skillCoolDown > 0) skillCoolDown--;
         if(enemySkillCoolDown > 0) enemySkillCoolDown--;
+    }
+    public void endBattle(ImageView pokemon) {
+        FadeTransition fadeOutTransition = new FadeTransition(Duration.millis(1000), pokemon);
+
+        // Set the initial and final opacity values for the fade animation
+        fadeOutTransition.setFromValue(1.0);
+        fadeOutTransition.setToValue(0.0);
+
+        // Set what happens after the animation ends
+        fadeOutTransition.setOnFinished(event -> {
+            // Animation ended, hide the ImageView after fading out
+            pokemon.setVisible(false);
+            // Call Goto.mapPage() after animation finishes
+            SoundManager.getInstance().changeSound("res/backgroundMusic.mp3");
+            Goto.mapPage();
+        });
+
+        // Start the fade out animation
+        fadeOutTransition.play();
     }
 }
