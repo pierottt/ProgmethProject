@@ -3,6 +3,7 @@ package Pokemon;
 import item.usage.Evolable;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.shape.Path;
 
 public abstract class BasePokemon implements Evolable {
     private String name;
@@ -14,6 +15,7 @@ public abstract class BasePokemon implements Evolable {
     private ImageView PokemonImg;
     private ImageView enemyImg;
     private ImageView skillImg;
+    private ImageView mySkillImg;
     private ImageView circleImg;
     private int height;
     private int width;
@@ -172,5 +174,13 @@ public abstract class BasePokemon implements Evolable {
 
     public void setTranslateY(int translateY) {
         this.translateY = translateY;
+    }
+
+    public ImageView getMySkillImg() {
+        return mySkillImg;
+    }
+
+    public void setMySkillImg(ImageView mySkillImg) {
+        this.mySkillImg = mySkillImg;
     }
 }

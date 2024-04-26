@@ -2,6 +2,9 @@ package Pokemon;
 
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.shape.LineTo;
+import javafx.scene.shape.MoveTo;
+import javafx.scene.shape.Path;
 
 public class Dragon extends BasePokemon{
     public Dragon() {
@@ -10,14 +13,17 @@ public class Dragon extends BasePokemon{
         Image enemy = new Image("DragonRight.png");
         Image skill = new Image("DragonSkillRight.png");
         Image circle = new Image("DragonCircle.png");
+        Image mySkill = new Image("DragonSkillLeft.png");
         ImageView pokemonImg = new ImageView(pokemon);
         ImageView enemyImg = new ImageView(enemy);
         ImageView skillImg = new ImageView(skill);
         ImageView cirlceImg = new ImageView(circle);
+        ImageView mySkillImg = new ImageView(mySkill);
         this.setPokemonImg(pokemonImg);
         this.setEnemyImg(enemyImg);
         this.setSkillImg(skillImg);
         this.setCircleImg(cirlceImg);
+        this.setMySkillImg(mySkillImg);
         this.setHeight(500);
         this.setWidth(500);
         this.setTranslateY(-35);

@@ -32,18 +32,63 @@ public class fightPane1_2 extends StackPane{
         BasePokemon enemy;
         playerPokemon = GameController.getInstance().getPlayer().getCurrentPokemon();
         playerPokemon.setHp(playerPokemon.getMaxHp());
-        ImageView skillImg = playerPokemon.getSkillImg();
-        skillImg.setFitHeight(300);
-        skillImg.setFitWidth(100);
+        ImageView skillImg = playerPokemon.getMySkillImg();
+        switch (playerPokemon) {
+            case Pikachu pikachu -> skillImg.setFitWidth(100);
+            case Dragon dragon -> skillImg.setFitWidth(200);
+            case Fox fox -> skillImg.setFitWidth(200);
+            case Rat rat -> skillImg.setFitWidth(100);
+            default -> {
+            }
+        }
+        switch (playerPokemon) {
+            case Pikachu pikachu -> skillImg.setFitHeight(200);
+            case Dragon dragon -> skillImg.setFitHeight(200);
+            case Fox fox -> skillImg.setFitHeight(200);
+            case Rat rat -> skillImg.setFitHeight(100);
+            default -> {
+            }
+        }
         skillImg.setVisible(false);
 
+        //All skill path
+        PathTransition skillTransition = new PathTransition();
+        skillTransition.setDuration(Duration.seconds(1));
+        skillTransition.setNode(skillImg);
+        //thunder (Pikachu)
         Path thunderPath = new Path();
         thunderPath.getElements().add(new MoveTo(350,-200));
         thunderPath.getElements().add(new LineTo(350,150));
         PathTransition thunderTransition = new PathTransition();
-        thunderTransition.setDuration(Duration.seconds(1));
-        thunderTransition.setNode(skillImg);
-        thunderTransition.setPath(thunderPath);
+        //fire (Dragon)
+        Path firePath = new Path();
+        firePath.getElements().add(new MoveTo(-250,-100));
+        firePath.getElements().add(new LineTo(350,150));
+        //Ice (fox)
+        Path icePath = new Path();
+        icePath.getElements().add(new MoveTo(-250,-100));
+        icePath.getElements().add(new LineTo(350,150));
+        //Poison (Rat)
+        Path poisonPath = new Path();
+        poisonPath.getElements().add(new MoveTo(-250,0));
+        poisonPath.getElements().add(new LineTo(350,150));
+        //Set Transition
+        switch (playerPokemon) {
+            case Pikachu pikachu -> skillTransition.setPath(thunderPath);
+            case Dragon dragon -> skillTransition.setPath(firePath);
+            case Fox fox -> skillTransition.setPath(icePath);
+            case Rat rat -> skillTransition.setPath(poisonPath);
+            default -> {
+            }
+        }
+        switch (playerPokemon) {
+            case Pikachu pikachu -> skillTransition.setDuration(Duration.seconds(1));
+            case Dragon dragon -> skillTransition.setDuration(Duration.seconds(2));
+            case Fox fox -> skillTransition.setDuration(Duration.seconds(2));
+            case Rat rat -> skillTransition.setDuration(Duration.seconds(3));
+            default -> {
+            }
+        }
 
         Text vs = new Text("Vs");
         vs.setFont(Font.font(50));
@@ -289,9 +334,9 @@ public class fightPane1_2 extends StackPane{
                 catchButton.setDisable(true);
                 skillImg.toFront();
                 skillImg.setVisible(true);
-                thunderTransition.play();
+                skillTransition.play();
                 skillButton.setDisable(true);
-                thunderTransition.setOnFinished(event -> {
+                skillTransition.setOnFinished(event -> {
                     skillImg.setVisible(false);
                     if(enemy.isDead()){
                         System.out.println("Enemy pokemon is faint");
