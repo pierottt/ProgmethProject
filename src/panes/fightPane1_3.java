@@ -102,6 +102,11 @@ public class fightPane1_3 extends StackPane{
         playerPokemonImgAttacked.setTranslateX(-350);
         playerPokemonImgAttacked.setTranslateY(playerPokemon.getTranslateY());
 
+        playerPokemonGif.setFitHeight(playerPokemon.getHeight());
+        playerPokemonGif.setFitWidth(playerPokemon.getWidth());
+        playerPokemonGif.setTranslateX(-350);
+        playerPokemonGif.setTranslateY(playerPokemon.getTranslateY());
+
         //set enemy position and size
         enemyImg.setFitHeight(500);
         enemyImg.setFitWidth(500);

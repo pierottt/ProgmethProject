@@ -104,6 +104,11 @@ public class fightPane1_2 extends StackPane{
         playerPokemonImgAttacked.setTranslateX(-350);
         playerPokemonImgAttacked.setTranslateY(playerPokemon.getTranslateY());
 
+        playerPokemonGif.setFitHeight(playerPokemon.getHeight());
+        playerPokemonGif.setFitWidth(playerPokemon.getWidth());
+        playerPokemonGif.setTranslateX(-350);
+        playerPokemonGif.setTranslateY(playerPokemon.getTranslateY());
+
         //set enemy position and size
         enemyImg.setFitHeight(400);
         enemyImg.setFitWidth(400);
@@ -707,9 +712,7 @@ public class fightPane1_2 extends StackPane{
             skillButton.setOnMouseExited(null); // Remove mouse exited event handler
         }
 
-        getChildren().addAll(backgroundImageView,enemyImgAttacked
-                ,enemyImg,playerPokemonImg,playerPokemonImgAttacked,battleControlBackground,
-                leaveButton,atkButton,skillButton,catchButton,pokeballView);
+        getChildren().addAll(backgroundImageView,enemyImgAttacked,enemyImg,playerPokemonImg,playerPokemonImgAttacked,battleControlBackground, leaveButton,atkButton,skillButton,catchButton,pokeballView);
         getChildren().add(hpBar);
         getChildren().add(enemyHpBar);
         getChildren().add(vs);
