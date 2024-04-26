@@ -35,7 +35,7 @@ public class Fox extends BasePokemon{
         this.setEnemyGif(enemyPokemonGif);
         this.setPlayerGif(playerPokemonGif);
         Path skillPath = new Path();
-        skillPath.getElements().add(new MoveTo(-300,-100));
+        skillPath.getElements().add(new MoveTo(-200,-100));
         skillPath.getElements().add(new LineTo(400,200));
         this.setSkillPath(skillPath);
 

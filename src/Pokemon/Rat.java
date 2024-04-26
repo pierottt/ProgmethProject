@@ -35,8 +35,8 @@ public class Rat extends BasePokemon{
         this.setEnemyGif(enemyPokemonGif);
         this.setPlayerGif(playerPokemonGif);
         Path skillPath = new Path();
-        skillPath.getElements().add(new MoveTo(-80,50));
-        skillPath.getElements().add(new LineTo(350,100));
+        skillPath.getElements().add(new MoveTo(-80,80));
+        skillPath.getElements().add(new LineTo(400,150));
         this.setSkillPath(skillPath);
     }
 
