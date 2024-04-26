@@ -491,32 +491,35 @@ public class fightPane1_1 extends StackPane{
         //enemy Attack
         PauseTransition delay = new PauseTransition(Duration.seconds(1));
         delay.setOnFinished(event -> {
-            enemyImg.toFront();
-            enemyAttack.play();
-            enemy.attack(playerPokemon);
-            System.out.println("A:" + playerPokemon.getAtk());
-            System.out.println("B:" + enemy.getAtk() * 0.5);
-            System.out.println("A:" + playerPokemon.getHp());
-            System.out.println("B:" + enemy.getHp());
-            if (skillCoolDown == 0) {
-                skillButton.setImage(new Image("SkillButton.png"));
-                skillButton.setOnMouseReleased(e -> {
-                    // Revert back to the original image
-                    skillButton.setImage(new Image("SkillButtonOnClick.png"));
-                });
-                skillButton.setOnMouseEntered(e -> {
-                    skillButton.setImage(new Image("SkillButtonOnClick.png"));
-                });
-                skillButton.setOnMouseExited(e -> {
+            if(!enemy.isDead()){
+                enemyImg.toFront();
+                enemyAttack.play();
+                enemy.attack(playerPokemon);
+                System.out.println("A:" + playerPokemon.getAtk());
+                System.out.println("B:" + enemy.getAtk() * 0.5);
+                System.out.println("A:" + playerPokemon.getHp());
+                System.out.println("B:" + enemy.getHp());
+                if (skillCoolDown == 0) {
                     skillButton.setImage(new Image("SkillButton.png"));
-                });
-            } else {
-                skillButton.setDisable(true); // Disable button when skillCooldown is more than 0
-                skillButton.setImage(new Image("SkillButtonOnClick.png"));
-                skillButton.setOnMouseReleased(null); // Remove mouse released event handler
-                skillButton.setOnMouseEntered(null); // Remove mouse entered event handler
-                skillButton.setOnMouseExited(null); // Remove mouse exited event handler
+                    skillButton.setOnMouseReleased(e -> {
+                        // Revert back to the original image
+                        skillButton.setImage(new Image("SkillButtonOnClick.png"));
+                    });
+                    skillButton.setOnMouseEntered(e -> {
+                        skillButton.setImage(new Image("SkillButtonOnClick.png"));
+                    });
+                    skillButton.setOnMouseExited(e -> {
+                        skillButton.setImage(new Image("SkillButton.png"));
+                    });
+                } else {
+                    skillButton.setDisable(true); // Disable button when skillCooldown is more than 0
+                    skillButton.setImage(new Image("SkillButtonOnClick.png"));
+                    skillButton.setOnMouseReleased(null); // Remove mouse released event handler
+                    skillButton.setOnMouseEntered(null); // Remove mouse entered event handler
+                    skillButton.setOnMouseExited(null); // Remove mouse exited event handler
+                }
             }
+
         });
         pikachuTransition.setOnFinished(event -> {
             playerPokemonImg.setVisible(false);
@@ -552,37 +555,40 @@ public class fightPane1_1 extends StackPane{
         //enemy useSkill when cool down = 0;
         PauseTransition delay2 = new PauseTransition(Duration.seconds(1));
         delay2.setOnFinished(event -> {
-            enemySkillCoolDown = 5;
-            enemyImg.toFront();
-            enemySkillImg.setVisible(true);
-            enemySkillImg.toFront();
-            pikachuTransition.play();
-            enemy.useSkill(playerPokemon);
-            System.out.println("A:" + playerPokemon.getAtk());
-            System.out.println("B:" + enemy.getAtk() * 0.5);
-            System.out.println("A:" + playerPokemon.getHp());
-            System.out.println("B:" + enemy.getHp());
+            if(!enemy.isDead()){
+                enemySkillCoolDown = 5;
+                enemyImg.toFront();
+                enemySkillImg.setVisible(true);
+                enemySkillImg.toFront();
+                pikachuTransition.play();
+                enemy.useSkill(playerPokemon);
+                System.out.println("A:" + playerPokemon.getAtk());
+                System.out.println("B:" + enemy.getAtk() * 0.5);
+                System.out.println("A:" + playerPokemon.getHp());
+                System.out.println("B:" + enemy.getHp());
 
-            // Add the if statement here
-            if (skillCoolDown == 0) {
-                skillButton.setImage(new Image("SkillButton.png"));
-                skillButton.setOnMouseReleased(e -> {
-                    // Revert back to the original image
-                    skillButton.setImage(new Image("SkillButtonOnClick.png"));
-                });
-                skillButton.setOnMouseEntered(e -> {
-                    skillButton.setImage(new Image("SkillButtonOnClick.png"));
-                });
-                skillButton.setOnMouseExited(e -> {
+                // Add the if statement here
+                if (skillCoolDown == 0) {
                     skillButton.setImage(new Image("SkillButton.png"));
-                });
-            } else {
-                skillButton.setDisable(true); // Disable button when skillCooldown is more than 0
-                skillButton.setImage(new Image("SkillButtonOnClick.png"));
-                skillButton.setOnMouseReleased(null); // Remove mouse released event handler
-                skillButton.setOnMouseEntered(null); // Remove mouse entered event handler
-                skillButton.setOnMouseExited(null); // Remove mouse exited event handler
+                    skillButton.setOnMouseReleased(e -> {
+                        // Revert back to the original image
+                        skillButton.setImage(new Image("SkillButtonOnClick.png"));
+                    });
+                    skillButton.setOnMouseEntered(e -> {
+                        skillButton.setImage(new Image("SkillButtonOnClick.png"));
+                    });
+                    skillButton.setOnMouseExited(e -> {
+                        skillButton.setImage(new Image("SkillButton.png"));
+                    });
+                } else {
+                    skillButton.setDisable(true); // Disable button when skillCooldown is more than 0
+                    skillButton.setImage(new Image("SkillButtonOnClick.png"));
+                    skillButton.setOnMouseReleased(null); // Remove mouse released event handler
+                    skillButton.setOnMouseEntered(null); // Remove mouse entered event handler
+                    skillButton.setOnMouseExited(null); // Remove mouse exited event handler
+                }
             }
+
         });
 
 
@@ -624,7 +630,14 @@ public class fightPane1_1 extends StackPane{
                     if(enemy.isDead()){
                         System.out.println("Enemy pokemon is faint");
                         GameController.getInstance().setPikachuCheckpoint(true);
-                        endBattle(enemy.getPokemonImg());
+                        GameController.getInstance().endBattle(enemyImg,graveEnemy.getPicture());
+                        PauseTransition pause = new PauseTransition(Duration.seconds(5));
+                        pause.setOnFinished(e -> {
+                            SoundManager.getInstance().changeSound("res/backgroundMusic.mp3");
+                            Goto.victoryPage();
+                        });
+                        pause.play();
+
 
                     }
                 });
@@ -746,24 +759,5 @@ public class fightPane1_1 extends StackPane{
     public void decreaseCoolDown(){
         if(skillCoolDown > 0) skillCoolDown--;
         if(enemySkillCoolDown > 0) enemySkillCoolDown--;
-    }
-    public void endBattle(ImageView pokemon) {
-        FadeTransition fadeOutTransition = new FadeTransition(Duration.millis(1000), pokemon);
-
-        // Set the initial and final opacity values for the fade animation
-        fadeOutTransition.setFromValue(1.0);
-        fadeOutTransition.setToValue(0.0);
-
-        // Set what happens after the animation ends
-        fadeOutTransition.setOnFinished(event -> {
-            // Animation ended, hide the ImageView after fading out
-            pokemon.setVisible(false);
-            // Call Goto.mapPage() after animation finishes
-            SoundManager.getInstance().changeSound("res/backgroundMusic.mp3");
-            Goto.mapPage();
-        });
-
-        // Start the fade out animation
-        fadeOutTransition.play();
     }
 }

@@ -136,7 +136,7 @@ public class Player {
         setChicken(0);
         setFox(0);
         setPikachu(1);
-        setDragon(1);
+        setDragon(0);
         setAtkPotion(0);
         setDefPotion(0);
         setHealPotion(0);

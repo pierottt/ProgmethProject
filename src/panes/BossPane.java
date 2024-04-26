@@ -497,33 +497,36 @@ public class BossPane extends StackPane{
         //enemy Attack
         PauseTransition delay = new PauseTransition(Duration.seconds(1));
         delay.setOnFinished(event -> {
-            enemyImg.toFront();
-            enemyAttack.play();
+            if(enemy.isDead()){
+                enemyImg.toFront();
+                enemyAttack.play();
 //            playerKnockBack.play();
-            enemy.attack(playerPokemon);
-            System.out.println("A:" + playerPokemon.getAtk());
-            System.out.println("B:" + enemy.getAtk() * 0.5);
-            System.out.println("A:" + playerPokemon.getHp());
-            System.out.println("B:" + enemy.getHp());
-            if (skillCoolDown == 0) {
-                skillButton.setImage(new Image("SkillButton.png"));
-                skillButton.setOnMouseReleased(e -> {
-                    // Revert back to the original image
-                    skillButton.setImage(new Image("SkillButtonOnClick.png"));
-                });
-                skillButton.setOnMouseEntered(e -> {
-                    skillButton.setImage(new Image("SkillButtonOnClick.png"));
-                });
-                skillButton.setOnMouseExited(e -> {
+                enemy.attack(playerPokemon);
+                System.out.println("A:" + playerPokemon.getAtk());
+                System.out.println("B:" + enemy.getAtk() * 0.5);
+                System.out.println("A:" + playerPokemon.getHp());
+                System.out.println("B:" + enemy.getHp());
+                if (skillCoolDown == 0) {
                     skillButton.setImage(new Image("SkillButton.png"));
-                });
-            } else {
-                skillButton.setDisable(true); // Disable button when skillCooldown is more than 0
-                skillButton.setImage(new Image("SkillButtonOnclick.png"));
-                skillButton.setOnMouseReleased(null); // Remove mouse released event handler
-                skillButton.setOnMouseEntered(null); // Remove mouse entered event handler
-                skillButton.setOnMouseExited(null); // Remove mouse exited event handler
+                    skillButton.setOnMouseReleased(e -> {
+                        // Revert back to the original image
+                        skillButton.setImage(new Image("SkillButtonOnClick.png"));
+                    });
+                    skillButton.setOnMouseEntered(e -> {
+                        skillButton.setImage(new Image("SkillButtonOnClick.png"));
+                    });
+                    skillButton.setOnMouseExited(e -> {
+                        skillButton.setImage(new Image("SkillButton.png"));
+                    });
+                } else {
+                    skillButton.setDisable(true); // Disable button when skillCooldown is more than 0
+                    skillButton.setImage(new Image("SkillButtonOnclick.png"));
+                    skillButton.setOnMouseReleased(null); // Remove mouse released event handler
+                    skillButton.setOnMouseEntered(null); // Remove mouse entered event handler
+                    skillButton.setOnMouseExited(null); // Remove mouse exited event handler
+                }
             }
+
 
         });
         chickenTransition.setOnFinished(event -> {
@@ -558,40 +561,43 @@ public class BossPane extends StackPane{
         //enemy useSkill when cool down = 0;
         PauseTransition delay2 = new PauseTransition(Duration.seconds(1));
         delay2.setOnFinished(event -> {
+            if(!enemy.isDead()){
+                enemySkillCoolDown = 5;
+                enemyImg.toFront();
+                enemySkillImg.setVisible(true);
+                enemySkillImg.toFront();
+                chickenTransition.play();
+                enemy.useSkill(playerPokemon);
+                System.out.println("A:" + playerPokemon.getAtk());
+                System.out.println("B:" + enemy.getAtk() * 0.5);
+                System.out.println("A:" + playerPokemon.getHp());
+                System.out.println("B:" + enemy.getHp());
+                if (skillCoolDown == 0) {
+                    skillButton.setImage(new Image("SkillButton.png"));
+                    skillButton.setOnMouseReleased(e -> {
+                        // Revert back to the original image
+                        skillButton.setImage(new Image("SkillButtonOnClick.png"));
+                    });
+                    skillButton.setOnMouseEntered(e -> {
+                        skillButton.setImage(new Image("SkillButtonOnClick.png"));
+                    });
+                    skillButton.setOnMouseExited(e -> {
+                        skillButton.setImage(new Image("SkillButton.png"));
+                    });
+                } else {
+                    skillButton.setDisable(true); // Disable button when skillCooldown is more than 0
+                    skillButton.setImage(new Image("SkillButtonOnClick.png"));
+                    skillButton.setOnMouseReleased(null); // Remove mouse released event handler
+                    skillButton.setOnMouseEntered(null); // Remove mouse entered event handler
+                    skillButton.setOnMouseExited(null); // Remove mouse exited event handler
+                }
+            }
 //            // Disable all buttons
 //            atkButton.setDisable(true);
 //            skillButton.setDisable(true);
 //            leaveButton.setDisable(true);
 //            catchButton.setDisable(true);
-            enemySkillCoolDown = 5;
-            enemyImg.toFront();
-            enemySkillImg.setVisible(true);
-            enemySkillImg.toFront();
-            chickenTransition.play();
-            enemy.useSkill(playerPokemon);
-            System.out.println("A:" + playerPokemon.getAtk());
-            System.out.println("B:" + enemy.getAtk() * 0.5);
-            System.out.println("A:" + playerPokemon.getHp());
-            System.out.println("B:" + enemy.getHp());
-            if (skillCoolDown == 0) {
-                skillButton.setImage(new Image("SkillButton.png"));
-                skillButton.setOnMouseReleased(e -> {
-                    // Revert back to the original image
-                    skillButton.setImage(new Image("SkillButtonOnClick.png"));
-                });
-                skillButton.setOnMouseEntered(e -> {
-                    skillButton.setImage(new Image("SkillButtonOnClick.png"));
-                });
-                skillButton.setOnMouseExited(e -> {
-                    skillButton.setImage(new Image("SkillButton.png"));
-                });
-            } else {
-                skillButton.setDisable(true); // Disable button when skillCooldown is more than 0
-                skillButton.setImage(new Image("SkillButtonOnClick.png"));
-                skillButton.setOnMouseReleased(null); // Remove mouse released event handler
-                skillButton.setOnMouseEntered(null); // Remove mouse entered event handler
-                skillButton.setOnMouseExited(null); // Remove mouse exited event handler
-            }
+
         });
 
 //        parallelTransition.setOnFinished(event -> {

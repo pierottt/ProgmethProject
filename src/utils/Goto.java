@@ -25,6 +25,10 @@ public class Goto {
         clear();
         rootPane.getChildren().add(new MapPane());
     }
+    public static  void victoryPage(){
+        clear();
+        rootPane.getChildren().add(new victoryPane());
+    }
 
     public static void shopPage(){
         clear();
