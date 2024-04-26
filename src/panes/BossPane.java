@@ -66,7 +66,6 @@ public class BossPane extends StackPane{
         ProgressBar enemyHpBar = new ProgressBar();
         enemyHpBar.setProgress(1.0);
         enemyHpBar.setStyle("-fx-accent: #00FF00;");
-
         enemyHpBar.setPrefSize(500,30);
         setAlignment(enemyHpBar,Pos.TOP_RIGHT);
         enemyHpBar.setTranslateX(-10);
@@ -111,7 +110,7 @@ public class BossPane extends StackPane{
         chickenPath.getElements().add(new MoveTo(150,0));
         chickenPath.getElements().add(new LineTo(-250,100));
         PathTransition chickenTransition = new PathTransition();
-        chickenTransition.setDuration(Duration.seconds(10));
+        chickenTransition.setDuration(Duration.seconds(2));
         chickenTransition.setNode(enemySkillImg);
         chickenTransition.setPath(chickenPath);
         chickenTransition.setOnFinished(event -> {
@@ -120,31 +119,53 @@ public class BossPane extends StackPane{
 
         //attack animation
         TranslateTransition forward = new TranslateTransition(Duration.seconds(1), playerPokemonImg);
-        forward.setByX(650);
+        forward.setByX(500);
 
         TranslateTransition backward = new TranslateTransition(Duration.millis(1000), playerPokemonImg);
-        backward.setByX(-650);
-        TranslateTransition enemyKnockBack = new TranslateTransition(Duration.millis(900),enemyImg);
-        enemyKnockBack.setByX(100);
-        TranslateTransition enemyComeBack = new TranslateTransition(Duration.millis(900),enemyImg);
-        enemyComeBack.setByX(-30);
+        backward.setByX(-500);
+//        TranslateTransition enemyKnockBack = new TranslateTransition(Duration.millis(900),enemyImg);
+//        enemyKnockBack.setByX(100);
+//        TranslateTransition enemyComeBack = new TranslateTransition(Duration.millis(900),enemyImg);
+//        enemyComeBack.setByX(-30);
 
         TranslateTransition forward2 = new TranslateTransition(Duration.seconds(1), enemyImg);
-        forward2.setByX(650);
+        forward2.setByX(500);
 
         TranslateTransition backward2 = new TranslateTransition(Duration.millis(1000), enemyImg);
-        backward2.setByX(-650);
-        TranslateTransition playerKnockBack = new TranslateTransition(Duration.millis(900),playerPokemonImg);
-        playerKnockBack.setByX(-100);
-        TranslateTransition playerComeBack = new TranslateTransition(Duration.millis(900),playerPokemonImg);
-        playerComeBack.setByX(30);
+        backward2.setByX(-500);
 
-        ParallelTransition parallelTransition = new ParallelTransition(enemyComeBack,backward);
-        ParallelTransition parallelTransition2 = new ParallelTransition(playerComeBack,forward2);
-        SequentialTransition playerAttack = new SequentialTransition(forward);
-        enemyKnockBack.setDelay(Duration.millis(700));
-        playerKnockBack.setDelay(Duration.millis(700));
+        RotateTransition rotate = new RotateTransition(Duration.seconds(0.2), playerPokemonImg);
+        rotate.setByAngle(20); // Rotate by -20 degrees
 
+        RotateTransition rotateBack = new RotateTransition(Duration.seconds(0.2), playerPokemonImg);
+        rotateBack.setByAngle(-20); // Rotate back by 20 degrees
+
+        RotateTransition rotate2 = new RotateTransition(Duration.seconds(0.2), enemyImg);
+        rotate2.setByAngle(-20); // Rotate by -20 degrees
+
+        RotateTransition rotateBack2 = new RotateTransition(Duration.seconds(0.2), enemyImg);
+        rotateBack2.setByAngle(20); // Rotate back by 20 degrees
+
+
+//        TranslateTransition playerKnockBack = new TranslateTransition(Duration.millis(900),playerPokemonImg);
+//        playerKnockBack.setByX(-100);
+//        TranslateTransition playerComeBack = new TranslateTransition(Duration.millis(900),playerPokemonImg);
+//        playerComeBack.setByX(30);
+
+//        ParallelTransition parallelTransition = new ParallelTransition(enemyComeBack,backward);
+//        ParallelTransition parallelTransition2 = new ParallelTransition(playerComeBack,forward2);
+
+        backward.setOnFinished(event -> {
+            enemyImgAttacked.setVisible(false); // Show the attacked image
+            enemyImg.setVisible(true); // Hide the original image
+        });
+        forward.setOnFinished(event -> {
+            enemyImgAttacked.setVisible(true); // Show the attacked image
+            enemyImg.setVisible(false); // Hide the original image
+
+        });
+
+        // Change the image after backward2 is finished
         backward2.setOnFinished(event -> {
             playerPokemonImgAttacked.setVisible(true); // Show the attacked image
             playerPokemonImg.setVisible(false); // Hide the original image
@@ -153,7 +174,13 @@ public class BossPane extends StackPane{
             playerPokemonImgAttacked.setVisible(false); // Show the attacked image
             playerPokemonImg.setVisible(true); // Hide the original image
         });
-        SequentialTransition enemyAttack = new SequentialTransition(backward2);
+        SequentialTransition playerAttack = new SequentialTransition(forward,rotate,rotateBack,backward);
+        SequentialTransition enemyAttack = new SequentialTransition(backward2,rotate2,rotateBack2,forward2);
+//        enemyKnockBack.setDelay(Duration.millis(700));
+//        playerKnockBack.setDelay(Duration.millis(700));
+
+
+
         //Pokeball
         Image pokeball = new Image("pokeball.png");
         ImageView pokeballView = new ImageView(pokeball);
@@ -429,9 +456,7 @@ public class BossPane extends StackPane{
 
 
         enemyAttack.setOnFinished(event -> {
-            parallelTransition2.play();
-        });
-        parallelTransition2.setOnFinished(event -> {
+            // Enable all buttons after enemyAttack animation is finished
             atkButton.setDisable(false);
             skillButton.setDisable(skillCoolDown > 0);
             leaveButton.setDisable(false);
@@ -449,7 +474,7 @@ public class BossPane extends StackPane{
         delay.setOnFinished(event -> {
             enemyImg.toFront();
             enemyAttack.play();
-            playerKnockBack.play();
+//            playerKnockBack.play();
             enemy.attack(playerPokemon);
             hpBar.setProgress((playerPokemon.getHp() / playerPokemon.getMaxHp()));
             if(playerPokemon.getHp()/playerPokemon.getMaxHp() <= 0.5)
@@ -482,6 +507,8 @@ public class BossPane extends StackPane{
 
         });
         chickenTransition.setOnFinished(event -> {
+            playerPokemonImg.setVisible(false);
+            playerPokemonImgAttacked.setVisible(true);
             atkButton.setDisable(false);
             skillButton.setDisable(skillCoolDown > 0);
             leaveButton.setDisable(false);
@@ -494,19 +521,27 @@ public class BossPane extends StackPane{
                 SoundManager.getInstance().changeSound("res/backgroundMusic.mp3");
                 Goto.mapPage();
             }
+            PauseTransition pause = new PauseTransition(Duration.seconds(0.5));
+            pause.setOnFinished(e -> {
+                playerPokemonImg.setVisible(true);
+                playerPokemonImgAttacked.setVisible(false);
+                // Add any other actions you want to perform after the delay here
+            });
+            pause.play();
+
         });
         //enemy useSkill when cool down = 0;
         PauseTransition delay2 = new PauseTransition(Duration.seconds(1));
         delay2.setOnFinished(event -> {
-            // Disable all buttons
-            atkButton.setDisable(true);
-            skillButton.setDisable(true);
-            leaveButton.setDisable(true);
-            catchButton.setDisable(true);
+//            // Disable all buttons
+//            atkButton.setDisable(true);
+//            skillButton.setDisable(true);
+//            leaveButton.setDisable(true);
+//            catchButton.setDisable(true);
             enemySkillCoolDown = 5;
             enemyImg.toFront();
-            enemySkillImg.toFront();
             enemySkillImg.setVisible(true);
+            enemySkillImg.toFront();
             chickenTransition.play();
             enemy.useSkill(playerPokemon);
             hpBar.setProgress((playerPokemon.getHp() / playerPokemon.getMaxHp()));
@@ -539,20 +574,19 @@ public class BossPane extends StackPane{
             }
         });
 
-        parallelTransition.setOnFinished(event -> {
-            if(enemySkillCoolDown == 0){
-                delay2.play();
-            }else{
-                delay.play();
-            }
-        });
+//        parallelTransition.setOnFinished(event -> {
+//            if(enemySkillCoolDown == 0){
+//                delay2.play();
+//            }else{
+//                delay.play();
+//            }
+//        });
 
         skillButton.setOnMousePressed(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
                 skillCoolDown = 2;
                 System.out.println("USE SKILLS");
-                skillImg.setVisible(true);
                 playerPokemon.useSkill(enemy);
                 enemyHpBar.setProgress((enemy.getHp()/enemy.getMaxHp()));
                 if((enemy.getHp()/enemy.getMaxHp()) <= 0.25)
@@ -564,8 +598,18 @@ public class BossPane extends StackPane{
                 leaveButton.setDisable(true);
                 catchButton.setDisable(true);
                 skillImg.toFront();
+                skillImg.setVisible(true);
                 thunderTransition.play();
                 thunderTransition.setOnFinished(event -> {
+                    enemyImg.setVisible(false);
+                    enemyImgAttacked.setVisible(true);
+                    PauseTransition pauseEnemy = new PauseTransition(Duration.seconds(1));
+                    pauseEnemy.setOnFinished(e -> {
+                        enemyImg.setVisible(true);
+                        enemyImgAttacked.setVisible(false);
+                        // Add any other actions you want to perform after the delay here
+                    });
+                    pauseEnemy.play();
                     skillImg.setVisible(false);
                     if(enemy.isDead()){
                         System.out.println("Enemy pokemon is faint");
@@ -593,9 +637,9 @@ public class BossPane extends StackPane{
                 atkButton.setDisable(true);
                 skillButton.setDisable(true);
                 catchButton.setDisable(true);
-                playerPokemonImg.toFront();
                 playerAttack.play();
-                enemyKnockBack.play();
+                playerPokemonImg.toFront();
+//                enemyKnockBack.play();
                 playerPokemon.attack(enemy);
                 enemyHpBar.setProgress((enemy.getHp()/enemy.getMaxHp()));
                 if((enemy.getHp()/enemy.getMaxHp()) <= 0.25)
@@ -609,7 +653,12 @@ public class BossPane extends StackPane{
                         SoundManager.getInstance().changeSound("res/backgroundMusic.mp3");
                         Goto.mapPage();
                     }
-                    parallelTransition.play();
+                    if(enemySkillCoolDown == 0){
+                        delay2.play();
+                    }else{
+                        delay.play();
+                    }
+//                    parallelTransition.play();
                 });
 
             }

@@ -491,18 +491,28 @@ public class fightPane1_2 extends StackPane{
 
         });
         foxTransition.setOnFinished(event -> {
+            playerPokemonImg.setVisible(false);
+            playerPokemonImgAttacked.setVisible(true);
             atkButton.setDisable(false);
             skillButton.setDisable(skillCoolDown > 0);
             leaveButton.setDisable(false);
-            if(GameController.getInstance().getPlayer().getPokeBall()>0) {
+            if (GameController.getInstance().getPlayer().getPokeBall() > 0) {
                 catchButton.setDisable(false);
             }
             enemySkillImg.setVisible(false);
-            if(GameController.getInstance().getPlayer().getCurrentPokemon().isDead()){
+            if (GameController.getInstance().getPlayer().getCurrentPokemon().isDead()) {
                 System.out.println("Your pokemon is faint");
-                SoundManager.getInstance().changeSound("res/backgroundMusic.mp3");
                 Goto.mapPage();
             }
+
+            // Toggle the images back after 1 second
+            PauseTransition pause = new PauseTransition(Duration.seconds(0.5));
+            pause.setOnFinished(e -> {
+                playerPokemonImg.setVisible(true);
+                playerPokemonImgAttacked.setVisible(false);
+                // Add any other actions you want to perform after the delay here
+            });
+            pause.play();
         });
         //enemy useSkill when cool down = 0;
         PauseTransition delay2 = new PauseTransition(Duration.seconds(1));
@@ -562,6 +572,15 @@ public class fightPane1_2 extends StackPane{
                 thunderTransition.play();
                 skillButton.setDisable(true);
                 thunderTransition.setOnFinished(event -> {
+                    enemyImg.setVisible(false);
+                    enemyImgAttacked.setVisible(true);
+                    PauseTransition pauseEnemy = new PauseTransition(Duration.seconds(1));
+                    pauseEnemy.setOnFinished(e -> {
+                        enemyImg.setVisible(true);
+                        enemyImgAttacked.setVisible(false);
+                        // Add any other actions you want to perform after the delay here
+                    });
+                    pauseEnemy.play();
                     skillImg.setVisible(false);
                     if(enemy.isDead()){
                         System.out.println("Enemy pokemon is faint");

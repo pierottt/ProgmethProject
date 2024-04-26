@@ -116,6 +116,8 @@ public class fightPane1_1 extends StackPane{
         pikachuTransition.setPath(pikachuPath);
 
 
+
+
         //attack animation
         TranslateTransition forward = new TranslateTransition(Duration.seconds(1), playerPokemonImg);
         forward.setByX(550);
@@ -488,18 +490,30 @@ public class fightPane1_1 extends StackPane{
             }
         });
         pikachuTransition.setOnFinished(event -> {
+            playerPokemonImg.setVisible(false);
+            playerPokemonImgAttacked.setVisible(true);
             atkButton.setDisable(false);
             skillButton.setDisable(skillCoolDown > 0);
             leaveButton.setDisable(false);
-            if(GameController.getInstance().getPlayer().getPokeBall()>0){
+            if (GameController.getInstance().getPlayer().getPokeBall() > 0) {
                 catchButton.setDisable(false);
             }
             enemySkillImg.setVisible(false);
-            if(GameController.getInstance().getPlayer().getCurrentPokemon().isDead()){
+            if (GameController.getInstance().getPlayer().getCurrentPokemon().isDead()) {
                 System.out.println("Your pokemon is faint");
                 Goto.mapPage();
             }
+
+            // Toggle the images back after 1 second
+            PauseTransition pause = new PauseTransition(Duration.seconds(0.5));
+            pause.setOnFinished(e -> {
+                playerPokemonImg.setVisible(true);
+                playerPokemonImgAttacked.setVisible(false);
+                // Add any other actions you want to perform after the delay here
             });
+            pause.play();
+        });
+
 
         //enemy useSkill when cool down = 0;
         PauseTransition delay2 = new PauseTransition(Duration.seconds(1));
@@ -563,6 +577,15 @@ public class fightPane1_1 extends StackPane{
                 thunderTransition.play();
                 skillButton.setDisable(true);
                 thunderTransition.setOnFinished(event -> {
+                    enemyImg.setVisible(false);
+                    enemyImgAttacked.setVisible(true);
+                    PauseTransition pauseEnemy = new PauseTransition(Duration.seconds(1));
+                    pauseEnemy.setOnFinished(e -> {
+                        enemyImg.setVisible(true);
+                        enemyImgAttacked.setVisible(false);
+                        // Add any other actions you want to perform after the delay here
+                    });
+                    pauseEnemy.play();
                     skillImg.setVisible(false);
                     if(enemySkillCoolDown == 0){
                         delay2.play();
