@@ -2,6 +2,9 @@ package Pokemon;
 
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.shape.LineTo;
+import javafx.scene.shape.MoveTo;
+import javafx.scene.shape.Path;
 
 public class Pikachu extends BasePokemon{
 
@@ -11,14 +14,17 @@ public class Pikachu extends BasePokemon{
         Image enemy = new Image("PikachuRight.png");
         Image skill = new Image("PikachuSkill.png");
         Image circle = new Image("PikachuCircle.png");
+        Image mySkill = new Image("PikachuSkill.png");
         ImageView pokemonImg = new ImageView(pokemon);
         ImageView enemyImg = new ImageView(enemy);
         ImageView skillImg = new ImageView(skill);
         ImageView cirlceImg = new ImageView(circle);
+        ImageView mySkillImg = new ImageView(mySkill);
         this.setPokemonImg(pokemonImg);
         this.setEnemyImg(enemyImg);
         this.setSkillImg(skillImg);
         this.setCircleImg(cirlceImg);
+        this.setMySkillImg(mySkillImg);
         this.setHeight(200);
         this.setWidth(200);
         this.setTranslateY(65);

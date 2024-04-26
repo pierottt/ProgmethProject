@@ -3,6 +3,9 @@ package Pokemon;
 import com.sun.javafx.runtime.async.BackgroundExecutor;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.shape.LineTo;
+import javafx.scene.shape.MoveTo;
+import javafx.scene.shape.Path;
 
 public class Chicken extends BasePokemon{
     public Chicken() {
@@ -11,14 +14,17 @@ public class Chicken extends BasePokemon{
         Image enemy = new Image("ChickenRight.png");
         Image skill = new Image("ChickenSkill.png");
         Image circle = new Image("ChickenCircle.png");
+        Image mySkill = new Image("ChickenSkill.png");
         ImageView pokemonImg = new ImageView(pokemon);
         ImageView enemyImg = new ImageView(enemy);
         ImageView skillImg = new ImageView(skill);
         ImageView cirlceImg = new ImageView(circle);
+        ImageView mySkillImg = new ImageView(mySkill);
         this.setPokemonImg(pokemonImg);
         this.setEnemyImg(enemyImg);
         this.setSkillImg(skillImg);
         this.setCircleImg(cirlceImg);
+        this.setMySkillImg(mySkillImg);
         this.setHeight(500);
         this.setWidth(500);
         this.setTranslateY(-55);
