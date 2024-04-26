@@ -3,6 +3,9 @@ package Pokemon;
 import item.usage.Evolable;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.shape.LineTo;
+import javafx.scene.shape.MoveTo;
+import javafx.scene.shape.Path;
 
 public abstract class BasePokemon implements Evolable {
     private String name;
@@ -25,7 +28,7 @@ public abstract class BasePokemon implements Evolable {
     private int width;
     private int translateY;
     private int price;
-
+    private Path skillPath;
     //Abstact
     public abstract int getPrice();
 
@@ -196,5 +199,13 @@ public abstract class BasePokemon implements Evolable {
 
     public void setTranslateY(int translateY) {
         this.translateY = translateY;
+    }
+
+    public Path getSkillPath() {
+        return skillPath;
+    }
+
+    public void setSkillPath(Path skillPath) {
+        this.skillPath = skillPath;
     }
 }

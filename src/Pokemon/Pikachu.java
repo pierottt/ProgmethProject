@@ -2,6 +2,9 @@ package Pokemon;
 
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.shape.LineTo;
+import javafx.scene.shape.MoveTo;
+import javafx.scene.shape.Path;
 
 public class Pikachu extends BasePokemon{
 
@@ -28,6 +31,11 @@ public class Pikachu extends BasePokemon{
         this.setHeight(200);
         this.setWidth(200);
         this.setTranslateY(65);
+        Path skillPath = new Path();
+        skillPath.getElements().add(new MoveTo(500,-200));
+        skillPath.getElements().add(new LineTo(500,150));
+        this.setSkillPath(skillPath);
+
     }
 
     public void attack(BasePokemon pokemon) {

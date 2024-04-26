@@ -34,16 +34,13 @@ public class fightPane1_3 extends StackPane{
         playerPokemon.setHp(playerPokemon.getMaxHp());
         ImageView skillImg = playerPokemon.getSkillImg();
         skillImg.setFitHeight(300);
-        skillImg.setFitWidth(100);
+        skillImg.setFitWidth(300);
         skillImg.setVisible(false);
 
-        Path thunderPath = new Path();
-        thunderPath.getElements().add(new MoveTo(350,-200));
-        thunderPath.getElements().add(new LineTo(350,150));
-        PathTransition thunderTransition = new PathTransition();
-        thunderTransition.setDuration(Duration.seconds(1));
-        thunderTransition.setNode(skillImg);
-        thunderTransition.setPath(thunderPath);
+        PathTransition playerSkillTransition = new PathTransition();
+        playerSkillTransition.setDuration(Duration.seconds(1));
+        playerSkillTransition.setNode(skillImg);
+        playerSkillTransition.setPath(playerPokemon.getSkillPath());
 
         Text vs = new Text("Vs");
         vs.setFont(Font.font(50));
@@ -72,7 +69,7 @@ public class fightPane1_3 extends StackPane{
         ImageView playerPokemonImg = playerPokemon.getPokemonImg();
         ImageView playerPokemonImgAttacked = playerPokemon.getPokemonImgAttacked();
         ImageView enemyImg = enemy.getEnemyImg();
-        ImageView enemySkillImg = enemy.getSkillImg();
+        ImageView enemySkillImg = new ImageView(new Image("dragonSkillRight.png"));
         ImageView enemyImgAttacked = enemy.getEnemyImgAttacked();
         enemySkillImg.setFitWidth(300);
         enemySkillImg.setFitHeight(400);
@@ -573,9 +570,9 @@ public class fightPane1_3 extends StackPane{
                 catchButton.setDisable(true);
                 skillImg.toFront();
                 skillImg.setVisible(true);
-                thunderTransition.play();
+                playerSkillTransition.play();
                 skillButton.setDisable(true);
-                thunderTransition.setOnFinished(event -> {
+                playerSkillTransition.setOnFinished(event -> {
                     enemyImg.setVisible(false);
                     enemyImgAttacked.setVisible(true);
                     PauseTransition pauseEnemy = new PauseTransition(Duration.seconds(1));

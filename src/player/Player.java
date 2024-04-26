@@ -133,7 +133,7 @@ public class Player {
         //dumb code for test
         this.pokeDeck = new PokeDeck();
         this.getPokeDeck().getPokeDeck().add(new Pikachu());
-        setChicken(0);
+        setChicken(1);
         setFox(0);
         setPikachu(1);
         setDragon(0);

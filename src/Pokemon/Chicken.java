@@ -3,6 +3,9 @@ package Pokemon;
 import com.sun.javafx.runtime.async.BackgroundExecutor;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.shape.LineTo;
+import javafx.scene.shape.MoveTo;
+import javafx.scene.shape.Path;
 
 public class Chicken extends BasePokemon{
     public Chicken() {
@@ -28,6 +31,10 @@ public class Chicken extends BasePokemon{
         this.setHeight(500);
         this.setWidth(500);
         this.setTranslateY(-55);
+        Path skillPath = new Path();
+        skillPath.getElements().add(new MoveTo(-150,0));
+        skillPath.getElements().add(new LineTo(250,100));
+        this.setSkillPath(skillPath);
     }
 
     public void attack(BasePokemon pokemon) {

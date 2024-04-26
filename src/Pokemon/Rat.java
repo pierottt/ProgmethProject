@@ -2,13 +2,16 @@ package Pokemon;
 
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.shape.LineTo;
+import javafx.scene.shape.MoveTo;
+import javafx.scene.shape.Path;
 
 public class Rat extends BasePokemon{
     public Rat() {
         super("Rat", 2500, 200, 0, 10000,Element.POISON);
         Image pokemon = new Image("RatLeft.png");
         Image enemy = new Image("RatRight.png");
-        Image skill = new Image("RatSkill.png");
+        Image skill = new Image("RatSkillLeft.png");
         Image circle = new Image("RatCircle.png");
         Image pokemonAttacked = new Image("RatAttacked.png");
         Image enemyAttacked = new Image("RatAttackedRight.png");
@@ -27,6 +30,10 @@ public class Rat extends BasePokemon{
         this.setHeight(500);
         this.setWidth(500);
         this.setTranslateY(-35);
+        Path skillPath = new Path();
+        skillPath.getElements().add(new MoveTo(-80,50));
+        skillPath.getElements().add(new LineTo(350,100));
+        this.setSkillPath(skillPath);
     }
 
     @Override

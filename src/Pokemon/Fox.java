@@ -2,13 +2,16 @@ package Pokemon;
 
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.shape.LineTo;
+import javafx.scene.shape.MoveTo;
+import javafx.scene.shape.Path;
 
 public class Fox extends BasePokemon{
     public Fox() {
         super("Fox", 2000, 250, 50, 3000, Element.ICE);
         Image pokemon = new Image("FoxLeft.png");
         Image enemy = new Image("FoxRight.png");
-        Image skill = new Image("FoxSkillRight.png");
+        Image skill = new Image("FoxSkillLeft.png");
         Image circle = new Image("FoxCircle.png");
         Image pokemonAttacked = new Image("FoxAttacked.png");
         Image enemyAttacked = new Image("FoxAttackedRight.png");
@@ -27,6 +30,13 @@ public class Fox extends BasePokemon{
         this.setHeight(400);
         this.setWidth(400);
         this.setTranslateY(15);
+        Path skillPath = new Path();
+        skillPath.getElements().add(new MoveTo(-300,-100));
+        skillPath.getElements().add(new LineTo(400,200));
+        this.setSkillPath(skillPath);
+
+//        foxPath.getElements().add(new MoveTo(300,-100));
+//        foxPath.getElements().add(new LineTo(-150,200));
     }
 
     public void attack(BasePokemon pokemon) {
