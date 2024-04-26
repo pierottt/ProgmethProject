@@ -35,7 +35,7 @@ public class Dragon extends BasePokemon{
         this.setPlayerGif(playerPokemonGif);
         this.setEnemyGif(enemyPokemonGif);
         Path skillPath = new Path();
-        skillPath.getElements().add(new MoveTo(-200,-100));
+        skillPath.getElements().add(new MoveTo(-150,-50));
         skillPath.getElements().add(new LineTo(400,200));
         this.setSkillPath(skillPath);
     }

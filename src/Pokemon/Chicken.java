@@ -37,7 +37,7 @@ public class Chicken extends BasePokemon{
         this.setPlayerGif(playerPokemongif);
         Path skillPath = new Path();
         skillPath.getElements().add(new MoveTo(50,90));
-        skillPath.getElements().add(new LineTo(500,90));
+        skillPath.getElements().add(new LineTo(500,150));
         this.setSkillPath(skillPath);
     }
 
