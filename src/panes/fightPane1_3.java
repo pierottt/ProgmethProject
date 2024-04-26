@@ -70,11 +70,15 @@ public class fightPane1_3 extends StackPane{
 
         enemy = new Dragon();
         ImageView playerPokemonImg = playerPokemon.getPokemonImg();
+        ImageView playerPokemonImgAttacked = playerPokemon.getPokemonImgAttacked();
         ImageView enemyImg = enemy.getEnemyImg();
         ImageView enemySkillImg = enemy.getSkillImg();
+        ImageView enemyImgAttacked = enemy.getEnemyImgAttacked();
         enemySkillImg.setFitWidth(300);
-        enemySkillImg.setFitHeight(300);
+        enemySkillImg.setFitHeight(400);
         enemySkillImg.setVisible(false);
+        playerPokemonImgAttacked.setVisible(false);
+        enemyImgAttacked.setVisible(false);
 
         //set Pokemon position and size
         playerPokemonImg.setFitHeight(playerPokemon.getHeight());
@@ -82,11 +86,21 @@ public class fightPane1_3 extends StackPane{
         playerPokemonImg.setTranslateX(-350);
         playerPokemonImg.setTranslateY(playerPokemon.getTranslateY());
 
+        playerPokemonImgAttacked.setFitHeight(playerPokemon.getHeight());
+        playerPokemonImgAttacked.setFitWidth(playerPokemon.getWidth());
+        playerPokemonImgAttacked.setTranslateX(-350);
+        playerPokemonImgAttacked.setTranslateY(playerPokemon.getTranslateY());
+
         //set enemy position and size
         enemyImg.setFitHeight(500);
         enemyImg.setFitWidth(500);
         enemyImg.setTranslateX(350);
         enemyImg.setTranslateY(-35);
+
+        enemyImgAttacked.setFitHeight(500);
+        enemyImgAttacked.setFitWidth(500);
+        enemyImgAttacked.setTranslateX(350);
+        enemyImgAttacked.setTranslateY(-35);
         //set enemy skill path
         Path dragonPath = new Path();
         dragonPath.getElements().add(new MoveTo(300,-100));
@@ -102,19 +116,52 @@ public class fightPane1_3 extends StackPane{
 
         //attack animation
         TranslateTransition forward = new TranslateTransition(Duration.seconds(1), playerPokemonImg);
-        forward.setByX(650);
+        forward.setByX(420);
 
         TranslateTransition backward = new TranslateTransition(Duration.seconds(1), playerPokemonImg);
-        backward.setByX(-650);
+        backward.setByX(-420);
 
         TranslateTransition forward2 = new TranslateTransition(Duration.seconds(1), enemyImg);
-        forward2.setByX(650);
+        forward2.setByX(400);
 
         TranslateTransition backward2 = new TranslateTransition(Duration.seconds(1), enemyImg);
-        backward2.setByX(-650);
+        backward2.setByX(-400);
 
-        SequentialTransition playerAttack = new SequentialTransition(forward,backward);
-        SequentialTransition enemyAttack = new SequentialTransition(backward2,forward2);
+        RotateTransition rotate = new RotateTransition(Duration.seconds(0.2), playerPokemonImg);
+        rotate.setByAngle(20); // Rotate by -20 degrees
+
+        RotateTransition rotateBack = new RotateTransition(Duration.seconds(0.2), playerPokemonImg);
+        rotateBack.setByAngle(-20); // Rotate back by 20 degrees
+
+        RotateTransition rotate2 = new RotateTransition(Duration.seconds(0.2), enemyImg);
+        rotate2.setByAngle(-20); // Rotate by -20 degrees
+
+        RotateTransition rotateBack2 = new RotateTransition(Duration.seconds(0.2), enemyImg);
+        rotateBack2.setByAngle(20); // Rotate back by 20 degrees
+
+
+        backward.setOnFinished(event -> {
+            enemyImgAttacked.setVisible(false); // Show the attacked image
+            enemyImg.setVisible(true); // Hide the original image
+        });
+        forward.setOnFinished(event -> {
+            enemyImgAttacked.setVisible(true); // Show the attacked image
+            enemyImg.setVisible(false); // Hide the original image
+
+        });
+
+        // Change the image after backward2 is finished
+        backward2.setOnFinished(event -> {
+            playerPokemonImgAttacked.setVisible(true); // Show the attacked image
+            playerPokemonImg.setVisible(false); // Hide the original image
+        });
+        forward2.setOnFinished(event -> {
+            playerPokemonImgAttacked.setVisible(false); // Show the attacked image
+            playerPokemonImg.setVisible(true); // Hide the original image
+        });
+
+        SequentialTransition playerAttack = new SequentialTransition(forward,rotate,rotateBack,backward);
+        SequentialTransition enemyAttack = new SequentialTransition(backward2,rotate2,rotateBack2,forward2);
 
         //Pokeball
         Image pokeball = new Image("pokeball.png");
@@ -208,6 +255,186 @@ public class fightPane1_3 extends StackPane{
         skillButton.setFitHeight(75);
         skillButton.setFitWidth(200);
 
+        //backgound
+        ImageView battleControlBackground = new ImageView(new Image("BattleControlBG.png"));
+        battleControlBackground.setFitWidth(1200);
+        battleControlBackground.setFitHeight(165);
+
+        battleControlBackground.setTranslateY(280);
+
+        //Items
+        ImageView attackPotion = new ImageView(new Image("AttackPotion.png"));
+        attackPotion.setFitHeight(100);
+        attackPotion.setFitWidth(100);
+
+        attackPotion.setTranslateY(280);
+        attackPotion.setTranslateX(-380);
+
+        ScaleTransition scaleTransition = new ScaleTransition(Duration.millis(200), attackPotion);
+        scaleTransition.setToX(1.2);
+        scaleTransition.setToY(1.2);
+
+
+        // Set event handlers
+        attackPotion.setOnMouseEntered(event -> {
+            scaleTransition.playFromStart(); // Start animation when mouse enters
+        });
+
+        attackPotion.setOnMouseExited(event -> {
+            scaleTransition.stop(); // Stop animation when mouse exits
+            attackPotion.setScaleX(1.0); // Reset scale
+            attackPotion.setScaleY(1.0);
+        });
+
+        // Items amount left
+        Text attackPotionLeft = new Text(GameController.getInstance().getPlayer().getAtkPotion() + "");
+        attackPotionLeft.setTranslateY(316);
+        attackPotionLeft.setTranslateX(-344);
+        attackPotionLeft.setStyle("-fx-fill: white; -fx-font-weight: bold; -fx-font-size: 20px; -fx-font-family: 'Arial';");
+
+        // Synchronize text animation with image animation
+        TranslateTransition textTransition = new TranslateTransition(Duration.millis(200), attackPotionLeft);
+        textTransition.setToY(316 +8); // Adjust as needed
+        textTransition.setToX(-344 +8); // Adjust as needed
+
+        attackPotion.setOnMouseEntered(event -> {
+            scaleTransition.playFromStart();
+            textTransition.playFromStart(); // Start text animation when mouse enters
+        });
+
+        attackPotion.setOnMouseExited(event -> {
+            scaleTransition.stop();
+            attackPotion.setScaleX(1.0);
+            attackPotion.setScaleY(1.0);
+            textTransition.stop(); // Stop text animation when mouse exits
+            attackPotionLeft.setTranslateY(316);
+            attackPotionLeft.setTranslateX(-344);
+        });
+
+        ImageView healPotion = new ImageView(new Image("HealPotion.png"));
+        healPotion.setFitHeight(100);
+        healPotion.setFitWidth(100);
+
+        healPotion.setTranslateY(280);
+        healPotion.setTranslateX(-230);
+
+        ScaleTransition scaleTransitionHeal = new ScaleTransition(Duration.millis(200), healPotion);
+        scaleTransitionHeal.setToX(1.2);
+        scaleTransitionHeal.setToY(1.2);
+
+
+        // Set event handlers
+        healPotion.setOnMouseEntered(event -> {
+            scaleTransitionHeal.playFromStart(); // Start animation when mouse enters
+        });
+
+        healPotion.setOnMouseExited(event -> {
+            scaleTransitionHeal.stop(); // Stop animation when mouse exits
+            healPotion.setScaleX(1.0); // Reset scale
+            healPotion.setScaleY(1.0);
+        });
+
+        // Items amount left
+        Text healPotionLeft = new Text(GameController.getInstance().getPlayer().getHealPotion() + "");
+        healPotionLeft.setTranslateY(316);
+        healPotionLeft.setTranslateX(-194);
+        healPotionLeft.setStyle("-fx-fill: white; -fx-font-weight: bold; -fx-font-size: 20px; -fx-font-family: 'Arial';");
+
+        // Synchronize text animation with image animation
+        TranslateTransition textTransitionHeal = new TranslateTransition(Duration.millis(200), healPotionLeft);
+        textTransitionHeal.setToY(316 + 8); // Adjust as needed
+        textTransitionHeal.setToX(-194 + 8); // Adjust as needed
+
+        healPotion.setOnMouseEntered(event -> {
+            scaleTransitionHeal.playFromStart();
+            textTransitionHeal.playFromStart(); // Start text animation when mouse enters
+        });
+
+        healPotion.setOnMouseExited(event -> {
+            scaleTransitionHeal.stop();
+            healPotion.setScaleX(1.0);
+            healPotion.setScaleY(1.0);
+            textTransitionHeal.stop(); // Stop text animation when mouse exits
+            healPotionLeft.setTranslateY(316);
+            healPotionLeft.setTranslateX(-194);
+        });
+
+        ImageView defPotion = new ImageView(new Image("DefPotion.png"));
+        defPotion.setFitHeight(100);
+        defPotion.setFitWidth(100);
+
+        defPotion.setTranslateY(280);
+        defPotion.setTranslateX(-80);
+
+        ScaleTransition scaleTransitionDef = new ScaleTransition(Duration.millis(200), defPotion);
+        scaleTransitionDef.setToX(1.2);
+        scaleTransitionDef.setToY(1.2);
+
+
+        // Set event handlers
+        defPotion.setOnMouseEntered(event -> {
+            scaleTransitionDef.playFromStart(); // Start animation when mouse enters
+        });
+
+        defPotion.setOnMouseExited(event -> {
+            scaleTransitionDef.stop(); // Stop animation when mouse exits
+            defPotion.setScaleX(1.0); // Reset scale
+            defPotion.setScaleY(1.0);
+        });
+
+        // Items amount left
+        Text defPotionLeft = new Text(GameController.getInstance().getPlayer().getDefPotion() + "");
+        defPotionLeft.setTranslateY(316);
+        defPotionLeft.setTranslateX(-44);
+        defPotionLeft.setStyle("-fx-fill: white; -fx-font-weight: bold; -fx-font-size: 20px; -fx-font-family: 'Arial';");
+
+        // Synchronize text animation with image animation
+        TranslateTransition textTransitionDef = new TranslateTransition(Duration.millis(200), defPotionLeft);
+        textTransitionDef.setToY(316 + 8); // Adjust as needed
+        textTransitionDef.setToX(-44 + 8); // Adjust as needed
+
+        defPotion.setOnMouseEntered(event -> {
+            scaleTransitionDef.playFromStart();
+            textTransitionDef.playFromStart(); // Start text animation when mouse enters
+        });
+
+        defPotion.setOnMouseExited(event -> {
+            scaleTransitionDef.stop();
+            defPotion.setScaleX(1.0);
+            defPotion.setScaleY(1.0);
+            textTransitionDef.stop(); // Stop text animation when mouse exits
+            defPotionLeft.setTranslateY(316);
+            defPotionLeft.setTranslateX(-44);
+        });
+
+        ImageView pokeballItem = new ImageView(new Image("PokeballItem.png"));
+        pokeballItem.setFitHeight(100);
+        pokeballItem.setFitWidth(100);
+
+        pokeballItem.setTranslateY(280);
+        pokeballItem.setTranslateX(70);
+
+        // Items amount left
+        Text pokeballItemLeft = new Text(GameController.getInstance().getPlayer().getPokeBall() + "");
+        pokeballItemLeft.setTranslateY(316);
+        pokeballItemLeft.setTranslateX(106);
+        pokeballItemLeft.setStyle("-fx-fill: white; -fx-font-weight: bold; -fx-font-size: 20px; -fx-font-family: 'Arial';");
+
+        // Synchronize text animation with image animation
+        TranslateTransition textTransitionPokeballItem = new TranslateTransition(Duration.millis(200), pokeballItemLeft);
+        textTransitionPokeballItem.setToY(316 + 8); // Adjust as needed
+        textTransitionPokeballItem.setToX(106 + 8); // Adjust as needed
+
+
+
+        //itemsBar
+        ImageView itemsBar = new ImageView(new Image("ItemsBar.png"));
+        itemsBar.setFitHeight(70);
+        itemsBar.setFitWidth(150);
+
+        itemsBar.setTranslateY(220);
+        itemsBar.setTranslateX(-520);
+
 
 
         enemyAttack.setOnFinished(event -> {
@@ -242,6 +469,25 @@ public class fightPane1_3 extends StackPane{
             System.out.println("B:" + enemy.getAtk() * 0.5);
             System.out.println("A:" + playerPokemon.getHp());
             System.out.println("B:" + enemy.getHp());
+            if (skillCoolDown == 0) {
+                skillButton.setImage(new Image("SkillButton.png"));
+                skillButton.setOnMouseReleased(e -> {
+                    // Revert back to the original image
+                    skillButton.setImage(new Image("SkillButtonOnClick.png"));
+                });
+                skillButton.setOnMouseEntered(e -> {
+                    skillButton.setImage(new Image("SkillButtonOnClick.png"));
+                });
+                skillButton.setOnMouseExited(e -> {
+                    skillButton.setImage(new Image("SkillButton.png"));
+                });
+            } else {
+                skillButton.setDisable(true); // Disable button when skillCooldown is more than 0
+                skillButton.setImage(new Image("SkillButtonOnClick.png"));
+                skillButton.setOnMouseReleased(null); // Remove mouse released event handler
+                skillButton.setOnMouseEntered(null); // Remove mouse entered event handler
+                skillButton.setOnMouseExited(null); // Remove mouse exited event handler
+            }
 
         });
         dragonTransition.setOnFinished(animationEvent -> {
@@ -277,6 +523,25 @@ public class fightPane1_3 extends StackPane{
             System.out.println("B:" + enemy.getAtk() * 0.5);
             System.out.println("A:" + playerPokemon.getHp());
             System.out.println("B:" + enemy.getHp());
+            if (skillCoolDown == 0) {
+                skillButton.setImage(new Image("SkillButton.png"));
+                skillButton.setOnMouseReleased(e -> {
+                    // Revert back to the original image
+                    skillButton.setImage(new Image("SkillButtonOnClick.png"));
+                });
+                skillButton.setOnMouseEntered(e -> {
+                    skillButton.setImage(new Image("SkillButtonOnClick.png"));
+                });
+                skillButton.setOnMouseExited(e -> {
+                    skillButton.setImage(new Image("SkillButton.png"));
+                });
+            } else {
+                skillButton.setDisable(true); // Disable button when skillCooldown is more than 0
+                skillButton.setImage(new Image("SkillButtonOnClick.png"));
+                skillButton.setOnMouseReleased(null); // Remove mouse released event handler
+                skillButton.setOnMouseEntered(null); // Remove mouse entered event handler
+                skillButton.setOnMouseExited(null); // Remove mouse exited event handler
+            }
 
         });
         
@@ -408,12 +673,14 @@ public class fightPane1_3 extends StackPane{
             skillButton.setOnMouseExited(null); // Remove mouse exited event handler
         }
 
-        getChildren().addAll(backgroundImageView,enemyImg,playerPokemonImg,leaveButton,atkButton,skillButton,catchButton,pokeballView);
+        getChildren().addAll(backgroundImageView,enemyImgAttacked,enemyImg,playerPokemonImg,playerPokemonImgAttacked,battleControlBackground,leaveButton,atkButton,skillButton,catchButton,pokeballView);
         getChildren().add(hpBar);
         getChildren().add(enemyHpBar);
         getChildren().add(vs);
         getChildren().add(skillImg);
         getChildren().add(enemySkillImg);
+        getChildren().addAll(attackPotion,attackPotionLeft,healPotion,healPotionLeft,defPotion,defPotionLeft,pokeballItem,pokeballItemLeft,itemsBar);
+
 
     }
     public void decreaseCoolDown(){

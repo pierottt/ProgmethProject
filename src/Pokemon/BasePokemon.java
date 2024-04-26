@@ -12,7 +12,13 @@ public abstract class BasePokemon implements Evolable {
     private double def;
     private Element element;
     private ImageView PokemonImg;
+
+    private ImageView PokemonImgAttacked;
     private ImageView enemyImg;
+
+
+
+    private ImageView enemyImgAttacked;
     private ImageView skillImg;
     private ImageView circleImg;
     private int height;
@@ -70,6 +76,14 @@ public abstract class BasePokemon implements Evolable {
         } else this.hp = hp;
     }
 
+    public ImageView getPokemonImgAttacked() {
+        return PokemonImgAttacked;
+    }
+
+    public void setPokemonImgAttacked(ImageView pokemonImgAttacked) {
+        PokemonImgAttacked = pokemonImgAttacked;
+    }
+
     public double getAtk() {
         return atk;
     }
@@ -85,6 +99,8 @@ public abstract class BasePokemon implements Evolable {
     public void setDef(double def) {
         this.def = def;
     }
+
+
 
     public Element getElement() {
         return element;
@@ -110,6 +126,14 @@ public abstract class BasePokemon implements Evolable {
     @Override
     public void setIsEvoled(boolean bool) {
 
+    }
+
+    public ImageView getEnemyImgAttacked() {
+        return enemyImgAttacked;
+    }
+
+    public void setEnemyImgAttacked(ImageView enemyImgAttacked) {
+        this.enemyImgAttacked = enemyImgAttacked;
     }
 
     public ImageView getCircleImg() {
