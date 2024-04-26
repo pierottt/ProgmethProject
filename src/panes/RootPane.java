@@ -19,7 +19,7 @@ public class RootPane extends StackPane {
     public RootPane(){
         setBackground(new Background(new BackgroundFill(Color.WHITE, null, null)));
         Goto.setRootPane(this); // Set the root pane in Goto
-        Goto.fightPane1_1(); // Start with the start page
+        Goto.startPage(); // Start with the start page
     }
     public static RootPane getRootPane() {
         if (instance == null)
