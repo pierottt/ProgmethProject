@@ -21,6 +21,8 @@ public class Rat extends BasePokemon{
         ImageView cirlceImg = new ImageView(circle);
         ImageView pokemonImgAttacked = new ImageView(pokemonAttacked);
         ImageView enemyImgAttacked = new ImageView(enemyAttacked);
+        ImageView playerPokemonGif = new ImageView("ratGif.gif");
+        ImageView enemyPokemonGif = new ImageView("ratGifRight.gif");
         this.setPokemonImg(pokemonImg);
         this.setEnemyImg(enemyImg);
         this.setSkillImg(skillImg);
@@ -30,6 +32,8 @@ public class Rat extends BasePokemon{
         this.setHeight(500);
         this.setWidth(500);
         this.setTranslateY(-35);
+        this.setEnemyGif(enemyPokemonGif);
+        this.setPlayerGif(playerPokemonGif);
         Path skillPath = new Path();
         skillPath.getElements().add(new MoveTo(-80,50));
         skillPath.getElements().add(new LineTo(350,100));

@@ -12,7 +12,7 @@ public class Chicken extends BasePokemon{
         super("Chicken", 99999, 100, 100, 999999999, Element.LIGHT);
         Image pokemon = new Image("ChickenLeft.png");
         Image enemy = new Image("ChickenRight.png");
-        Image skill = new Image("ChickenSkill.png");
+        Image skill = new Image("ChickenSkillLeft.png");
         Image circle = new Image("ChickenCircle.png");
         Image pokemonAttacked = new Image("ChickenAttacked.png");
         Image enemyAttacked = new Image("ChickenAttackedRight.png");
@@ -20,6 +20,8 @@ public class Chicken extends BasePokemon{
         ImageView enemyImg = new ImageView(enemy);
         ImageView skillImg = new ImageView(skill);
         ImageView cirlceImg = new ImageView(circle);
+        ImageView playerPokemongif = new ImageView(("chickenGif.gif"));
+        ImageView enemyPokemongif = new ImageView("chickenGifRight.gif");
         ImageView pokemonImgAttacked = new ImageView(pokemonAttacked);
         ImageView enemyImgAttacked = new ImageView(enemyAttacked);
         this.setPokemonImg(pokemonImg);
@@ -31,9 +33,11 @@ public class Chicken extends BasePokemon{
         this.setHeight(500);
         this.setWidth(500);
         this.setTranslateY(-55);
+        this.setEnemyGif(enemyPokemongif);
+        this.setPlayerGif(playerPokemongif);
         Path skillPath = new Path();
-        skillPath.getElements().add(new MoveTo(-150,0));
-        skillPath.getElements().add(new LineTo(250,100));
+        skillPath.getElements().add(new MoveTo(50,90));
+        skillPath.getElements().add(new LineTo(500,90));
         this.setSkillPath(skillPath);
     }
 

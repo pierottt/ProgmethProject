@@ -19,6 +19,10 @@ public abstract class BasePokemon implements Evolable {
     private ImageView PokemonImgAttacked;
     private ImageView enemyImg;
 
+    private  ImageView playerGif;
+
+    private ImageView enemyGif;
+
 
 
     private ImageView enemyImgAttacked;
@@ -207,5 +211,21 @@ public abstract class BasePokemon implements Evolable {
 
     public void setSkillPath(Path skillPath) {
         this.skillPath = skillPath;
+    }
+
+    public ImageView getPlayerGif() {
+        return playerGif;
+    }
+
+    public void setPlayerGif(ImageView playerGif) {
+        this.playerGif = playerGif;
+    }
+
+    public ImageView getEnemyGif() {
+        return enemyGif;
+    }
+
+    public void setEnemyGif(ImageView enemyGif) {
+        this.enemyGif = enemyGif;
     }
 }

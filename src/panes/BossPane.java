@@ -73,15 +73,20 @@ public class BossPane extends StackPane{
         enemy = new Chicken();
         ImageView playerPokemonImg = playerPokemon.getPokemonImg();
         ImageView enemyImg = enemy.getEnemyImg();
-        ImageView enemySkillImg = enemy.getSkillImg();
+        ImageView enemySkillImg = new ImageView(new Image("ChickenSkillRight.png"));
         ImageView playerPokemonImgAttacked = playerPokemon.getPokemonImgAttacked();
         ImageView enemyImgAttacked = enemy.getEnemyImgAttacked();
+
+        ImageView playerPokemonGif = playerPokemon.getPlayerGif();
+        ImageView enemyPokemonGif = enemy.getEnemyGif();
 
         enemySkillImg.setFitWidth(100);
         enemySkillImg.setFitHeight(50);
         enemySkillImg.setVisible(false);
         playerPokemonImgAttacked.setVisible(false);
         enemyImgAttacked.setVisible(false);
+        playerPokemonGif.setVisible(false);
+        enemyPokemonGif.setVisible(false);
         //set Pokemon position and size
         playerPokemonImg.setFitHeight(playerPokemon.getHeight());
         playerPokemonImg.setFitWidth(playerPokemon.getWidth());
@@ -103,6 +108,11 @@ public class BossPane extends StackPane{
         enemyImgAttacked.setFitWidth(500);
         enemyImgAttacked.setTranslateX(300);
         enemyImgAttacked.setTranslateY(-55);
+
+        enemyPokemonGif.setFitHeight(500);
+        enemyPokemonGif.setFitWidth(500);
+        enemyPokemonGif.setTranslateX(300);
+        enemyPokemonGif.setTranslateY(-55);
         //set enemy skill path
         Path chickenPath = new Path();
         chickenPath.getElements().add(new MoveTo(150,0));
@@ -506,7 +516,7 @@ public class BossPane extends StackPane{
         });
         chickenTransition.setOnFinished(event -> {
             playerPokemonImg.setVisible(false);
-            playerPokemonImgAttacked.setVisible(true);
+            playerPokemonGif.setVisible(true);
             atkButton.setDisable(false);
             skillButton.setDisable(skillCoolDown > 0);
             leaveButton.setDisable(false);
@@ -522,7 +532,7 @@ public class BossPane extends StackPane{
             PauseTransition pause = new PauseTransition(Duration.seconds(0.5));
             pause.setOnFinished(e -> {
                 playerPokemonImg.setVisible(true);
-                playerPokemonImgAttacked.setVisible(false);
+                playerPokemonGif.setVisible(false);
                 // Add any other actions you want to perform after the delay here
             });
             pause.play();
@@ -600,11 +610,11 @@ public class BossPane extends StackPane{
                 playerSkillTransition.play();
                 playerSkillTransition.setOnFinished(event -> {
                     enemyImg.setVisible(false);
-                    enemyImgAttacked.setVisible(true);
+                    enemyPokemonGif.setVisible(true);
                     PauseTransition pauseEnemy = new PauseTransition(Duration.seconds(1));
                     pauseEnemy.setOnFinished(e -> {
                         enemyImg.setVisible(true);
-                        enemyImgAttacked.setVisible(false);
+                        enemyPokemonGif.setVisible(false);
                         // Add any other actions you want to perform after the delay here
                     });
                     pauseEnemy.play();
@@ -724,6 +734,7 @@ public class BossPane extends StackPane{
         getChildren().add(skillImg);
         getChildren().add(enemySkillImg);
         getChildren().addAll(attackPotion,attackPotionLeft,healPotion,healPotionLeft,defPotion,defPotionLeft,pokeballItem,pokeballItemLeft,itemsBar);
+        getChildren().addAll(playerPokemonGif,enemyPokemonGif);
 
 
     }

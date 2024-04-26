@@ -73,12 +73,19 @@ public class fightPane1_1 extends StackPane{
         ImageView enemyImgAttacked = enemy.getEnemyImgAttacked();
         ImageView enemySkillImg = enemy.getSkillImg();
 
+        //todsoft gif
+        ImageView playerPokemongif = playerPokemon.getPlayerGif();
+        ImageView enemyPokemongif = enemy.getEnemyGif();
+
+
 
         enemySkillImg.setFitWidth(300);
         enemySkillImg.setFitHeight(400);
         enemySkillImg.setVisible(false);
         playerPokemonImgAttacked.setVisible(false);
         enemyImgAttacked.setVisible(false);
+        playerPokemongif.setVisible(false);
+        enemyPokemongif.setVisible(false);
 
         //set Pokemon position and size
         playerPokemonImg.setFitHeight(playerPokemon.getHeight());
@@ -91,6 +98,13 @@ public class fightPane1_1 extends StackPane{
         playerPokemonImgAttacked.setTranslateX(-350);
         playerPokemonImgAttacked.setTranslateY(playerPokemon.getTranslateY());
 
+        playerPokemongif.setFitHeight(playerPokemon.getHeight());
+        playerPokemongif.setFitWidth(playerPokemon.getWidth());
+        playerPokemongif.setTranslateX(-350);
+        playerPokemongif.setTranslateY(playerPokemon.getTranslateY());
+
+
+
         //set enemy position and size
         enemyImg.setFitHeight(200);
         enemyImg.setFitWidth(200);
@@ -101,6 +115,11 @@ public class fightPane1_1 extends StackPane{
         enemyImgAttacked.setFitWidth(200);
         enemyImgAttacked.setTranslateX(300);
         enemyImgAttacked.setTranslateY(65);
+
+        enemyPokemongif.setFitHeight(playerPokemon.getHeight());
+        enemyPokemongif.setFitWidth(playerPokemon.getWidth());
+        enemyPokemongif.setTranslateX(300);
+        enemyPokemongif.setTranslateY(playerPokemon.getTranslateY());
 
         //set enemy skill path
         Path pikachuPath = new Path();
@@ -488,7 +507,7 @@ public class fightPane1_1 extends StackPane{
         });
         pikachuTransition.setOnFinished(event -> {
             playerPokemonImg.setVisible(false);
-            playerPokemonImgAttacked.setVisible(true);
+            playerPokemongif.setVisible(true);
             atkButton.setDisable(false);
             skillButton.setDisable(skillCoolDown > 0);
             leaveButton.setDisable(false);
@@ -502,10 +521,10 @@ public class fightPane1_1 extends StackPane{
             }
 
             // Toggle the images back after 1 second
-            PauseTransition pause = new PauseTransition(Duration.seconds(0.5));
+            PauseTransition pause = new PauseTransition(Duration.seconds(1));
             pause.setOnFinished(e -> {
                 playerPokemonImg.setVisible(true);
-                playerPokemonImgAttacked.setVisible(false);
+                playerPokemongif.setVisible(false);
                 // Add any other actions you want to perform after the delay here
             });
             pause.play();
@@ -575,11 +594,11 @@ public class fightPane1_1 extends StackPane{
                 skillButton.setDisable(true);
                 playerSkillTransition.setOnFinished(event -> {
                     enemyImg.setVisible(false);
-                    enemyImgAttacked.setVisible(true);
+                    enemyPokemongif.setVisible(true);
                     PauseTransition pauseEnemy = new PauseTransition(Duration.seconds(1));
                     pauseEnemy.setOnFinished(e -> {
                         enemyImg.setVisible(true);
-                        enemyImgAttacked.setVisible(false);
+                        enemyPokemongif.setVisible(false);
                         // Add any other actions you want to perform after the delay here
                     });
                     pauseEnemy.play();
@@ -709,7 +728,7 @@ public class fightPane1_1 extends StackPane{
         getChildren().add(skillImg);
         getChildren().add(enemySkillImg);
         getChildren().addAll(attackPotion,attackPotionLeft,healPotion,healPotionLeft,defPotion,defPotionLeft,pokeballItem,pokeballItemLeft,itemsBar);
-
+        getChildren().addAll(playerPokemongif,enemyPokemongif);
     }
     public void decreaseCoolDown(){
         if(skillCoolDown > 0) skillCoolDown--;

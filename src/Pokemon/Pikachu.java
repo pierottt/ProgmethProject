@@ -22,6 +22,8 @@ public class Pikachu extends BasePokemon{
         ImageView cirlceImg = new ImageView(circle);
         ImageView pokemonImgAttacked = new ImageView(pokemonAttacked);
         ImageView enemyImgAttacked = new ImageView(enemyAttacked);
+        ImageView playerPokemonGif = new ImageView("pikachuGif.gif");
+        ImageView enemyPokemonGif = new ImageView("pikachuGifRight.gif");
         this.setPokemonImg(pokemonImg);
         this.setEnemyImg(enemyImg);
         this.setSkillImg(skillImg);
@@ -31,9 +33,11 @@ public class Pikachu extends BasePokemon{
         this.setHeight(200);
         this.setWidth(200);
         this.setTranslateY(65);
+        this.setPlayerGif(playerPokemonGif);
+        this.setEnemyGif(enemyPokemonGif);
         Path skillPath = new Path();
-        skillPath.getElements().add(new MoveTo(500,-200));
-        skillPath.getElements().add(new LineTo(500,150));
+        skillPath.getElements().add(new MoveTo(450,-200));
+        skillPath.getElements().add(new LineTo(450,150));
         this.setSkillPath(skillPath);
 
     }

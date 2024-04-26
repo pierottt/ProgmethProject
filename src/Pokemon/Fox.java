@@ -21,6 +21,8 @@ public class Fox extends BasePokemon{
         ImageView cirlceImg = new ImageView(circle);
         ImageView pokemonImgAttacked = new ImageView(pokemonAttacked);
         ImageView enemyImgAttacked = new ImageView(enemyAttacked);
+        ImageView playerPokemonGif = new ImageView("foxGif.gif");
+        ImageView enemyPokemonGif = new ImageView("foxGifRight.gif");
         this.setPokemonImg(pokemonImg);
         this.setEnemyImg(enemyImg);
         this.setSkillImg(skillImg);
@@ -30,6 +32,8 @@ public class Fox extends BasePokemon{
         this.setHeight(400);
         this.setWidth(400);
         this.setTranslateY(15);
+        this.setEnemyGif(enemyPokemonGif);
+        this.setPlayerGif(playerPokemonGif);
         Path skillPath = new Path();
         skillPath.getElements().add(new MoveTo(-300,-100));
         skillPath.getElements().add(new LineTo(400,200));

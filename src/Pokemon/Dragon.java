@@ -21,6 +21,8 @@ public class Dragon extends BasePokemon{
         ImageView cirlceImg = new ImageView(circle);
         ImageView pokemonImgAttacked = new ImageView(pokemonAttacked);
         ImageView enemyImgAttacked = new ImageView(enemyAttacked);
+        ImageView playerPokemonGif = new ImageView("dragonGif.gif");
+        ImageView enemyPokemonGif = new ImageView("dragonGifRight.gif");
         this.setPokemonImg(pokemonImg);
         this.setEnemyImg(enemyImg);
         this.setSkillImg(skillImg);
@@ -30,6 +32,8 @@ public class Dragon extends BasePokemon{
         this.setHeight(500);
         this.setWidth(500);
         this.setTranslateY(-35);
+        this.setPlayerGif(playerPokemonGif);
+        this.setEnemyGif(enemyPokemonGif);
         Path skillPath = new Path();
         skillPath.getElements().add(new MoveTo(-200,-100));
         skillPath.getElements().add(new LineTo(400,200));
