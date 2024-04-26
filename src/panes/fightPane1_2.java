@@ -697,7 +697,9 @@ public class fightPane1_2 extends StackPane{
             skillButton.setOnMouseExited(null); // Remove mouse exited event handler
         }
 
-        getChildren().addAll(backgroundImageView,enemyImgAttacked,enemyImg,playerPokemonImg,playerPokemonImgAttacked,battleControlBackground,leaveButton,atkButton,skillButton,catchButton,pokeballView);
+        getChildren().addAll(backgroundImageView,enemyImgAttacked
+                ,enemyImg,playerPokemonImg,playerPokemonImgAttacked,battleControlBackground,
+                leaveButton,atkButton,skillButton,catchButton,pokeballView);
         getChildren().add(hpBar);
         getChildren().add(enemyHpBar);
         getChildren().add(vs);
