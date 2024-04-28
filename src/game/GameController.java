@@ -94,7 +94,7 @@ public class GameController {
         this.chickenCheckpoint = chickenCheckpoint;
     }
 
-    public void endBattle(ImageView pokemon, ImageView grave) {
+    public void endBattle(ImageView pokemon, ImageView grave, boolean isEnemy) {
         FadeTransition fadeOutPokemonTransition = new FadeTransition(Duration.millis(3000), pokemon);
 
         // Set the initial and final opacity values for the fade animation
@@ -121,7 +121,13 @@ public class GameController {
         fadeOutPokemonTransition.play();
         PauseTransition pause = new PauseTransition(Duration.seconds(5));
         pause.setOnFinished(e -> {
-            Goto.victoryPage();
+            if(isEnemy){
+                Goto.victoryPage();
+            }
+            else {
+                Goto.faintPane();
+            }
+
         });
         pause.play();
     }

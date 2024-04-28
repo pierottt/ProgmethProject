@@ -168,6 +168,9 @@ public class BossPane extends StackPane{
         TranslateTransition backward2 = new TranslateTransition(Duration.millis(1000), enemyImg);
         backward2.setByX(-500);
 
+        TranslateTransition flee = new TranslateTransition(Duration.seconds(2), playerPokemonImg);
+        flee.setByX(-550);
+
         RotateTransition rotate = new RotateTransition(Duration.seconds(0.2), playerPokemonImg);
         rotate.setByAngle(20); // Rotate by -20 degrees
 
@@ -179,15 +182,6 @@ public class BossPane extends StackPane{
 
         RotateTransition rotateBack2 = new RotateTransition(Duration.seconds(0.2), enemyImg);
         rotateBack2.setByAngle(20); // Rotate back by 20 degrees
-
-
-//        TranslateTransition playerKnockBack = new TranslateTransition(Duration.millis(900),playerPokemonImg);
-//        playerKnockBack.setByX(-100);
-//        TranslateTransition playerComeBack = new TranslateTransition(Duration.millis(900),playerPokemonImg);
-//        playerComeBack.setByX(30);
-
-//        ParallelTransition parallelTransition = new ParallelTransition(enemyComeBack,backward);
-//        ParallelTransition parallelTransition2 = new ParallelTransition(playerComeBack,forward2);
 
         backward.setOnFinished(event -> {
             enemyImgAttacked.setVisible(false); // Show the attacked image
@@ -207,6 +201,10 @@ public class BossPane extends StackPane{
         forward2.setOnFinished(event -> {
             playerPokemonImgAttacked.setVisible(false); // Show the attacked image
             playerPokemonImg.setVisible(true); // Hide the original image
+        });
+
+        flee.setOnFinished(event -> {
+            Goto.mapPage();
         });
         SequentialTransition playerAttack = new SequentialTransition(forward,rotate,rotateBack,backward);
         SequentialTransition enemyAttack = new SequentialTransition(backward2,rotate2,rotateBack2,forward2);
@@ -240,7 +238,7 @@ public class BossPane extends StackPane{
             public void handle(MouseEvent mouseEvent) {
                 playerPokemon.setAtk(defaultAtk);
                 playerPokemon.setDef(defaultDef);
-                Goto.mapPage();
+                flee.play();
             }
         });
         leaveButton.setOnMouseReleased(event -> {
@@ -544,7 +542,7 @@ public class BossPane extends StackPane{
             }
             if(GameController.getInstance().getPlayer().getCurrentPokemon().isDead()){
                 System.out.println("Your pokemon is faint");
-                GameController.getInstance().endBattle(playerPokemonImg,grave.getPicture());
+                GameController.getInstance().endBattle(playerPokemonImg,grave.getPicture(),false);
 
             }
         });
@@ -600,7 +598,7 @@ public class BossPane extends StackPane{
             enemySkillImg.setVisible(false);
             if(GameController.getInstance().getPlayer().getCurrentPokemon().isDead()){
                 System.out.println("Your pokemon is faint");
-                GameController.getInstance().endBattle(playerPokemonImg,grave.getPicture());
+                GameController.getInstance().endBattle(playerPokemonImg,grave.getPicture(),false);
 
             }
             PauseTransition pause = new PauseTransition(Duration.seconds(0.5));
@@ -705,7 +703,7 @@ public class BossPane extends StackPane{
                     if(enemy.isDead()){
                         System.out.println("Enemy pokemon is faint");
                         GameController.getInstance().setChickenCheckpoint(true);
-                        GameController.getInstance().endBattle(enemyImg,graveEnemy.getPicture());
+                        GameController.getInstance().endBattle(enemyImg,graveEnemy.getPicture(),true);
 
                     }
                     if(enemySkillCoolDown == 0){
@@ -750,7 +748,7 @@ public class BossPane extends StackPane{
                     if(enemy.isDead()){
                         System.out.println("Enemy pokemon is faint");
                         GameController.getInstance().setChickenCheckpoint(true);
-                        GameController.getInstance().endBattle(enemyImg,graveEnemy.getPicture());
+                        GameController.getInstance().endBattle(enemyImg,graveEnemy.getPicture(),true);
                     }
                     if(enemySkillCoolDown == 0){
                         delay2.play();

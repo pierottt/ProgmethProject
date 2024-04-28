@@ -144,7 +144,7 @@ public class Player {
         setDefPotion(0);
         setHealPotion(0);
         setPokeBall(5);
-        setCurrentPokemon(new Chicken());
+        setCurrentPokemon(new Pikachu());
     }
     //getter and setter
 

@@ -161,6 +161,9 @@ public class fightPane1_3 extends StackPane{
         TranslateTransition backward2 = new TranslateTransition(Duration.seconds(1), enemyImg);
         backward2.setByX(-400);
 
+        TranslateTransition flee = new TranslateTransition(Duration.seconds(2), playerPokemonImg);
+        flee.setByX(-550);
+
         RotateTransition rotate = new RotateTransition(Duration.seconds(0.2), playerPokemonImg);
         rotate.setByAngle(20); // Rotate by -20 degrees
 
@@ -194,6 +197,10 @@ public class fightPane1_3 extends StackPane{
             playerPokemonImg.setVisible(true); // Hide the original image
         });
 
+        flee.setOnFinished(event -> {
+            Goto.mapPage();
+        });
+
         SequentialTransition playerAttack = new SequentialTransition(forward,rotate,rotateBack,backward);
         SequentialTransition enemyAttack = new SequentialTransition(backward2,rotate2,rotateBack2,forward2);
 
@@ -222,7 +229,7 @@ public class fightPane1_3 extends StackPane{
             public void handle(MouseEvent mouseEvent) {
                 playerPokemon.setAtk(defaultAtk);
                 playerPokemon.setDef(defaultDef);
-                Goto.mapPage();
+               flee.play();
             }
         });
         leaveButton.setOnMouseReleased(event -> {
@@ -525,7 +532,7 @@ public class fightPane1_3 extends StackPane{
             }
             if(GameController.getInstance().getPlayer().getCurrentPokemon().isDead()){
                 System.out.println("Your pokemon is faint");
-                GameController.getInstance().endBattle(playerPokemonImg,grave.getPicture());
+                GameController.getInstance().endBattle(playerPokemonImg,grave.getPicture(),false);
 
             }
         });
@@ -581,7 +588,7 @@ public class fightPane1_3 extends StackPane{
             enemySkillImg.setVisible(false);
             if (GameController.getInstance().getPlayer().getCurrentPokemon().isDead()) {
                 System.out.println("Your pokemon is faint");
-                GameController.getInstance().endBattle(playerPokemonImg,grave.getPicture());
+                GameController.getInstance().endBattle(playerPokemonImg,grave.getPicture(),false);
 
             }
 
@@ -677,7 +684,7 @@ public class fightPane1_3 extends StackPane{
                     if(enemy.isDead()){
                         System.out.println("Enemy pokemon is faint");
                         GameController.getInstance().setDragonCheckpoint(true);
-                        GameController.getInstance().endBattle(enemyImg,graveEnemy.getPicture());
+                        GameController.getInstance().endBattle(enemyImg,graveEnemy.getPicture(),true);
 
                     }
                     if(enemySkillCoolDown == 0){
@@ -722,7 +729,7 @@ public class fightPane1_3 extends StackPane{
                     if(enemy.isDead()){
                         System.out.println("Enemy pokemon is faint");
                         GameController.getInstance().setDragonCheckpoint(true);
-                        GameController.getInstance().endBattle(enemyImg,graveEnemy.getPicture());
+                        GameController.getInstance().endBattle(enemyImg,graveEnemy.getPicture(),true);
                     }
                     if(enemySkillCoolDown == 0){
                         delay2.play();

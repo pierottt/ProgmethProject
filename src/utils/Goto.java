@@ -70,5 +70,10 @@ public class Goto {
         clear();
         rootPane.getChildren().add(new pokemonDeckPane());
     }
+    public static void faintPane(){
+        clear();
+        rootPane.getChildren().add(new faintPane());
+    }
+
 
 }
