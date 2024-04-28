@@ -38,6 +38,7 @@ public class Player {
     }
 
     public void setAtkPotion(int atkPotion) {
+        if(atkPotion < 0) atkPotion = 0;
         this.atkPotion = atkPotion;
     }
 
@@ -46,6 +47,7 @@ public class Player {
     }
 
     public void setDefPotion(int defPotion) {
+        if(defPotion < 0) defPotion = 0;
         this.defPotion = defPotion;
     }
 
@@ -54,6 +56,7 @@ public class Player {
     }
 
     public void setHealPotion(int healPotion) {
+        if(healPotion < 0) healPotion = 0;
         this.healPotion = healPotion;
     }
 
@@ -141,7 +144,7 @@ public class Player {
         setDefPotion(0);
         setHealPotion(0);
         setPokeBall(5);
-        setCurrentPokemon(new Pikachu());
+        setCurrentPokemon(new Chicken());
     }
     //getter and setter
 

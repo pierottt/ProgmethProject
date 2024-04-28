@@ -1,6 +1,7 @@
 package game;
 
 import javafx.animation.FadeTransition;
+import javafx.animation.PauseTransition;
 import javafx.scene.image.ImageView;
 import javafx.util.Duration;
 import player.Player;
@@ -118,6 +119,11 @@ public class GameController {
 
         // Start the fade out animation for the Pokemon ImageView
         fadeOutPokemonTransition.play();
+        PauseTransition pause = new PauseTransition(Duration.seconds(5));
+        pause.setOnFinished(e -> {
+            Goto.victoryPage();
+        });
+        pause.play();
     }
 
 

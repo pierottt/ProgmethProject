@@ -18,7 +18,7 @@ public class Grave {
         else {
             grave.setTranslateX(-300);
         }
-        grave.setTranslateY(pokemon.getTranslateY());
+        grave.setTranslateY(70);
 
         this.setPicture(grave);
     }

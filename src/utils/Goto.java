@@ -18,11 +18,13 @@ public class Goto {
 
     public static void startPage(){
         clear();
+        SoundManager.getInstance().changeSound("res/backgroundMusic.mp3");
         rootPane.getChildren().add(new StartPane());
     }
 
     public static void mapPage(){
         clear();
+        SoundManager.getInstance().changeSound("res/backgroundMusic.mp3");
         rootPane.getChildren().add(new MapPane());
     }
     public static  void victoryPage(){
@@ -39,28 +41,29 @@ public class Goto {
         rootPane.getChildren().add(new SellItemPane());
     }
 
-    public static void Page(){
-        clear();
-        rootPane.getChildren().add(new MapPane());
-    }
     public static void bossPane(){
         clear();
+        SoundManager.getInstance().changeSound("res/fighting.mp3");
         rootPane.getChildren().add(new BossPane());
     }
     public static void fightPane1_1(){
         clear();
+        SoundManager.getInstance().changeSound("res/fighting.mp3");
         rootPane.getChildren().add(new fightPane1_1());
     }
     public static void fightPane1_2(){
         clear();
+        SoundManager.getInstance().changeSound("res/fighting.mp3");
         rootPane.getChildren().add(new fightPane1_2());
     }
     public static void fightPane1_3(){
         clear();
+        SoundManager.getInstance().changeSound("res/fighting.mp3");
         rootPane.getChildren().add(new fightPane1_3());
     }
     public static void fightPane1_4(){
         clear();
+        SoundManager.getInstance().changeSound("res/fighting.mp3");
         rootPane.getChildren().add(new fightPane1_4());
     }
     public static void pokemonDeck(){
