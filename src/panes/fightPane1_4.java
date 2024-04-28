@@ -218,7 +218,7 @@ public class fightPane1_4 extends StackPane{
 
         Path pokeballPath = new Path();
         pokeballPath.getElements().add(new MoveTo(0,200));
-        pokeballPath.getElements().add(new QuadCurveTo(-150,-150,350,150));
+        pokeballPath.getElements().add(new QuadCurveTo(-150,-150,365,-5));
         PathTransition pokeTransition = new PathTransition();
         pokeTransition.setDuration(Duration.seconds(1));
         pokeTransition.setNode(pokeballView);
@@ -755,30 +755,50 @@ public class fightPane1_4 extends StackPane{
                 pokeballView.toFront();
                 pokeTransition.play();
                 pokeTransition.setOnFinished(event -> {
-                    pokeballView.setVisible(false);
+                    // Scale transition to minimize enemyImg
+                    ScaleTransition scaleDownTransition = new ScaleTransition(Duration.seconds(5), enemyImg);
+                    scaleDownTransition.setToX(0.1);
+                    scaleDownTransition.setToY(0.1);
 
-                    if (GameController.getInstance().getPlayer().catched(enemy)) {
-                        GameController.getInstance().setRatCheckpoint(true);
-                        GameController.getInstance().getPlayer().setRat(GameController.getInstance().getPlayer().getRat()+1);
-                        if(!GameController.getInstance().getPlayer().getPokeDeck().getPokeDeck().contains(new Rat())){
-                            GameController.getInstance().getPlayer().getPokeDeck().getPokeDeck().add(new Rat());
+                    // Scale transition to bring enemyImg back to original size
+                    ScaleTransition scaleUpTransition = new ScaleTransition(Duration.seconds(1), enemyImg);
+                    scaleUpTransition.setToX(1.0);
+                    scaleUpTransition.setToY(1.0);
+
+                    // Chain the scale transitions
+                    scaleDownTransition.setOnFinished(e -> scaleUpTransition.play());
+
+                    // Delay before hiding pokeballView and starting the scale transitions
+                    PauseTransition catchDelay = new PauseTransition(Duration.seconds(5));
+                    catchDelay.setOnFinished(e -> {
+                        pokeballView.setVisible(false);
+
+                        if (GameController.getInstance().getPlayer().catched(enemy)) {
+                            GameController.getInstance().setRatCheckpoint(true);
+                            GameController.getInstance().getPlayer().setRat(GameController.getInstance().getPlayer().getRat() + 1);
+                            if (!GameController.getInstance().getPlayer().getPokeDeck().getPokeDeck().contains(new Rat())) {
+                                GameController.getInstance().getPlayer().getPokeDeck().getPokeDeck().add(new Rat());
+                            }
+                            Goto.mapPage();
+                        } else {
+                            atkButton.setDisable(false);
+                            skillButton.setDisable(skillCoolDown > 0);
+                            leaveButton.setDisable(false);
+                            if (GameController.getInstance().getPlayer().getPokeBall() > 0) {
+                                catchButton.setDisable(false);
+                            }
                         }
-                        Goto.mapPage();
-                    }
-                    else{
-                        atkButton.setDisable(false);
-                        skillButton.setDisable(skillCoolDown > 0);
-                        leaveButton.setDisable(false);
-                        if(GameController.getInstance().getPlayer().getPokeBall()>0){
-                            catchButton.setDisable(false);
+                        GameController.getInstance().getPlayer().setPokeBall(GameController.getInstance().getPlayer().getPokeBall() - 1);
+                        pokeballItemLeft.setText(String.valueOf(GameController.getInstance().getPlayer().getPokeBall()));
+                        if (GameController.getInstance().getPlayer().getPokeBall() <= 0) {
+                            catchButton.setDisable(true);
+                            catchButton.setImage(new Image("CatchButtonOnClick.png"));
                         }
-                    }
-                    GameController.getInstance().getPlayer().setPokeBall(GameController.getInstance().getPlayer().getPokeBall()-1);
-                    pokeballItemLeft.setText(GameController.getInstance().getPlayer().getPokeBall()+"");
-                    if(GameController.getInstance().getPlayer().getPokeBall()<=0){
-                        catchButton.setDisable(true);
-                        catchButton.setImage(new Image("CatchButtonOnClick.png"));
-                    }
+                    });
+
+                    // Start the transitions
+                    catchDelay.play();
+                    scaleDownTransition.play();
                 });
             }
         });
