@@ -785,7 +785,9 @@ public class BossPane extends StackPane{
                         GameController.getInstance().getPlayer().setChicken(GameController.getInstance().getPlayer().getChicken()+1);
                         if(!GameController.getInstance().getPlayer().getPokeDeck().getPokeDeck().contains(new Chicken())){
                             GameController.getInstance().getPlayer().getPokeDeck().getPokeDeck().add(new Chicken());
-                        }Goto.mapPage();
+                        }
+                        Goto.gotchaPage();
+
                     }
                     else{
                         atkButton.setDisable(false);

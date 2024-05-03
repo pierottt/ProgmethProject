@@ -786,7 +786,8 @@ public class fightPane1_4 extends StackPane{
                             if (!GameController.getInstance().getPlayer().getPokeDeck().getPokeDeck().contains(new Rat())) {
                                 GameController.getInstance().getPlayer().getPokeDeck().getPokeDeck().add(new Rat());
                             }
-                            Goto.mapPage();
+                            Goto.gotchaPage();
+
                         } else {
                             atkButton.setDisable(false);
                             skillButton.setDisable(skillCoolDown > 0);

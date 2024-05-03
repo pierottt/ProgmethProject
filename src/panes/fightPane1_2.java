@@ -784,7 +784,7 @@ public class fightPane1_2 extends StackPane{
                             if (!GameController.getInstance().getPlayer().getPokeDeck().getPokeDeck().contains(new Fox())) {
                                 GameController.getInstance().getPlayer().getPokeDeck().getPokeDeck().add(new Fox());
                             }
-                            Goto.mapPage();
+                            Goto.gotchaPage();
                         } else {
                             atkButton.setDisable(false);
                             skillButton.setDisable(skillCoolDown > 0);

@@ -798,7 +798,7 @@ public class fightPane1_1 extends StackPane{
                             if (!GameController.getInstance().getPlayer().getPokeDeck().getPokeDeck().contains(new Pikachu())) {
                                 GameController.getInstance().getPlayer().getPokeDeck().getPokeDeck().add(new Pikachu());
                             }
-                            Goto.mapPage();
+                            Goto.gotchaPage();
                         } else {
                             atkButton.setDisable(false);
                             skillButton.setDisable(skillCoolDown > 0);

@@ -782,7 +782,8 @@ public class fightPane1_3 extends StackPane{
                             if (!GameController.getInstance().getPlayer().getPokeDeck().getPokeDeck().contains(new Dragon())) {
                                 GameController.getInstance().getPlayer().getPokeDeck().getPokeDeck().add(new Dragon());
                             }
-                            Goto.mapPage();
+                            Goto.gotchaPage();
+
                         } else {
                             atkButton.setDisable(false);
                             skillButton.setDisable(skillCoolDown > 0);
