@@ -8,7 +8,7 @@ import javafx.scene.shape.Path;
 
 public class Dragon extends BasePokemon{
     public Dragon() {
-        super("Dragon", 3500, 400, 200, 10000, Element.FIRE);
+        super("Dragon", 3500, 400, 200, 8000, Element.FIRE);
         Image pokemon = new Image("DragonLeft.png");
         Image enemy = new Image("DragonRight.png");
         Image skill = new Image("DragonSkillLeft.png");
@@ -41,22 +41,18 @@ public class Dragon extends BasePokemon{
     }
 
     public void attack(BasePokemon pokemon) {
-        if(pokemon.getElement()==Element.FIRE) {
-            pokemon.decreaseHp(getAtk() - pokemon.getDef());
-        } else if (pokemon.getElement()==Element.POISON || pokemon.getElement()==Element.ICE) {
-            pokemon.decreaseHp(getAtk()*1.5 - pokemon.getDef());
-        } else {
-            pokemon.decreaseHp(getAtk()*0.5 - pokemon.getDef());
-        }
+        pokemon.decreaseHp(getAtk() - pokemon.getDef());
     }
 
     @Override
     public void useSkill(BasePokemon pokemon){
-        pokemon.decreaseHp(2000);
-    }
-    @Override
-    public int getPrice() {
-        return 1000;
+        if(pokemon.getElement()==Element.FIRE) {
+            pokemon.decreaseHp(getAtk()+2000);
+        } else if (pokemon.getElement()==Element.POISON || pokemon.getElement()==Element.ICE) {
+            pokemon.decreaseHp((getAtk()+2000)*1.5);
+        } else {
+            pokemon.decreaseHp((getAtk()+2000)*0.5);
+        }
     }
 
     @Override

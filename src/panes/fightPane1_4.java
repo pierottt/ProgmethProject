@@ -690,6 +690,7 @@ public class fightPane1_4 extends StackPane{
                     skillImg.setVisible(false);
                     if(enemy.isDead()){
                         System.out.println("Enemy pokemon is faint");
+                        GameController.getInstance().getPlayer().setMoney(GameController.getInstance().getPlayer().getMoney()+5000);
                         GameController.getInstance().setRatCheckpoint(true);
                         GameController.getInstance().endBattle(enemyImg,graveEnemy.getPicture(),true);
                         GameController.getInstance().stopController(atkButton,skillButton,catchButton,leaveButton,atkButton,defPotion,healPotion);
@@ -737,6 +738,7 @@ public class fightPane1_4 extends StackPane{
                         enemyHpBar.setStyle("-fx-accent: #FFFF00;");
                     if(enemy.isDead()){
                         System.out.println("Enemy pokemon is faint");
+                        GameController.getInstance().getPlayer().setMoney(GameController.getInstance().getPlayer().getMoney()+5000);
                         GameController.getInstance().setRatCheckpoint(true);
                         GameController.getInstance().endBattle(enemyImg,graveEnemy.getPicture(),true);
                         GameController.getInstance().stopController(atkButton,skillButton,catchButton,leaveButton,atkButton,defPotion,healPotion);

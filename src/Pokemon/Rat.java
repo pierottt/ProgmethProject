@@ -8,7 +8,7 @@ import javafx.scene.shape.Path;
 
 public class Rat extends BasePokemon{
     public Rat() {
-        super("Rat", 2500, 200, 0, 10000,Element.POISON);
+        super("Rat", 5000, 200, 0, 5000,Element.POISON);
         Image pokemon = new Image("RatLeft.png");
         Image enemy = new Image("RatRight.png");
         Image skill = new Image("RatSkillLeft.png");
@@ -40,24 +40,18 @@ public class Rat extends BasePokemon{
         this.setSkillPath(skillPath);
     }
 
+    public void attack(BasePokemon pokemon) {
+        pokemon.decreaseHp(getAtk() - pokemon.getDef());
+    }
     @Override
     public void useSkill(BasePokemon pokemon){
-        pokemon.decreaseHp(1500);
-    }
-
-    public void attack(BasePokemon pokemon) {
         if(pokemon.getElement()==Element.POISON) {
-            pokemon.decreaseHp(getAtk() - pokemon.getDef());
+            pokemon.decreaseHp(getAtk()+1500);
         } else if (pokemon.getElement()==Element.ELECTRIC || pokemon.getElement()==Element.LIGHT) {
-            pokemon.decreaseHp(getAtk()*1.5 - pokemon.getDef());
+            pokemon.decreaseHp((getAtk()+1500)*1.5);
         } else {
-            pokemon.decreaseHp(getAtk()*0.5 - pokemon.getDef());
+            pokemon.decreaseHp((getAtk()+1500)*0.5);
         }
-    }
-
-    @Override
-    public int getPrice() {
-        return 1000;
     }
 
     @Override

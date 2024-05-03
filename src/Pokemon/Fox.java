@@ -8,7 +8,7 @@ import javafx.scene.shape.Path;
 
 public class Fox extends BasePokemon{
     public Fox() {
-        super("Fox", 2000, 250, 50, 3000, Element.ICE);
+        super("Fox", 4000, 250, 50, 3000, Element.ICE);
         Image pokemon = new Image("FoxLeft.png");
         Image enemy = new Image("FoxRight.png");
         Image skill = new Image("FoxSkillLeft.png");
@@ -44,24 +44,19 @@ public class Fox extends BasePokemon{
     }
 
     public void attack(BasePokemon pokemon) {
-        if(pokemon.getElement()==Element.ICE) {
-            pokemon.decreaseHp(getAtk() - pokemon.getDef());
-        } else if (pokemon.getElement()==Element.LIGHT || pokemon.getElement()==Element.POISON) {
-            pokemon.decreaseHp(getAtk()*1.5 - pokemon.getDef());
-        } else {
-            pokemon.decreaseHp(getAtk()*0.5 - pokemon.getDef());
-        }
+        pokemon.decreaseHp(getAtk() - pokemon.getDef());
     }
 
     @Override
     public void useSkill(BasePokemon pokemon){
-        pokemon.decreaseHp(500);
+        if(pokemon.getElement()==Element.ICE) {
+            pokemon.decreaseHp(getAtk()+1000);
+        } else if (pokemon.getElement()==Element.LIGHT || pokemon.getElement()==Element.POISON) {
+            pokemon.decreaseHp((getAtk()+1000)*1.5);
+        } else {
+            pokemon.decreaseHp((getAtk()+1000)*0.5);
+        }
     }
-    @Override
-    public int getPrice() {
-        return 1000;
-    }
-
     @Override
     public boolean equals(BasePokemon pokemon) {
         if(pokemon instanceof Fox){
