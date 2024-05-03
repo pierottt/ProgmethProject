@@ -335,21 +335,21 @@ public class ShopPane extends StackPane {
         }
 
         //Price
-        Label atkPrice = new Label("500$");
-        Label defPrice = new Label("500$");
-        Label healPrice = new Label("500$");
-        Label pokeballPrice = new Label("10$");
-        Label pikachuPrice = new Label("100$");
-        Label dragonPrice = new Label("1000$");
-        Label ratPrice = new Label("1000$");
-        Label foxPrice = new Label("1000$");
+        Label atkPrice = new Label(new AtkPotion().getPrice() + "$");
+        Label defPrice = new Label(new DefPotion().getPrice() + "$");
+        Label healPrice = new Label(new HealPotion().getPrice() + "$");
+        Label pokeballPrice = new Label(new Pokeball().getPrice() + "$");
+        Label pikachuPrice = new Label(new Pikachu().getPrice() + "$");
+        Label dragonPrice = new Label(new Dragon().getPrice() + "$");
+        Label ratPrice = new Label(new Rat().getPrice() + "$");
+        Label foxPrice = new Label(new Fox().getPrice() + "$");
 
         Label[] prices = {atkPrice, defPrice, healPrice, pokeballPrice, pikachuPrice, dragonPrice, ratPrice, foxPrice};
 
         for (Label priceLable : prices) {
             priceLable.setFont(Font.font("Arial", FontWeight.BOLD, 18)); // Setting font size to 18
             priceLable.setStyle(" -fx-background-color: #D2B48C; -fx-padding: 5px;");
-            priceLable.setPrefWidth(65);
+            priceLable.setPrefWidth(75);
             priceLable.setPrefHeight(20);
             priceLable.setAlignment(Pos.CENTER);
         }
