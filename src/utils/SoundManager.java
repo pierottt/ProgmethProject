@@ -13,7 +13,7 @@ public class SoundManager {
         Media sound = new Media(new File(soundFile).toURI().toString());
         mediaPlayer = new MediaPlayer(sound);
         mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE);
-        mediaPlayer.setVolume(0.1);
+        mediaPlayer.setVolume(0.05);
 
     }
 
@@ -38,6 +38,7 @@ public class SoundManager {
         Media newSound = new Media(new File(newSoundFile).toURI().toString());
         mediaPlayer = new MediaPlayer(newSound);
         mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE);
+        mediaPlayer.setVolume(0.05);
         play();
     }
 }

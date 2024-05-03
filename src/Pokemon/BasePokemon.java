@@ -3,6 +3,9 @@ package Pokemon;
 import item.usage.Evolable;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.shape.LineTo;
+import javafx.scene.shape.MoveTo;
+import javafx.scene.shape.Path;
 
 public abstract class BasePokemon implements Evolable {
     private String name;
@@ -12,14 +15,24 @@ public abstract class BasePokemon implements Evolable {
     private double def;
     private Element element;
     private ImageView PokemonImg;
+
+    private ImageView PokemonImgAttacked;
     private ImageView enemyImg;
+
+    private  ImageView playerGif;
+
+    private ImageView enemyGif;
+
+
+
+    private ImageView enemyImgAttacked;
     private ImageView skillImg;
     private ImageView circleImg;
     private int height;
     private int width;
     private int translateY;
     private int price;
-
+    private Path skillPath;
     //Abstact
     public abstract int getPrice();
 
@@ -70,6 +83,14 @@ public abstract class BasePokemon implements Evolable {
         } else this.hp = hp;
     }
 
+    public ImageView getPokemonImgAttacked() {
+        return PokemonImgAttacked;
+    }
+
+    public void setPokemonImgAttacked(ImageView pokemonImgAttacked) {
+        PokemonImgAttacked = pokemonImgAttacked;
+    }
+
     public double getAtk() {
         return atk;
     }
@@ -85,6 +106,8 @@ public abstract class BasePokemon implements Evolable {
     public void setDef(double def) {
         this.def = def;
     }
+
+
 
     public Element getElement() {
         return element;
@@ -110,6 +133,14 @@ public abstract class BasePokemon implements Evolable {
     @Override
     public void setIsEvoled(boolean bool) {
 
+    }
+
+    public ImageView getEnemyImgAttacked() {
+        return enemyImgAttacked;
+    }
+
+    public void setEnemyImgAttacked(ImageView enemyImgAttacked) {
+        this.enemyImgAttacked = enemyImgAttacked;
     }
 
     public ImageView getCircleImg() {
@@ -172,5 +203,29 @@ public abstract class BasePokemon implements Evolable {
 
     public void setTranslateY(int translateY) {
         this.translateY = translateY;
+    }
+
+    public Path getSkillPath() {
+        return skillPath;
+    }
+
+    public void setSkillPath(Path skillPath) {
+        this.skillPath = skillPath;
+    }
+
+    public ImageView getPlayerGif() {
+        return playerGif;
+    }
+
+    public void setPlayerGif(ImageView playerGif) {
+        this.playerGif = playerGif;
+    }
+
+    public ImageView getEnemyGif() {
+        return enemyGif;
+    }
+
+    public void setEnemyGif(ImageView enemyGif) {
+        this.enemyGif = enemyGif;
     }
 }

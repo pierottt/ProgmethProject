@@ -1,8 +1,9 @@
 package panes;
-import Pokemon.BasePokemon;
-import Pokemon.Chicken;
-import Pokemon.Rat;
+import Pokemon.*;
 import game.GameController;
+import item.AtkPotion;
+import item.DefPotion;
+import item.HealPotion;
 import javafx.animation.*;
 import javafx.application.Platform;
 import javafx.event.EventHandler;
@@ -17,11 +18,14 @@ import javafx.scene.shape.*;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
+import table.Grave;
 import utils.Goto;
 
 public class BossPane extends StackPane{
     int skillCoolDown = 0;
     int enemySkillCoolDown = 5;
+    int atkTurn = 0;
+    int defTurn = 0;
     public BossPane(){
         Image backgroundImage = new Image("ChickenFightPane.png");
         ImageView backgroundImageView = new ImageView(backgroundImage);
@@ -34,18 +38,27 @@ public class BossPane extends StackPane{
         BasePokemon enemy;
         playerPokemon = GameController.getInstance().getPlayer().getCurrentPokemon();
         playerPokemon.setHp(playerPokemon.getMaxHp());
+        double defaultAtk = playerPokemon.getAtk();
+        double defaultDef = playerPokemon.getDef();
         ImageView skillImg = playerPokemon.getSkillImg();
         skillImg.setFitHeight(300);
-        skillImg.setFitWidth(100);
+        skillImg.setFitWidth(300);
         skillImg.setVisible(false);
 
-        Path thunderPath = new Path();
-        thunderPath.getElements().add(new MoveTo(350,-200));
-        thunderPath.getElements().add(new LineTo(350,150));
-        PathTransition thunderTransition = new PathTransition();
-        thunderTransition.setDuration(Duration.seconds(1));
-        thunderTransition.setNode(skillImg);
-        thunderTransition.setPath(thunderPath);
+
+        PathTransition playerSkillTransition = new PathTransition();
+        playerSkillTransition.setDuration(Duration.seconds(1));
+        switch (playerPokemon) {
+            case Pikachu pikachu -> playerSkillTransition.setDuration(Duration.seconds(1));
+            case Dragon dragon -> playerSkillTransition.setDuration(Duration.seconds(2));
+            case Fox fox -> playerSkillTransition.setDuration(Duration.seconds(2));
+            case Rat rat -> playerSkillTransition.setDuration(Duration.seconds(3));
+            case Chicken chicken -> playerSkillTransition.setDuration(Duration.seconds(5));
+            default -> {
+            }
+        }
+        playerSkillTransition.setNode(skillImg);
+        playerSkillTransition.setPath(playerPokemon.getSkillPath());
 
 
         Text vs = new Text("Vs");
@@ -65,7 +78,6 @@ public class BossPane extends StackPane{
         ProgressBar enemyHpBar = new ProgressBar();
         enemyHpBar.setProgress(1.0);
         enemyHpBar.setStyle("-fx-accent: #00FF00;");
-
         enemyHpBar.setPrefSize(500,30);
         setAlignment(enemyHpBar,Pos.TOP_RIGHT);
         enemyHpBar.setTranslateX(-10);
@@ -75,27 +87,64 @@ public class BossPane extends StackPane{
         enemy = new Chicken();
         ImageView playerPokemonImg = playerPokemon.getPokemonImg();
         ImageView enemyImg = enemy.getEnemyImg();
-        ImageView enemySkillImg = enemy.getSkillImg();
+        ImageView enemySkillImg = new ImageView(new Image("ChickenSkillRight.png"));
+        ImageView playerPokemonImgAttacked = playerPokemon.getPokemonImgAttacked();
+        ImageView enemyImgAttacked = enemy.getEnemyImgAttacked();
+
+        ImageView playerPokemonGif = playerPokemon.getPlayerGif();
+        ImageView enemyPokemonGif = enemy.getEnemyGif();
+
+        //grave
+        Grave grave = new Grave("Grave.png",false,playerPokemon);
+        Grave graveEnemy = new Grave("GraveRight.png",true,enemy);
+
+        grave.getPicture().setVisible(false);
+        graveEnemy.getPicture().setVisible(false);
+
         enemySkillImg.setFitWidth(100);
         enemySkillImg.setFitHeight(50);
         enemySkillImg.setVisible(false);
+        playerPokemonImgAttacked.setVisible(false);
+        enemyImgAttacked.setVisible(false);
+        playerPokemonGif.setVisible(false);
+        enemyPokemonGif.setVisible(false);
         //set Pokemon position and size
         playerPokemonImg.setFitHeight(playerPokemon.getHeight());
         playerPokemonImg.setFitWidth(playerPokemon.getWidth());
         playerPokemonImg.setTranslateX(-350);
         playerPokemonImg.setTranslateY(playerPokemon.getTranslateY());
 
+        playerPokemonImgAttacked.setFitHeight(playerPokemon.getHeight());
+        playerPokemonImgAttacked.setFitWidth(playerPokemon.getWidth());
+        playerPokemonImgAttacked.setTranslateX(-350);
+        playerPokemonImgAttacked.setTranslateY(playerPokemon.getTranslateY());
+
+        playerPokemonGif.setFitHeight(playerPokemon.getHeight());
+        playerPokemonGif.setFitWidth(playerPokemon.getWidth());
+        playerPokemonGif.setTranslateX(-350);
+        playerPokemonGif.setTranslateY(playerPokemon.getTranslateY());
+
         //set enemy position and size
         enemyImg.setFitHeight(500);
         enemyImg.setFitWidth(500);
         enemyImg.setTranslateX(300);
         enemyImg.setTranslateY(-55);
+
+        enemyImgAttacked.setFitHeight(500);
+        enemyImgAttacked.setFitWidth(500);
+        enemyImgAttacked.setTranslateX(300);
+        enemyImgAttacked.setTranslateY(-55);
+
+        enemyPokemonGif.setFitHeight(500);
+        enemyPokemonGif.setFitWidth(500);
+        enemyPokemonGif.setTranslateX(300);
+        enemyPokemonGif.setTranslateY(-55);
         //set enemy skill path
         Path chickenPath = new Path();
         chickenPath.getElements().add(new MoveTo(150,0));
         chickenPath.getElements().add(new LineTo(-250,100));
         PathTransition chickenTransition = new PathTransition();
-        chickenTransition.setDuration(Duration.seconds(10));
+        chickenTransition.setDuration(Duration.seconds(2));
         chickenTransition.setNode(enemySkillImg);
         chickenTransition.setPath(chickenPath);
         chickenTransition.setOnFinished(event -> {
@@ -104,31 +153,66 @@ public class BossPane extends StackPane{
 
         //attack animation
         TranslateTransition forward = new TranslateTransition(Duration.seconds(1), playerPokemonImg);
-        forward.setByX(650);
+        forward.setByX(500);
 
         TranslateTransition backward = new TranslateTransition(Duration.millis(1000), playerPokemonImg);
-        backward.setByX(-650);
-        TranslateTransition enemyKnockBack = new TranslateTransition(Duration.millis(900),enemyImg);
-        enemyKnockBack.setByX(100);
-        TranslateTransition enemyComeBack = new TranslateTransition(Duration.millis(900),enemyImg);
-        enemyComeBack.setByX(-30);
+        backward.setByX(-500);
+//        TranslateTransition enemyKnockBack = new TranslateTransition(Duration.millis(900),enemyImg);
+//        enemyKnockBack.setByX(100);
+//        TranslateTransition enemyComeBack = new TranslateTransition(Duration.millis(900),enemyImg);
+//        enemyComeBack.setByX(-30);
 
         TranslateTransition forward2 = new TranslateTransition(Duration.seconds(1), enemyImg);
-        forward2.setByX(650);
+        forward2.setByX(500);
 
         TranslateTransition backward2 = new TranslateTransition(Duration.millis(1000), enemyImg);
-        backward2.setByX(-650);
-        TranslateTransition playerKnockBack = new TranslateTransition(Duration.millis(900),playerPokemonImg);
-        playerKnockBack.setByX(-100);
-        TranslateTransition playerComeBack = new TranslateTransition(Duration.millis(900),playerPokemonImg);
-        playerComeBack.setByX(30);
+        backward2.setByX(-500);
 
-        ParallelTransition parallelTransition = new ParallelTransition(enemyComeBack,backward);
-        ParallelTransition parallelTransition2 = new ParallelTransition(playerComeBack,forward2);
-        SequentialTransition playerAttack = new SequentialTransition(forward);
-        enemyKnockBack.setDelay(Duration.millis(700));
-        playerKnockBack.setDelay(Duration.millis(700));
-        SequentialTransition enemyAttack = new SequentialTransition(backward2);
+        TranslateTransition flee = new TranslateTransition(Duration.seconds(2), playerPokemonImg);
+        flee.setByX(-550);
+
+        RotateTransition rotate = new RotateTransition(Duration.seconds(0.2), playerPokemonImg);
+        rotate.setByAngle(20); // Rotate by -20 degrees
+
+        RotateTransition rotateBack = new RotateTransition(Duration.seconds(0.2), playerPokemonImg);
+        rotateBack.setByAngle(-20); // Rotate back by 20 degrees
+
+        RotateTransition rotate2 = new RotateTransition(Duration.seconds(0.2), enemyImg);
+        rotate2.setByAngle(-20); // Rotate by -20 degrees
+
+        RotateTransition rotateBack2 = new RotateTransition(Duration.seconds(0.2), enemyImg);
+        rotateBack2.setByAngle(20); // Rotate back by 20 degrees
+
+        backward.setOnFinished(event -> {
+            enemyImgAttacked.setVisible(false); // Show the attacked image
+            enemyImg.setVisible(true); // Hide the original image
+        });
+        forward.setOnFinished(event -> {
+            enemyImgAttacked.setVisible(true); // Show the attacked image
+            enemyImg.setVisible(false); // Hide the original image
+
+        });
+
+        // Change the image after backward2 is finished
+        backward2.setOnFinished(event -> {
+            playerPokemonImgAttacked.setVisible(true); // Show the attacked image
+            playerPokemonImg.setVisible(false); // Hide the original image
+        });
+        forward2.setOnFinished(event -> {
+            playerPokemonImgAttacked.setVisible(false); // Show the attacked image
+            playerPokemonImg.setVisible(true); // Hide the original image
+        });
+
+        flee.setOnFinished(event -> {
+            Goto.mapPage();
+        });
+        SequentialTransition playerAttack = new SequentialTransition(forward,rotate,rotateBack,backward);
+        SequentialTransition enemyAttack = new SequentialTransition(backward2,rotate2,rotateBack2,forward2);
+//        enemyKnockBack.setDelay(Duration.millis(700));
+//        playerKnockBack.setDelay(Duration.millis(700));
+
+
+
         //Pokeball
         Image pokeball = new Image("pokeball.png");
         ImageView pokeballView = new ImageView(pokeball);
@@ -146,142 +230,487 @@ public class BossPane extends StackPane{
         pokeTransition.setCycleCount(1);
 
         //BUTTON
-        Button leaveButton = new Button("LEAVE");
-        leaveButton.setPrefHeight(75);
-        leaveButton.setPrefWidth(200);
+        ImageView leaveButton = new ImageView(new Image("LeaveButton.png"));
+        leaveButton.setFitHeight(75);
+        leaveButton.setFitWidth(200);
         leaveButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
-                Goto.mapPage();
+                playerPokemon.setAtk(defaultAtk);
+                playerPokemon.setDef(defaultDef);
+                flee.play();
             }
         });
+        leaveButton.setOnMouseReleased(event -> {
+            // Revert back to the original image
+            leaveButton.setImage(new Image("LeaveButton.png"));
+        });
+
+        leaveButton.setOnMouseEntered(event -> {
+            leaveButton.setImage(new Image("LeaveButtonOnClick.png"));
+        });
+
+        leaveButton.setOnMouseExited(event -> {
+            leaveButton.setImage(new Image("LeaveButton.png"));
+        });
+
         setAlignment(leaveButton, Pos.BOTTOM_RIGHT);
 
-        Button atkButton = new Button("ATTACK");
-        atkButton.setPrefHeight(75);
-        atkButton.setPrefWidth(200);
+        ImageView atkButton = new ImageView(new Image("AttackButton.png"));
+        atkButton.setFitHeight(75);
+        atkButton.setFitWidth(200);
+
+        atkButton.setOnMouseReleased(event -> {
+            // Revert back to the original image
+            atkButton.setImage(new Image("AttackButton.png"));
+        });
+        atkButton.setOnMouseEntered(event -> {
+            atkButton.setImage(new Image("AttackButtonOnClick.png"));
+        });
+        atkButton.setOnMouseExited(event -> {
+            atkButton.setImage(new Image("AttackButton.png"));
+        });
+
+
 
         setAlignment(atkButton, Pos.BOTTOM_RIGHT);
         atkButton.setTranslateY(-80);
         atkButton.setTranslateX(-200);
 
-        Button catchButton = new Button("CATCH");
-        catchButton.setPrefHeight(75);
-        catchButton.setPrefWidth(200);
+        ImageView catchButton = new ImageView(new Image("CatchButton.png"));
+
+        catchButton.setFitHeight(75);
+        catchButton.setFitWidth(200);
         if(GameController.getInstance().getPlayer().getPokeBall()<1){
             catchButton.setDisable(true);
         }
+        catchButton.setOnMouseReleased(event -> {
+            // Revert back to the original image
+            catchButton.setImage(new Image("CatchButton.png"));
+        });
+
+        catchButton.setOnMouseEntered(event -> {
+            catchButton.setImage(new Image("CatchButtonOnClick.png"));
+        });
+
+        catchButton.setOnMouseExited(event -> {
+            catchButton.setImage(new Image("CatchButton.png"));
+        });
+
 
 
         setAlignment(catchButton, Pos.BOTTOM_RIGHT);
         catchButton.setTranslateX(-200);
 
-        Button skillButton = new Button("SKILL");
-        skillButton.setPrefHeight(75);
-        skillButton.setPrefWidth(200);
-        enemyAttack.setOnFinished(event -> {
-            parallelTransition2.play();
+        ImageView skillButton = new ImageView(new Image("SkillButton.png"));
+        skillButton.setFitHeight(75);
+        skillButton.setFitWidth(200);
+
+        //backgound
+        ImageView battleControlBackground = new ImageView(new Image("BattleControlBG.png"));
+        battleControlBackground.setFitWidth(1200);
+        battleControlBackground.setFitHeight(165);
+
+        battleControlBackground.setTranslateY(280);
+
+        //Items
+        ImageView attackPotion = new ImageView(new Image("AttackPotion.png"));
+        attackPotion.setFitHeight(100);
+        attackPotion.setFitWidth(100);
+
+        attackPotion.setTranslateY(280);
+        attackPotion.setTranslateX(-380);
+
+        ScaleTransition scaleTransition = new ScaleTransition(Duration.millis(200), attackPotion);
+        scaleTransition.setToX(1.2);
+        scaleTransition.setToY(1.2);
+        if(GameController.getInstance().getPlayer().getAtkPotion() == 0){attackPotion.setDisable(true);}
+
+        // Set event handlers
+        attackPotion.setOnMouseEntered(event -> {
+            scaleTransition.playFromStart(); // Start animation when mouse enters
         });
-        parallelTransition2.setOnFinished(event -> {
+
+        attackPotion.setOnMouseExited(event -> {
+            scaleTransition.stop(); // Stop animation when mouse exits
+            attackPotion.setScaleX(1.0); // Reset scale
+            attackPotion.setScaleY(1.0);
+        });
+
+        // Items amount left
+        Text attackPotionLeft = new Text(GameController.getInstance().getPlayer().getAtkPotion() + "");
+        attackPotionLeft.setTranslateY(316);
+        attackPotionLeft.setTranslateX(-344);
+        attackPotionLeft.setStyle("-fx-fill: white; -fx-font-weight: bold; -fx-font-size: 20px; -fx-font-family: 'Arial';");
+
+        // Synchronize text animation with image animation
+        TranslateTransition textTransition = new TranslateTransition(Duration.millis(200), attackPotionLeft);
+        textTransition.setToY(316 +8); // Adjust as needed
+        textTransition.setToX(-344 +8); // Adjust as needed
+
+        attackPotion.setOnMouseEntered(event -> {
+            scaleTransition.playFromStart();
+            textTransition.playFromStart(); // Start text animation when mouse enters
+        });
+
+        attackPotion.setOnMouseExited(event -> {
+            scaleTransition.stop();
+            attackPotion.setScaleX(1.0);
+            attackPotion.setScaleY(1.0);
+            textTransition.stop(); // Stop text animation when mouse exits
+            attackPotionLeft.setTranslateY(316);
+            attackPotionLeft.setTranslateX(-344);
+        });
+        AtkPotion atkPotion = new AtkPotion();
+
+        attackPotion.setOnMouseClicked(event -> {
+            GameController.getInstance().getPlayer().setAtkPotion(GameController.getInstance().getPlayer().getAtkPotion()-1);
+            attackPotionLeft.setText(GameController.getInstance().getPlayer().getAtkPotion() + "");
+            playerPokemon.setAtk(defaultAtk+ atkPotion.getATT_BUFF());
+            atkTurn = atkPotion.getBUFF_TURN();
+            attackPotion.setDisable(true);
+            System.out.println("Default atk:" + defaultAtk);
+            System.out.println("ATK+BUFF:" + playerPokemon.getAtk());
+            System.out.println("BUFF TURN LEFT:" + atkTurn);
+        });
+
+        ImageView healPotion = new ImageView(new Image("HealPotion.png"));
+        healPotion.setFitHeight(100);
+        healPotion.setFitWidth(100);
+
+        healPotion.setTranslateY(280);
+        healPotion.setTranslateX(-230);
+
+        ScaleTransition scaleTransitionHeal = new ScaleTransition(Duration.millis(200), healPotion);
+        scaleTransitionHeal.setToX(1.2);
+        scaleTransitionHeal.setToY(1.2);
+        if(GameController.getInstance().getPlayer().getHealPotion() == 0){healPotion.setDisable(true);}
+
+        // Set event handlers
+        healPotion.setOnMouseEntered(event -> {
+            scaleTransitionHeal.playFromStart(); // Start animation when mouse enters
+        });
+
+        healPotion.setOnMouseExited(event -> {
+            scaleTransitionHeal.stop(); // Stop animation when mouse exits
+            healPotion.setScaleX(1.0); // Reset scale
+            healPotion.setScaleY(1.0);
+        });
+
+        // Items amount left
+        Text healPotionLeft = new Text(GameController.getInstance().getPlayer().getHealPotion() + "");
+        healPotionLeft.setTranslateY(316);
+        healPotionLeft.setTranslateX(-194);
+        healPotionLeft.setStyle("-fx-fill: white; -fx-font-weight: bold; -fx-font-size: 20px; -fx-font-family: 'Arial';");
+
+        // Synchronize text animation with image animation
+        TranslateTransition textTransitionHeal = new TranslateTransition(Duration.millis(200), healPotionLeft);
+        textTransitionHeal.setToY(316 + 8); // Adjust as needed
+        textTransitionHeal.setToX(-194 + 8); // Adjust as needed
+
+        healPotion.setOnMouseEntered(event -> {
+            scaleTransitionHeal.playFromStart();
+            textTransitionHeal.playFromStart(); // Start text animation when mouse enters
+        });
+
+        healPotion.setOnMouseExited(event -> {
+            scaleTransitionHeal.stop();
+            healPotion.setScaleX(1.0);
+            healPotion.setScaleY(1.0);
+            textTransitionHeal.stop(); // Stop text animation when mouse exits
+            healPotionLeft.setTranslateY(316);
+            healPotionLeft.setTranslateX(-194);
+        });
+        HealPotion hPotion = new HealPotion();
+
+        healPotion.setOnMouseClicked(event -> {
+            GameController.getInstance().getPlayer().setHealPotion(GameController.getInstance().getPlayer().getHealPotion()-1);
+            healPotionLeft.setText(GameController.getInstance().getPlayer().getHealPotion() + "");
+            System.out.println("Before heal:" + playerPokemon.getHp());
+            playerPokemon.setHp(playerPokemon.getHp()+hPotion.getHEAL());
+            System.out.println("After heal:" + playerPokemon.getHp());
+            hpBar.setProgress((playerPokemon.getHp() / playerPokemon.getMaxHp()));
+            if(playerPokemon.getHp()/playerPokemon.getMaxHp() <= 0.25)
+                hpBar.setStyle("-fx-accent: #FF0000;");
+            else if(playerPokemon.getHp()/playerPokemon.getMaxHp() <= 0.5)
+                hpBar.setStyle("-fx-accent: #FFFF00;");
+            if(GameController.getInstance().getPlayer().getHealPotion() == 0) {healPotion.setDisable(true);}
+        });
+
+        ImageView defPotion = new ImageView(new Image("DefPotion.png"));
+        defPotion.setFitHeight(100);
+        defPotion.setFitWidth(100);
+
+        defPotion.setTranslateY(280);
+        defPotion.setTranslateX(-80);
+
+        ScaleTransition scaleTransitionDef = new ScaleTransition(Duration.millis(200), defPotion);
+        scaleTransitionDef.setToX(1.2);
+        scaleTransitionDef.setToY(1.2);
+        if(GameController.getInstance().getPlayer().getDefPotion() == 0){defPotion.setDisable(true);}
+
+        // Set event handlers
+        defPotion.setOnMouseEntered(event -> {
+            scaleTransitionDef.playFromStart(); // Start animation when mouse enters
+        });
+
+        defPotion.setOnMouseExited(event -> {
+            scaleTransitionDef.stop(); // Stop animation when mouse exits
+            defPotion.setScaleX(1.0); // Reset scale
+            defPotion.setScaleY(1.0);
+        });
+
+        // Items amount left
+        Text defPotionLeft = new Text(GameController.getInstance().getPlayer().getDefPotion() + "");
+        defPotionLeft.setTranslateY(316);
+        defPotionLeft.setTranslateX(-44);
+        defPotionLeft.setStyle("-fx-fill: white; -fx-font-weight: bold; -fx-font-size: 20px; -fx-font-family: 'Arial';");
+
+        // Synchronize text animation with image animation
+        TranslateTransition textTransitionDef = new TranslateTransition(Duration.millis(200), defPotionLeft);
+        textTransitionDef.setToY(316 + 8); // Adjust as needed
+        textTransitionDef.setToX(-44 + 8); // Adjust as needed
+
+        defPotion.setOnMouseEntered(event -> {
+            scaleTransitionDef.playFromStart();
+            textTransitionDef.playFromStart(); // Start text animation when mouse enters
+        });
+
+        defPotion.setOnMouseExited(event -> {
+            scaleTransitionDef.stop();
+            defPotion.setScaleX(1.0);
+            defPotion.setScaleY(1.0);
+            textTransitionDef.stop(); // Stop text animation when mouse exits
+            defPotionLeft.setTranslateY(316);
+            defPotionLeft.setTranslateX(-44);
+        });
+        DefPotion defensePotion = new DefPotion();
+
+        defPotion.setOnMouseClicked(event -> {
+            GameController.getInstance().getPlayer().setDefPotion(GameController.getInstance().getPlayer().getDefPotion()-1);
+            defPotionLeft.setText(GameController.getInstance().getPlayer().getDefPotion() + "");
+            playerPokemon.setDef(defaultDef+ defensePotion.getDEF_BUFF());
+            defTurn = defensePotion.getBUFF_TURN();
+            defPotion.setDisable(true);
+            System.out.println("Default def:" + defaultDef);
+            System.out.println("DEF+BUFF:" + playerPokemon.getDef());
+            System.out.println("BUFF TURN LEFT:"+ defTurn);
+        });
+
+        ImageView pokeballItem = new ImageView(new Image("PokeballItem.png"));
+        pokeballItem.setFitHeight(100);
+        pokeballItem.setFitWidth(100);
+
+        pokeballItem.setTranslateY(280);
+        pokeballItem.setTranslateX(70);
+
+        // Items amount left
+        Text pokeballItemLeft = new Text(GameController.getInstance().getPlayer().getPokeBall() + "");
+        pokeballItemLeft.setTranslateY(316);
+        pokeballItemLeft.setTranslateX(106);
+        pokeballItemLeft.setStyle("-fx-fill: white; -fx-font-weight: bold; -fx-font-size: 20px; -fx-font-family: 'Arial';");
+
+        // Synchronize text animation with image animation
+        TranslateTransition textTransitionPokeballItem = new TranslateTransition(Duration.millis(200), pokeballItemLeft);
+        textTransitionPokeballItem.setToY(316 + 8); // Adjust as needed
+        textTransitionPokeballItem.setToX(106 + 8); // Adjust as needed
+
+
+
+        //itemsBar
+        ImageView itemsBar = new ImageView(new Image("ItemsBar.png"));
+        itemsBar.setFitHeight(70);
+        itemsBar.setFitWidth(150);
+
+        itemsBar.setTranslateY(220);
+        itemsBar.setTranslateX(-520);
+
+
+
+        enemyAttack.setOnFinished(event -> {
+            // Enable all buttons after enemyAttack animation is finished
             atkButton.setDisable(false);
             skillButton.setDisable(skillCoolDown > 0);
             leaveButton.setDisable(false);
-            if(GameController.getInstance().getPlayer().getPokeBall()>0){
-                catchButton.setDisable(false);
-            }
-            if(GameController.getInstance().getPlayer().getCurrentPokemon().isDead()){
-                System.out.println("Your pokemon is faint");
-                Goto.mapPage();
-            }
-        });
-        //enemy Attack
-        PauseTransition delay = new PauseTransition(Duration.seconds(1));
-        delay.setOnFinished(event -> {
-            enemyImg.toFront();
-            enemyAttack.play();
-            playerKnockBack.play();
-            enemy.attack(playerPokemon);
             hpBar.setProgress((playerPokemon.getHp() / playerPokemon.getMaxHp()));
             if(playerPokemon.getHp()/playerPokemon.getMaxHp() <= 0.5)
                 hpBar.setStyle("-fx-accent: #FFFF00;");
             if(playerPokemon.getHp()/playerPokemon.getMaxHp() <= 0.25)
                 hpBar.setStyle("-fx-accent: #FF0000;");
-            System.out.println("A:" + playerPokemon.getAtk());
-            System.out.println("B:" + enemy.getAtk() * 0.5);
-            System.out.println("A:" + playerPokemon.getHp());
-            System.out.println("B:" + enemy.getHp());
+            if(GameController.getInstance().getPlayer().getPokeBall()>0){
+                catchButton.setDisable(false);
+            }
+            if(GameController.getInstance().getPlayer().getCurrentPokemon().isDead()){
+                System.out.println("Your pokemon is faint");
+                GameController.getInstance().endBattle(playerPokemonImg,grave.getPicture(),false);
+                GameController.getInstance().stopController(atkButton,skillButton,catchButton,leaveButton,atkButton,defPotion,healPotion);
+
+
+            }
+        });
+        //enemy Attack
+        PauseTransition delay = new PauseTransition(Duration.seconds(1));
+        delay.setOnFinished(event -> {
+            if(enemy.isDead()){
+                enemyImg.toFront();
+                enemyAttack.play();
+//            playerKnockBack.play();
+                enemy.attack(playerPokemon);
+                System.out.println("A:" + playerPokemon.getAtk());
+                System.out.println("B:" + enemy.getAtk() * 0.5);
+                System.out.println("A:" + playerPokemon.getHp());
+                System.out.println("B:" + enemy.getHp());
+                if (skillCoolDown == 0) {
+                    skillButton.setImage(new Image("SkillButton.png"));
+                    skillButton.setOnMouseReleased(e -> {
+                        // Revert back to the original image
+                        skillButton.setImage(new Image("SkillButtonOnClick.png"));
+                    });
+                    skillButton.setOnMouseEntered(e -> {
+                        skillButton.setImage(new Image("SkillButtonOnClick.png"));
+                    });
+                    skillButton.setOnMouseExited(e -> {
+                        skillButton.setImage(new Image("SkillButton.png"));
+                    });
+                } else {
+                    skillButton.setDisable(true); // Disable button when skillCooldown is more than 0
+                    skillButton.setImage(new Image("SkillButtonOnclick.png"));
+                    skillButton.setOnMouseReleased(null); // Remove mouse released event handler
+                    skillButton.setOnMouseEntered(null); // Remove mouse entered event handler
+                    skillButton.setOnMouseExited(null); // Remove mouse exited event handler
+                }
+            }
+
 
         });
         chickenTransition.setOnFinished(event -> {
+            playerPokemonImg.setVisible(false);
+            playerPokemonGif.setVisible(true);
             atkButton.setDisable(false);
             skillButton.setDisable(skillCoolDown > 0);
             leaveButton.setDisable(false);
+            hpBar.setProgress((playerPokemon.getHp() / playerPokemon.getMaxHp()));
+            if(playerPokemon.getHp()/playerPokemon.getMaxHp() <= 0.25)
+                hpBar.setStyle("-fx-accent: #FF0000;");
+            else if(playerPokemon.getHp()/playerPokemon.getMaxHp() <= 0.5)
+                hpBar.setStyle("-fx-accent: #FFFF00;");
             if(GameController.getInstance().getPlayer().getPokeBall()>0){
                 catchButton.setDisable(false);
             }
             enemySkillImg.setVisible(false);
             if(GameController.getInstance().getPlayer().getCurrentPokemon().isDead()){
                 System.out.println("Your pokemon is faint");
-                Goto.mapPage();
+                GameController.getInstance().endBattle(playerPokemonImg,grave.getPicture(),false);
+                GameController.getInstance().stopController(atkButton,skillButton,catchButton,leaveButton,atkButton,defPotion,healPotion);
+
+
             }
+            PauseTransition pause = new PauseTransition(Duration.seconds(0.5));
+            pause.setOnFinished(e -> {
+                playerPokemonImg.setVisible(true);
+                playerPokemonGif.setVisible(false);
+                // Add any other actions you want to perform after the delay here
+            });
+            pause.play();
+
         });
         //enemy useSkill when cool down = 0;
         PauseTransition delay2 = new PauseTransition(Duration.seconds(1));
         delay2.setOnFinished(event -> {
-            // Disable all buttons
-            atkButton.setDisable(true);
-            skillButton.setDisable(true);
-            leaveButton.setDisable(true);
-            catchButton.setDisable(true);
-            enemySkillCoolDown = 5;
-            enemyImg.toFront();
-            enemySkillImg.toFront();
-            enemySkillImg.setVisible(true);
-            chickenTransition.play();
-            enemy.useSkill(playerPokemon);
-            hpBar.setProgress((playerPokemon.getHp() / playerPokemon.getMaxHp()));
-            if(playerPokemon.getHp()/playerPokemon.getMaxHp() <= 0.25)
-                hpBar.setStyle("-fx-accent: #FF0000;");
-            else if(playerPokemon.getHp()/playerPokemon.getMaxHp() <= 0.5)
-                hpBar.setStyle("-fx-accent: #FFFF00;");
-            System.out.println("A:" + playerPokemon.getAtk());
-            System.out.println("B:" + enemy.getAtk() * 0.5);
-            System.out.println("A:" + playerPokemon.getHp());
-            System.out.println("B:" + enemy.getHp());
-        });
-
-        parallelTransition.setOnFinished(event -> {
-            if(enemySkillCoolDown == 0){
-                delay2.play();
-            }else{
-                delay.play();
+            if(!enemy.isDead()){
+                enemySkillCoolDown = 5;
+                enemyImg.toFront();
+                enemySkillImg.setVisible(true);
+                enemySkillImg.toFront();
+                chickenTransition.play();
+                enemy.useSkill(playerPokemon);
+                System.out.println("A:" + playerPokemon.getAtk());
+                System.out.println("B:" + enemy.getAtk() * 0.5);
+                System.out.println("A:" + playerPokemon.getHp());
+                System.out.println("B:" + enemy.getHp());
+                if (skillCoolDown == 0) {
+                    skillButton.setImage(new Image("SkillButton.png"));
+                    skillButton.setOnMouseReleased(e -> {
+                        // Revert back to the original image
+                        skillButton.setImage(new Image("SkillButtonOnClick.png"));
+                    });
+                    skillButton.setOnMouseEntered(e -> {
+                        skillButton.setImage(new Image("SkillButtonOnClick.png"));
+                    });
+                    skillButton.setOnMouseExited(e -> {
+                        skillButton.setImage(new Image("SkillButton.png"));
+                    });
+                } else {
+                    skillButton.setDisable(true); // Disable button when skillCooldown is more than 0
+                    skillButton.setImage(new Image("SkillButtonOnClick.png"));
+                    skillButton.setOnMouseReleased(null); // Remove mouse released event handler
+                    skillButton.setOnMouseEntered(null); // Remove mouse entered event handler
+                    skillButton.setOnMouseExited(null); // Remove mouse exited event handler
+                }
             }
+//            // Disable all buttons
+//            atkButton.setDisable(true);
+//            skillButton.setDisable(true);
+//            leaveButton.setDisable(true);
+//            catchButton.setDisable(true);
+
         });
 
-        skillButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
+//        parallelTransition.setOnFinished(event -> {
+//            if(enemySkillCoolDown == 0){
+//                delay2.play();
+//            }else{
+//                delay.play();
+//            }
+//        });
+
+        skillButton.setOnMousePressed(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
+                decreaseCoolDown();
                 skillCoolDown = 2;
                 System.out.println("USE SKILLS");
-                skillImg.setVisible(true);
                 playerPokemon.useSkill(enemy);
-                enemyHpBar.setProgress((enemy.getHp()/enemy.getMaxHp()));
-                if((enemy.getHp()/enemy.getMaxHp()) <= 0.25)
-                    enemyHpBar.setStyle("-fx-accent: #FF0000;");
-                else if((enemy.getHp()/enemy.getMaxHp()) <= 0.50)
-                    enemyHpBar.setStyle("-fx-accent: #FFFF00;");
                 atkButton.setDisable(true);
                 skillButton.setDisable(true);
                 leaveButton.setDisable(true);
                 catchButton.setDisable(true);
                 skillImg.toFront();
-                thunderTransition.play();
-                thunderTransition.setOnFinished(event -> {
+                skillImg.setVisible(true);
+                playerSkillTransition.play();
+                if(atkTurn == 0){
+                    playerPokemon.setAtk(defaultAtk);
+                    if(GameController.getInstance().getPlayer().getAtkPotion() != 0) attackPotion.setDisable(false);
+                    System.out.println("BUFF TURN:"+ atkTurn);
+                }
+                if(defTurn == 0){
+                    playerPokemon.setDef(defaultDef);
+                    if(GameController.getInstance().getPlayer().getAtkPotion() != 0) defPotion.setDisable(false);
+                    System.out.println("BUFF TURN:"+ defTurn);
+                }
+                playerSkillTransition.setOnFinished(event -> {
+                    enemyHpBar.setProgress((enemy.getHp()/enemy.getMaxHp()));
+                    if((enemy.getHp()/enemy.getMaxHp()) <= 0.25)
+                        enemyHpBar.setStyle("-fx-accent: #FF0000;");
+                    else if((enemy.getHp()/enemy.getMaxHp()) <= 0.50)
+                        enemyHpBar.setStyle("-fx-accent: #FFFF00;");
+                    enemyImg.setVisible(false);
+                    enemyPokemonGif.setVisible(true);
+                    PauseTransition pauseEnemy = new PauseTransition(Duration.seconds(1));
+                    pauseEnemy.setOnFinished(e -> {
+                        enemyImg.setVisible(true);
+                        enemyPokemonGif.setVisible(false);
+                        // Add any other actions you want to perform after the delay here
+                    });
+                    pauseEnemy.play();
                     skillImg.setVisible(false);
                     if(enemy.isDead()){
                         System.out.println("Enemy pokemon is faint");
                         GameController.getInstance().setChickenCheckpoint(true);
-                        Goto.mapPage();
+                        GameController.getInstance().endBattle(enemyImg,graveEnemy.getPicture(),true);
+                        GameController.getInstance().stopController(atkButton,skillButton,catchButton,leaveButton,atkButton,defPotion,healPotion);
+
+
                     }
                     if(enemySkillCoolDown == 0){
                         delay2.play();
@@ -303,22 +732,37 @@ public class BossPane extends StackPane{
                 atkButton.setDisable(true);
                 skillButton.setDisable(true);
                 catchButton.setDisable(true);
-                playerPokemonImg.toFront();
                 playerAttack.play();
-                enemyKnockBack.play();
+                playerPokemonImg.toFront();
                 playerPokemon.attack(enemy);
-                enemyHpBar.setProgress((enemy.getHp()/enemy.getMaxHp()));
-                if((enemy.getHp()/enemy.getMaxHp()) <= 0.25)
-                    enemyHpBar.setStyle("-fx-accent: #FF0000;");
-                else if((enemy.getHp()/enemy.getMaxHp()) <= 0.50)
-                    enemyHpBar.setStyle("-fx-accent: #FFFF00;");
+                if(atkTurn == 0){
+                    playerPokemon.setAtk(defaultAtk);
+                    if(GameController.getInstance().getPlayer().getAtkPotion() != 0) attackPotion.setDisable(false);
+                    System.out.println("BUFF TURN:"+ atkTurn);
+                }
+                if(defTurn == 0){
+                    playerPokemon.setDef(defaultDef);
+                    if(GameController.getInstance().getPlayer().getAtkPotion() != 0) defPotion.setDisable(false);
+                    System.out.println("BUFF TURN:"+ defTurn);
+                }
                 playerAttack.setOnFinished(event -> {
+                    enemyHpBar.setProgress((enemy.getHp()/enemy.getMaxHp()));
+                    if((enemy.getHp()/enemy.getMaxHp()) <= 0.25)
+                        enemyHpBar.setStyle("-fx-accent: #FF0000;");
+                    else if((enemy.getHp()/enemy.getMaxHp()) <= 0.50)
+                        enemyHpBar.setStyle("-fx-accent: #FFFF00;");
                     if(enemy.isDead()){
                         System.out.println("Enemy pokemon is faint");
                         GameController.getInstance().setChickenCheckpoint(true);
-                        Goto.mapPage();
+                        GameController.getInstance().endBattle(enemyImg,graveEnemy.getPicture(),true);
+                        GameController.getInstance().stopController(atkButton,skillButton,catchButton,leaveButton,atkButton,defPotion,healPotion);
                     }
-                    parallelTransition.play();
+                    if(enemySkillCoolDown == 0){
+                        delay2.play();
+                    }else{
+                        delay.play();
+                    }
+//                    parallelTransition.play();
                 });
 
             }
@@ -341,8 +785,7 @@ public class BossPane extends StackPane{
                         GameController.getInstance().getPlayer().setChicken(GameController.getInstance().getPlayer().getChicken()+1);
                         if(!GameController.getInstance().getPlayer().getPokeDeck().getPokeDeck().contains(new Chicken())){
                             GameController.getInstance().getPlayer().getPokeDeck().getPokeDeck().add(new Chicken());
-                        }
-                        Goto.mapPage();
+                        }Goto.mapPage();
                     }
                     else{
                         atkButton.setDisable(false);
@@ -353,24 +796,52 @@ public class BossPane extends StackPane{
                         }
                     }
                     GameController.getInstance().getPlayer().setPokeBall(GameController.getInstance().getPlayer().getPokeBall()-1);
-
+                    pokeballItemLeft.setText(GameController.getInstance().getPlayer().getPokeBall()+"");
+                    if(GameController.getInstance().getPlayer().getPokeBall()<=0){
+                        catchButton.setDisable(true);
+                        catchButton.setImage(new Image("CatchButtonOnClick.png"));
+                    }
                 });
             }
         });
-        if(skillCoolDown == 0){
+        if (skillCoolDown == 0) {
             skillButton.setDisable(false);
+            skillButton.setImage(new Image("SkillButton.png"));
+            skillButton.setOnMouseReleased(event -> {
+                // Revert back to the original image
+                skillButton.setImage(new Image("SkillButtonOnClick.png"));
+            });
+            skillButton.setOnMouseEntered(event -> {
+                skillButton.setImage(new Image("SkillButtonOnClick.png"));
+            });
+            skillButton.setOnMouseExited(event -> {
+                skillButton.setImage(new Image("SkillButton.png"));
+            });
+        } else {
+            skillButton.setDisable(true); // Disable button when skillCooldown is more than 0
+            skillButton.setImage(new Image("SkillButtonOnClick.png"));
+            skillButton.setOnMouseReleased(null); // Remove mouse released event handler
+            skillButton.setOnMouseEntered(null); // Remove mouse entered event handler
+            skillButton.setOnMouseExited(null); // Remove mouse exited event handler
         }
 
-        getChildren().addAll(backgroundImageView,enemyImg,playerPokemonImg,leaveButton,atkButton,skillButton,catchButton,pokeballView);
+        getChildren().addAll(backgroundImageView,enemyImgAttacked,enemyImg,playerPokemonImg,playerPokemonImgAttacked,battleControlBackground,leaveButton,atkButton,skillButton,catchButton,pokeballView);
         getChildren().add(hpBar);
         getChildren().add(enemyHpBar);
         getChildren().add(vs);
         getChildren().add(skillImg);
         getChildren().add(enemySkillImg);
+        getChildren().addAll(attackPotion,attackPotionLeft,healPotion,healPotionLeft,defPotion,defPotionLeft,pokeballItem,pokeballItemLeft,itemsBar);
+        getChildren().addAll(playerPokemonGif,enemyPokemonGif);
+        getChildren().addAll(graveEnemy.getPicture(),grave.getPicture());
+
+
 
     }
     public void decreaseCoolDown(){
         if(skillCoolDown > 0) skillCoolDown--;
         if(enemySkillCoolDown > 0) enemySkillCoolDown--;
+        if(atkTurn > 0) atkTurn--;
+        if(defTurn > 0) defTurn--;
     }
 }
