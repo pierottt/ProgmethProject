@@ -9,7 +9,7 @@ import javafx.scene.shape.Path;
 
 public class Chicken extends BasePokemon{
     public Chicken() {
-        super("Chicken", 99999, 100, 100, 999999999, Element.LIGHT);
+        super("Chicken", 50000, 200, 100, 999999999, Element.LIGHT);
         Image pokemon = new Image("ChickenLeft.png");
         Image enemy = new Image("ChickenRight.png");
         Image skill = new Image("ChickenSkillLeft.png");
@@ -19,7 +19,7 @@ public class Chicken extends BasePokemon{
         ImageView pokemonImg = new ImageView(pokemon);
         ImageView enemyImg = new ImageView(enemy);
         ImageView skillImg = new ImageView(skill);
-        ImageView cirlceImg = new ImageView(circle);
+        ImageView circleImg = new ImageView(circle);
         ImageView playerPokemongif = new ImageView(("chickenGif.gif"));
         ImageView enemyPokemongif = new ImageView("chickenGifRight.gif");
         ImageView pokemonImgAttacked = new ImageView(pokemonAttacked);
@@ -27,7 +27,7 @@ public class Chicken extends BasePokemon{
         this.setPokemonImg(pokemonImg);
         this.setEnemyImg(enemyImg);
         this.setSkillImg(skillImg);
-        this.setCircleImg(cirlceImg);
+        this.setCircleImg(circleImg);
         this.setEnemyImgAttacked(enemyImgAttacked);
         this.setPokemonImgAttacked(pokemonImgAttacked);
         this.setHeight(500);
@@ -42,22 +42,18 @@ public class Chicken extends BasePokemon{
     }
 
     public void attack(BasePokemon pokemon) {
-        if(pokemon.getElement()==Element.LIGHT) {
-            pokemon.decreaseHp(getAtk() - pokemon.getDef());
-        } else if (pokemon.getElement()==Element.FIRE || pokemon.getElement()==Element.ELECTRIC) {
-            pokemon.decreaseHp(getAtk()*1.5 - pokemon.getDef());
-        } else {
-            pokemon.decreaseHp(getAtk()*0.5 - pokemon.getDef());
-        }
+        pokemon.decreaseHp(getAtk() - pokemon.getDef());
     }
     @Override
     public void useSkill(BasePokemon pokemon){
         pokemon.decreaseHp(50000);
-    }
-
-    @Override
-    public int getPrice() {
-        return 999999;
+        if(pokemon.getElement()==Element.LIGHT) {
+            pokemon.decreaseHp(getAtk() + 50000);
+        } else if (pokemon.getElement()==Element.FIRE || pokemon.getElement()==Element.ELECTRIC) {
+            pokemon.decreaseHp((getAtk()+50000)*1.5);
+        } else {
+            pokemon.decreaseHp(100);
+        }
     }
 
     @Override
