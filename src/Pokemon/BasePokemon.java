@@ -1,13 +1,9 @@
 package Pokemon;
 
-import item.usage.Evolable;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.shape.LineTo;
-import javafx.scene.shape.MoveTo;
 import javafx.scene.shape.Path;
 
-public abstract class BasePokemon implements Evolable {
+public abstract class BasePokemon {
     private String name;
     private double maxHp;
     private double hp;
@@ -125,16 +121,6 @@ public abstract class BasePokemon implements Evolable {
 
     public void setMaxHp(double maxHp) {
         this.maxHp = maxHp;
-    }
-
-    @Override
-    public boolean getIsEvoled() {
-        return false;
-    }
-
-    @Override
-    public void setIsEvoled(boolean bool) {
-
     }
 
     public ImageView getEnemyImgAttacked() {

@@ -7,7 +7,6 @@ import item.HealPotion;
 import javafx.animation.*;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
-import javafx.scene.control.Button;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -86,7 +85,7 @@ public class fightPane1_2 extends StackPane{
         ImageView playerPokemonImg = playerPokemon.getPokemonImg();
         ImageView playerPokemonImgAttacked = playerPokemon.getPokemonImgAttacked();
         ImageView enemyImg = enemy.getEnemyImg();
-        ImageView enemySkillImg = new ImageView(new Image("foxSkillRight.png"));
+        ImageView enemySkillImg = new ImageView(new Image("FoxSkillRight.png"));
         ImageView enemyImgAttacked = enemy.getEnemyImgAttacked();
 
         ImageView playerPokemonGif =playerPokemon.getPlayerGif();
@@ -100,7 +99,7 @@ public class fightPane1_2 extends StackPane{
         graveEnemy.getPicture().setVisible(false);
 
         enemySkillImg.setFitWidth(300);
-        enemySkillImg.setFitHeight(400);
+        enemySkillImg.setFitHeight(300);
         enemySkillImg.setVisible(false);
         playerPokemonImgAttacked.setVisible(false);
         enemyImgAttacked.setVisible(false);
@@ -144,7 +143,7 @@ public class fightPane1_2 extends StackPane{
 
         //set enemy skill path
         Path foxPath = new Path();
-        foxPath.getElements().add(new MoveTo(300,-100));
+        foxPath.getElements().add(new MoveTo(300,-50));
         foxPath.getElements().add(new LineTo(-150,200));
         PathTransition foxTransition = new PathTransition();
         foxTransition.setDuration(Duration.seconds(1));
