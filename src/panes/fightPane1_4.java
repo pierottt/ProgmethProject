@@ -16,6 +16,7 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.shape.*;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
+import javafx.scene.transform.Rotate;
 import javafx.util.Duration;
 import table.Grave;
 import utils.Goto;
@@ -99,7 +100,7 @@ public class fightPane1_4 extends StackPane{
         graveEnemy.getPicture().setVisible(false);
 
         enemySkillImg.setFitWidth(300);
-        enemySkillImg.setFitHeight(400);
+        enemySkillImg.setFitHeight(300);
         enemySkillImg.setVisible(false);
         playerPokemonImgAttacked.setVisible(false);
         enemyImgAttacked.setVisible(false);
@@ -139,10 +140,10 @@ public class fightPane1_4 extends StackPane{
         enemyPokemonGif.setTranslateY(-35);
         //set enemy skill path
         Path ratPath = new Path();
-        ratPath.getElements().add(new MoveTo(300,50));
-        ratPath.getElements().add(new LineTo(-250,100));
+        ratPath.getElements().add(new MoveTo(350,80));
+        ratPath.getElements().add(new LineTo(-230,150));
         PathTransition ratTransition = new PathTransition();
-        ratTransition.setDuration(Duration.seconds(2));
+        ratTransition.setDuration(Duration.seconds(5));
         ratTransition.setNode(enemySkillImg);
         ratTransition.setPath(ratPath);
         ratTransition.setOnFinished(event -> {
@@ -224,6 +225,12 @@ public class fightPane1_4 extends StackPane{
         pokeTransition.setNode(pokeballView);
         pokeTransition.setPath(pokeballPath); // Set the path along which the node will transition
         pokeTransition.setCycleCount(1);
+        RotateTransition rotateBall = new RotateTransition();
+        rotateBall.setDuration(Duration.seconds(1));
+        rotateBall.setCycleCount(TranslateTransition.INDEFINITE);
+        rotateBall.setNode(pokeballView);
+        rotateBall.setByAngle(360);
+        rotateBall.setAxis(Rotate.Z_AXIS);
 
         //BUTTON
         ImageView leaveButton = new ImageView(new Image("LeaveButton.png"));
@@ -763,6 +770,7 @@ public class fightPane1_4 extends StackPane{
                 pokeballView.setVisible(true);
                 pokeballView.toFront();
                 pokeTransition.play();
+                rotateBall.play();
                 pokeTransition.setOnFinished(event -> {
                     // Scale transition to minimize enemyImg
                     ScaleTransition scaleDownTransition = new ScaleTransition(Duration.seconds(5), enemyImg);
