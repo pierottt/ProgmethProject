@@ -86,7 +86,7 @@ public class fightPane1_4 extends StackPane{
         ImageView playerPokemonImg = playerPokemon.getPokemonImg();
         ImageView playerPokemonImgAttacked = playerPokemon.getPokemonImgAttacked();
         ImageView enemyImg = enemy.getEnemyImg();
-        ImageView enemySkillImg = new ImageView(new Image("ratSkillRight.png"));
+        ImageView enemySkillImg = new ImageView(new Image("RatSkillRight.png"));
         ImageView enemyImgAttacked = enemy.getEnemyImgAttacked();
 
         ImageView playerPokemonGif = playerPokemon.getPlayerGif();

@@ -731,6 +731,52 @@ public class fightPane1_1 extends StackPane {
         setAlignment(skillButton, Pos.BOTTOM_RIGHT);
         skillButton.setTranslateY(-80);
 
+        atkButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                System.out.println("ATTACK");
+                decreaseCoolDown();
+                leaveButton.setDisable(true);
+                atkButton.setDisable(true);
+                skillButton.setDisable(true);
+                catchButton.setDisable(true);
+                playerAttack.play();
+                playerPokemonImg.toFront();
+                playerPokemon.attack(enemy);
+                if(atkTurn == 0){
+                    playerPokemon.setAtk(defaultAtk);
+                    if(GameController.getInstance().getPlayer().getAtkPotion() != 0) attackPotion.setDisable(false);
+                    System.out.println("BUFF TURN:"+ atkTurn);
+                }
+                if(defTurn == 0){
+                    playerPokemon.setDef(defaultDef);
+                    if(GameController.getInstance().getPlayer().getAtkPotion() != 0) defPotion.setDisable(false);
+                    System.out.println("BUFF TURN:"+ defTurn);
+                }
+                playerAttack.setOnFinished(event -> {
+                    enemyHpBar.setProgress((enemy.getHp()/enemy.getMaxHp()));
+                    if((enemy.getHp()/enemy.getMaxHp()) <= 0.25)
+                        enemyHpBar.setStyle("-fx-accent: #FF0000;");
+                    else if((enemy.getHp()/enemy.getMaxHp()) <= 0.50)
+                        enemyHpBar.setStyle("-fx-accent: #FFFF00;");
+                    if(enemy.isDead()){
+                        System.out.println("Enemy pokemon is faint");
+                        GameController.getInstance().getPlayer().setMoney(GameController.getInstance().getPlayer().getMoney()+1000);
+                        GameController.getInstance().setFoxCheckpoint(true);
+                        GameController.getInstance().endBattle(enemyImg,graveEnemy.getPicture(),true);
+                        GameController.getInstance().stopController(atkButton,skillButton,catchButton,leaveButton,atkButton,defPotion,healPotion);
+
+
+                    }
+                    if(enemySkillCoolDown == 0){
+                        delay2.play();
+                    }else{
+                        delay.play();
+                    }
+                });
+
+            }
+        });
 
 
         catchButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
