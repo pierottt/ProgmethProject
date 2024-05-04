@@ -131,7 +131,7 @@ public class Player {
 
     public Player(String name){
         this.name=name;
-        this.money=5000;
+        this.money=3000;
         this.inventory= new ArrayList<BaseItem>();
         //dumb code for test
         this.pokeDeck = new PokeDeck();

@@ -762,11 +762,9 @@ public class fightPane1_1 extends StackPane {
                     if(enemy.isDead()){
                         System.out.println("Enemy pokemon is faint");
                         GameController.getInstance().getPlayer().setMoney(GameController.getInstance().getPlayer().getMoney()+1000);
-                        GameController.getInstance().setFoxCheckpoint(true);
+                        GameController.getInstance().setPikachuCheckpoint(true);
                         GameController.getInstance().endBattle(enemyImg,graveEnemy.getPicture(),true);
                         GameController.getInstance().stopController(atkButton,skillButton,catchButton,leaveButton,atkButton,defPotion,healPotion);
-
-
                     }
                     if(enemySkillCoolDown == 0){
                         delay2.play();

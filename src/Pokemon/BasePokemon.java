@@ -11,16 +11,10 @@ public abstract class BasePokemon {
     private double def;
     private Element element;
     private ImageView PokemonImg;
-
     private ImageView PokemonImgAttacked;
     private ImageView enemyImg;
-
-    private  ImageView playerGif;
-
+    private ImageView playerGif;
     private ImageView enemyGif;
-
-
-
     private ImageView enemyImgAttacked;
     private ImageView skillImg;
     private ImageView circleImg;
@@ -29,10 +23,6 @@ public abstract class BasePokemon {
     private int translateY;
     private int price;
     private Path skillPath;
-    //Abstact
-    public int getPrice(){
-        return price;
-    };
 
     public abstract boolean equals(BasePokemon pokemon);
 
@@ -101,8 +91,6 @@ public abstract class BasePokemon {
         this.def = def;
     }
 
-
-
     public Element getElement() {
         return element;
     }
@@ -159,6 +147,9 @@ public abstract class BasePokemon {
         this.skillImg = skillImg;
     }
 
+    public int getPrice(){
+        return price;
+    };
     public void setPrice(int price) {
         this.price = price;
     }
