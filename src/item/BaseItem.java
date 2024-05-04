@@ -1,6 +1,8 @@
 package item;
 
-public class BaseItem {
+import usage.purchaseable;
+
+public class BaseItem implements purchaseable {
     private String name;
     private int price;
 
@@ -17,6 +19,7 @@ public class BaseItem {
         this.name = name;
     }
 
+    @Override
     public int getPrice() {
         return price;
     }

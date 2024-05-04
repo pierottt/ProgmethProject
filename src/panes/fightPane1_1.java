@@ -1,4 +1,5 @@
 package panes;
+
 import Pokemon.*;
 import game.GameController;
 import item.AtkPotion;
@@ -21,12 +22,13 @@ import javafx.util.Duration;
 import table.Grave;
 import utils.Goto;
 
-public class fightPane1_1 extends StackPane{
+public class fightPane1_1 extends StackPane {
     int skillCoolDown = 0;
     int enemySkillCoolDown = 2;
     int atkTurn = 0;
     int defTurn = 0;
-    public fightPane1_1(){
+
+    public fightPane1_1() {
         Image backgroundImage = new Image("PikachuFightPane.png");
         ImageView backgroundImageView = new ImageView(backgroundImage);
         backgroundImageView.setPreserveRatio(false);
@@ -67,8 +69,8 @@ public class fightPane1_1 extends StackPane{
         ProgressBar hpBar = new ProgressBar();
         hpBar.setProgress(1.0);
         hpBar.setStyle("-fx-accent: #00FF00;");
-        hpBar.setPrefSize(500,30);
-        setAlignment(hpBar,Pos.TOP_LEFT);
+        hpBar.setPrefSize(500, 30);
+        setAlignment(hpBar, Pos.TOP_LEFT);
         hpBar.setTranslateX(10);
         hpBar.setTranslateY(10);
 
@@ -76,8 +78,8 @@ public class fightPane1_1 extends StackPane{
         ProgressBar enemyHpBar = new ProgressBar();
         enemyHpBar.setProgress(1.0);
         enemyHpBar.setStyle("-fx-accent: #00FF00;");
-        enemyHpBar.setPrefSize(500,30);
-        setAlignment(enemyHpBar,Pos.TOP_RIGHT);
+        enemyHpBar.setPrefSize(500, 30);
+        setAlignment(enemyHpBar, Pos.TOP_RIGHT);
         enemyHpBar.setTranslateX(-10);
         enemyHpBar.setTranslateY(10);
 
@@ -94,8 +96,8 @@ public class fightPane1_1 extends StackPane{
         ImageView enemyPokemongif = enemy.getEnemyGif();
 
         //grave
-        Grave grave = new Grave("Grave.png",false,playerPokemon);
-        Grave graveEnemy = new Grave("GraveRight.png",true,enemy);
+        Grave grave = new Grave("Grave.png", false, playerPokemon);
+        Grave graveEnemy = new Grave("GraveRight.png", true, enemy);
 
         grave.getPicture().setVisible(false);
         graveEnemy.getPicture().setVisible(false);
@@ -143,15 +145,13 @@ public class fightPane1_1 extends StackPane{
 
         //set enemy skill path
         Path pikachuPath = new Path();
-        pikachuPath.getElements().add(new MoveTo(-150,-200));
-        pikachuPath.getElements().add(new LineTo(-150,150));
+        pikachuPath.getElements().add(new MoveTo(-150, -200));
+        pikachuPath.getElements().add(new LineTo(-150, 150));
 
         PathTransition pikachuTransition = new PathTransition();
         pikachuTransition.setDuration(Duration.seconds(1));
         pikachuTransition.setNode(enemySkillImg);
         pikachuTransition.setPath(pikachuPath);
-
-
 
 
         //attack animation
@@ -208,8 +208,8 @@ public class fightPane1_1 extends StackPane{
         });
 
 
-        SequentialTransition playerAttack = new SequentialTransition(forward,rotate,rotateBack,backward);
-        SequentialTransition enemyAttack = new SequentialTransition(backward2,rotate2,rotateBack2,forward2);
+        SequentialTransition playerAttack = new SequentialTransition(forward, rotate, rotateBack, backward);
+        SequentialTransition enemyAttack = new SequentialTransition(backward2, rotate2, rotateBack2, forward2);
 
         //Pokeball
         Image pokeball = new Image("pokeball.png");
@@ -219,8 +219,8 @@ public class fightPane1_1 extends StackPane{
         pokeballView.setVisible(false);
 
         Path pokeballPath = new Path();
-        pokeballPath.getElements().add(new MoveTo(0,200));
-        pokeballPath.getElements().add(new QuadCurveTo(-150,-150,325,100));
+        pokeballPath.getElements().add(new MoveTo(0, 200));
+        pokeballPath.getElements().add(new QuadCurveTo(-150, -150, 325, 100));
         PathTransition pokeTransition = new PathTransition();
         pokeTransition.setDuration(Duration.seconds(1));
         pokeTransition.setNode(pokeballView);
@@ -239,7 +239,7 @@ public class fightPane1_1 extends StackPane{
         leaveButton.setFitWidth(200);
 
 
-        leaveButton.setOnMouseClicked(new EventHandler<>(){
+        leaveButton.setOnMouseClicked(new EventHandler<>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
                 playerPokemon.setAtk(defaultAtk);
@@ -279,16 +279,16 @@ public class fightPane1_1 extends StackPane{
         });
 
 
-
         setAlignment(atkButton, Pos.BOTTOM_RIGHT);
         atkButton.setTranslateY(-80);
         atkButton.setTranslateX(-200);
+
 
         ImageView catchButton = new ImageView(new Image("CatchButton.png"));
 
         catchButton.setFitHeight(75);
         catchButton.setFitWidth(200);
-        if(GameController.getInstance().getPlayer().getPokeBall()<1){
+        if (GameController.getInstance().getPlayer().getPokeBall() < 1) {
             catchButton.setDisable(true);
         }
         catchButton.setOnMouseReleased(event -> {
@@ -305,13 +305,14 @@ public class fightPane1_1 extends StackPane{
         });
 
 
-
         setAlignment(catchButton, Pos.BOTTOM_RIGHT);
         catchButton.setTranslateX(-200);
 
         ImageView skillButton = new ImageView(new Image("SkillButton.png"));
         skillButton.setFitHeight(75);
         skillButton.setFitWidth(200);
+
+
 
 
         //backgound
@@ -332,7 +333,9 @@ public class fightPane1_1 extends StackPane{
         ScaleTransition scaleTransition = new ScaleTransition(Duration.millis(200), attackPotion);
         scaleTransition.setToX(1.2);
         scaleTransition.setToY(1.2);
-        if(GameController.getInstance().getPlayer().getAtkPotion() == 0){attackPotion.setDisable(true);}
+        if (GameController.getInstance().getPlayer().getAtkPotion() == 0) {
+            attackPotion.setDisable(true);
+        }
 
         // Set event handlers
         attackPotion.setOnMouseEntered(event -> {
@@ -353,8 +356,8 @@ public class fightPane1_1 extends StackPane{
 
         // Synchronize text animation with image animation
         TranslateTransition textTransition = new TranslateTransition(Duration.millis(200), attackPotionLeft);
-        textTransition.setToY(316 +8); // Adjust as needed
-        textTransition.setToX(-344 +8); // Adjust as needed
+        textTransition.setToY(316 + 8); // Adjust as needed
+        textTransition.setToX(-344 + 8); // Adjust as needed
 
         attackPotion.setOnMouseEntered(event -> {
             scaleTransition.playFromStart();
@@ -372,9 +375,9 @@ public class fightPane1_1 extends StackPane{
         AtkPotion atkPotion = new AtkPotion();
 
         attackPotion.setOnMouseClicked(event -> {
-            GameController.getInstance().getPlayer().setAtkPotion(GameController.getInstance().getPlayer().getAtkPotion()-1);
+            GameController.getInstance().getPlayer().setAtkPotion(GameController.getInstance().getPlayer().getAtkPotion() - 1);
             attackPotionLeft.setText(GameController.getInstance().getPlayer().getAtkPotion() + "");
-            playerPokemon.setAtk(defaultAtk+ atkPotion.getATT_BUFF());
+            playerPokemon.setAtk(defaultAtk + atkPotion.getATT_BUFF());
             atkTurn = atkPotion.getBUFF_TURN();
             attackPotion.setDisable(true);
             System.out.println("Default atk:" + defaultAtk);
@@ -392,7 +395,9 @@ public class fightPane1_1 extends StackPane{
         ScaleTransition scaleTransitionHeal = new ScaleTransition(Duration.millis(200), healPotion);
         scaleTransitionHeal.setToX(1.2);
         scaleTransitionHeal.setToY(1.2);
-        if(GameController.getInstance().getPlayer().getHealPotion() == 0){healPotion.setDisable(true);}
+        if (GameController.getInstance().getPlayer().getHealPotion() == 0) {
+            healPotion.setDisable(true);
+        }
 
         // Set event handlers
         healPotion.setOnMouseEntered(event -> {
@@ -432,17 +437,19 @@ public class fightPane1_1 extends StackPane{
         HealPotion hPotion = new HealPotion();
 
         healPotion.setOnMouseClicked(event -> {
-            GameController.getInstance().getPlayer().setHealPotion(GameController.getInstance().getPlayer().getHealPotion()-1);
+            GameController.getInstance().getPlayer().setHealPotion(GameController.getInstance().getPlayer().getHealPotion() - 1);
             healPotionLeft.setText(GameController.getInstance().getPlayer().getHealPotion() + "");
             System.out.println("Before heal:" + playerPokemon.getHp());
-            playerPokemon.setHp(playerPokemon.getHp()+hPotion.getHEAL());
+            playerPokemon.setHp(playerPokemon.getHp() + hPotion.getHEAL());
             System.out.println("After heal:" + playerPokemon.getHp());
             hpBar.setProgress((playerPokemon.getHp() / playerPokemon.getMaxHp()));
-            if(playerPokemon.getHp()/playerPokemon.getMaxHp() <= 0.25)
+            if (playerPokemon.getHp() / playerPokemon.getMaxHp() <= 0.25)
                 hpBar.setStyle("-fx-accent: #FF0000;");
-            else if(playerPokemon.getHp()/playerPokemon.getMaxHp() <= 0.5)
+            else if (playerPokemon.getHp() / playerPokemon.getMaxHp() <= 0.5)
                 hpBar.setStyle("-fx-accent: #FFFF00;");
-            if(GameController.getInstance().getPlayer().getHealPotion() == 0) {healPotion.setDisable(true);}
+            if (GameController.getInstance().getPlayer().getHealPotion() == 0) {
+                healPotion.setDisable(true);
+            }
         });
 
         ImageView defPotion = new ImageView(new Image("DefPotion.png"));
@@ -455,7 +462,9 @@ public class fightPane1_1 extends StackPane{
         ScaleTransition scaleTransitionDef = new ScaleTransition(Duration.millis(200), defPotion);
         scaleTransitionDef.setToX(1.2);
         scaleTransitionDef.setToY(1.2);
-        if(GameController.getInstance().getPlayer().getDefPotion() == 0){defPotion.setDisable(true);}
+        if (GameController.getInstance().getPlayer().getDefPotion() == 0) {
+            defPotion.setDisable(true);
+        }
 
 
         // Set event handlers
@@ -497,14 +506,14 @@ public class fightPane1_1 extends StackPane{
         DefPotion defensePotion = new DefPotion();
 
         defPotion.setOnMouseClicked(event -> {
-            GameController.getInstance().getPlayer().setDefPotion(GameController.getInstance().getPlayer().getDefPotion()-1);
+            GameController.getInstance().getPlayer().setDefPotion(GameController.getInstance().getPlayer().getDefPotion() - 1);
             defPotionLeft.setText(GameController.getInstance().getPlayer().getDefPotion() + "");
-            playerPokemon.setDef(defaultDef+ defensePotion.getDEF_BUFF());
+            playerPokemon.setDef(defaultDef + defensePotion.getDEF_BUFF());
             defTurn = defensePotion.getBUFF_TURN();
             defPotion.setDisable(true);
             System.out.println("Default def:" + defaultDef);
             System.out.println("DEF+BUFF:" + playerPokemon.getDef());
-            System.out.println("BUFF TURN LEFT:"+ defTurn);
+            System.out.println("BUFF TURN LEFT:" + defTurn);
         });
 
         ImageView pokeballItem = new ImageView(new Image("PokeballItem.png"));
@@ -526,7 +535,6 @@ public class fightPane1_1 extends StackPane{
         textTransitionPokeballItem.setToX(106 + 8); // Adjust as needed
 
 
-
         //itemsBar
         ImageView itemsBar = new ImageView(new Image("ItemsBar.png"));
         itemsBar.setFitHeight(70);
@@ -540,23 +548,23 @@ public class fightPane1_1 extends StackPane{
             skillButton.setDisable(skillCoolDown > 0);
             leaveButton.setDisable(false);
             hpBar.setProgress((playerPokemon.getHp() / playerPokemon.getMaxHp()));
-            if(playerPokemon.getHp()/playerPokemon.getMaxHp() <= 0.25)
+            if (playerPokemon.getHp() / playerPokemon.getMaxHp() <= 0.25)
                 hpBar.setStyle("-fx-accent: #FF0000;");
-            else if(playerPokemon.getHp()/playerPokemon.getMaxHp() <= 0.5)
+            else if (playerPokemon.getHp() / playerPokemon.getMaxHp() <= 0.5)
                 hpBar.setStyle("-fx-accent: #FFFF00;");
-            if(GameController.getInstance().getPlayer().getPokeBall()>0){
+            if (GameController.getInstance().getPlayer().getPokeBall() > 0) {
                 catchButton.setDisable(false);
             }
-            if(GameController.getInstance().getPlayer().getCurrentPokemon().isDead()){
+            if (GameController.getInstance().getPlayer().getCurrentPokemon().isDead()) {
                 System.out.println("Your pokemon is faint");
-                GameController.getInstance().endBattle(playerPokemonImg,grave.getPicture(),false);
-                GameController.getInstance().stopController(atkButton,skillButton,catchButton,leaveButton,atkButton,defPotion,healPotion);
+                GameController.getInstance().endBattle(playerPokemonImg, grave.getPicture(), false);
+                GameController.getInstance().stopController(atkButton, skillButton, catchButton, leaveButton, atkButton, defPotion, healPotion);
             }
         });
         //enemy Attack
         PauseTransition delay = new PauseTransition(Duration.seconds(1));
         delay.setOnFinished(event -> {
-            if(!enemy.isDead()){
+            if (!enemy.isDead()) {
                 enemyImg.toFront();
                 enemyAttack.play();
                 enemy.attack(playerPokemon);
@@ -603,8 +611,8 @@ public class fightPane1_1 extends StackPane{
             enemySkillImg.setVisible(false);
             if (GameController.getInstance().getPlayer().getCurrentPokemon().isDead()) {
                 System.out.println("Your pokemon is faint");
-                GameController.getInstance().endBattle(playerPokemonImg,grave.getPicture(),false);
-                GameController.getInstance().stopController(atkButton,skillButton,catchButton,leaveButton,atkButton,defPotion,healPotion);
+                GameController.getInstance().endBattle(playerPokemonImg, grave.getPicture(), false);
+                GameController.getInstance().stopController(atkButton, skillButton, catchButton, leaveButton, atkButton, defPotion, healPotion);
 
 
             }
@@ -623,7 +631,7 @@ public class fightPane1_1 extends StackPane{
         //enemy useSkill when cool down = 0;
         PauseTransition delay2 = new PauseTransition(Duration.seconds(1));
         delay2.setOnFinished(event -> {
-            if(!enemy.isDead()){
+            if (!enemy.isDead()) {
                 enemySkillCoolDown = 5;
                 enemyImg.toFront();
                 enemySkillImg.setVisible(true);
@@ -675,23 +683,23 @@ public class fightPane1_1 extends StackPane{
                 skillImg.setVisible(true);
                 playerSkillTransition.play();
                 skillButton.setDisable(true);
-                if(atkTurn == 0){
+                if (atkTurn == 0) {
                     playerPokemon.setAtk(defaultAtk);
-                    if(GameController.getInstance().getPlayer().getAtkPotion() != 0) attackPotion.setDisable(false);
-                    System.out.println("BUFF TURN:"+ atkTurn);
+                    if (GameController.getInstance().getPlayer().getAtkPotion() != 0) attackPotion.setDisable(false);
+                    System.out.println("BUFF TURN:" + atkTurn);
                 }
-                if(defTurn == 0){
+                if (defTurn == 0) {
                     playerPokemon.setDef(defaultDef);
-                    if(GameController.getInstance().getPlayer().getAtkPotion() != 0) defPotion.setDisable(false);
-                    System.out.println("BUFF TURN:"+ defTurn);
+                    if (GameController.getInstance().getPlayer().getAtkPotion() != 0) defPotion.setDisable(false);
+                    System.out.println("BUFF TURN:" + defTurn);
                 }
                 playerSkillTransition.setOnFinished(event -> {
                     enemyImg.setVisible(false);
                     enemyPokemongif.setVisible(true);
-                    enemyHpBar.setProgress((enemy.getHp()/enemy.getMaxHp()));
-                    if((enemy.getHp()/enemy.getMaxHp()) <= 0.25)
+                    enemyHpBar.setProgress((enemy.getHp() / enemy.getMaxHp()));
+                    if ((enemy.getHp() / enemy.getMaxHp()) <= 0.25)
                         enemyHpBar.setStyle("-fx-accent: #FF0000;");
-                    else if((enemy.getHp()/enemy.getMaxHp()) <= 0.50)
+                    else if ((enemy.getHp() / enemy.getMaxHp()) <= 0.50)
                         enemyHpBar.setStyle("-fx-accent: #FFFF00;");
                     PauseTransition pauseEnemy = new PauseTransition(Duration.seconds(1));
                     pauseEnemy.setOnFinished(e -> {
@@ -701,21 +709,20 @@ public class fightPane1_1 extends StackPane{
                     });
                     pauseEnemy.play();
                     skillImg.setVisible(false);
-                    if(enemySkillCoolDown == 0){
+                    if (enemySkillCoolDown == 0) {
                         delay2.play();
-                    }else{
+                    } else {
                         delay.play();
                     }
-                    if(enemy.isDead()){
+                    if (enemy.isDead()) {
                         System.out.println("Enemy pokemon is faint");
-                        GameController.getInstance().getPlayer().setMoney(GameController.getInstance().getPlayer().getMoney()+500);
+                        GameController.getInstance().getPlayer().setMoney(GameController.getInstance().getPlayer().getMoney() + 500);
                         GameController.getInstance().setPikachuCheckpoint(true);
-                        GameController.getInstance().endBattle(enemyImg,graveEnemy.getPicture(),true);
-                        GameController.getInstance().stopController(atkButton,skillButton,catchButton,leaveButton,atkButton,defPotion,healPotion);
+                        GameController.getInstance().endBattle(enemyImg, graveEnemy.getPicture(), true);
+                        GameController.getInstance().stopController(atkButton, skillButton, catchButton, leaveButton, atkButton, defPotion, healPotion);
 
                     }
                 });
-
 
 
             }
@@ -723,52 +730,6 @@ public class fightPane1_1 extends StackPane{
 
         setAlignment(skillButton, Pos.BOTTOM_RIGHT);
         skillButton.setTranslateY(-80);
-        atkButton.setOnMousePressed(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent mouseEvent) {
-                System.out.println("ATTACK");
-                atkButton.setImage(new Image("AttackButtonOnClick.png"));
-                decreaseCoolDown();
-                leaveButton.setDisable(true);
-                atkButton.setDisable(true);
-                skillButton.setDisable(true);
-                catchButton.setDisable(true);
-                playerAttack.play();
-                playerPokemonImg.toFront();
-                playerPokemon.attack(enemy);
-                if(atkTurn == 0){
-                    playerPokemon.setAtk(defaultAtk);
-                    if(GameController.getInstance().getPlayer().getAtkPotion() != 0) attackPotion.setDisable(false);
-                    System.out.println("ATK BUFF TURN:"+ atkTurn);
-                }
-                if(defTurn == 0){
-                    playerPokemon.setDef(defaultDef);
-                    if(GameController.getInstance().getPlayer().getAtkPotion() != 0) defPotion.setDisable(false);
-                    System.out.println("DEF BUFF TURN:"+ defTurn);
-                }
-                playerAttack.setOnFinished(event -> {
-                    enemyHpBar.setProgress((enemy.getHp()/enemy.getMaxHp()));
-                    if((enemy.getHp()/enemy.getMaxHp()) <= 0.25)
-                        enemyHpBar.setStyle("-fx-accent: #FF0000;");
-                    else if((enemy.getHp()/enemy.getMaxHp()) <= 0.50)
-                        enemyHpBar.setStyle("-fx-accent: #FFFF00;");
-                    if(enemy.isDead()){
-                        System.out.println("Enemy pokemon is faint");
-                        GameController.getInstance().getPlayer().setMoney(GameController.getInstance().getPlayer().getMoney()+500);
-                        GameController.getInstance().setPikachuCheckpoint(true);
-                        GameController.getInstance().endBattle(enemyImg,graveEnemy.getPicture(),true);
-                        GameController.getInstance().stopController(atkButton,skillButton,catchButton,leaveButton,atkButton,defPotion,healPotion);
-
-                    }
-                    if(enemySkillCoolDown == 0){
-                        delay2.play();
-                    }else{
-                        delay.play();
-                    }
-                });
-
-            }
-        });
 
 
 
@@ -853,20 +814,21 @@ public class fightPane1_1 extends StackPane{
             skillButton.setOnMouseExited(null); // Remove mouse exited event handler
         }
 
-        getChildren().addAll(backgroundImageView,enemyImgAttacked,enemyImg,playerPokemonImg,playerPokemonImgAttacked,battleControlBackground,leaveButton,atkButton,skillButton,catchButton,pokeballView);
+        getChildren().addAll(backgroundImageView, enemyImgAttacked, enemyImg, playerPokemonImg, playerPokemonImgAttacked, battleControlBackground, leaveButton, atkButton, skillButton, catchButton, pokeballView);
         getChildren().add(hpBar);
         getChildren().add(enemyHpBar);
         getChildren().add(vs);
         getChildren().add(skillImg);
         getChildren().add(enemySkillImg);
-        getChildren().addAll(attackPotion,attackPotionLeft,healPotion,healPotionLeft,defPotion,defPotionLeft,pokeballItem,pokeballItemLeft,itemsBar);
-        getChildren().addAll(playerPokemongif,enemyPokemongif);
-        getChildren().addAll(graveEnemy.getPicture(),grave.getPicture());
+        getChildren().addAll(attackPotion, attackPotionLeft, healPotion, healPotionLeft, defPotion, defPotionLeft, pokeballItem, pokeballItemLeft, itemsBar);
+        getChildren().addAll(playerPokemongif, enemyPokemongif);
+        getChildren().addAll(graveEnemy.getPicture(), grave.getPicture());
     }
-    public void decreaseCoolDown(){
-        if(skillCoolDown > 0) skillCoolDown--;
-        if(enemySkillCoolDown > 0) enemySkillCoolDown--;
-        if(atkTurn > 0) atkTurn--;
-        if(defTurn > 0) defTurn--;
+
+    public void decreaseCoolDown() {
+        if (skillCoolDown > 0) skillCoolDown--;
+        if (enemySkillCoolDown > 0) enemySkillCoolDown--;
+        if (atkTurn > 0) atkTurn--;
+        if (defTurn > 0) defTurn--;
     }
 }

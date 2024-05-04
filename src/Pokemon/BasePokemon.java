@@ -57,10 +57,6 @@ public abstract class BasePokemon {
         setHp(getHp()-amount);
     }
 
-
-
-
-
     public String getName() {
         return name;
     }
