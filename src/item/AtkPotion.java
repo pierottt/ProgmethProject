@@ -4,8 +4,8 @@ public class AtkPotion extends BaseItem{
     private final int ATT_BUFF;
     private final int BUFF_TURN;
     public AtkPotion(){
-        super("AtkPotion", 500);
-        this.ATT_BUFF = 30;
+        super("AtkPotion", 1000);
+        this.ATT_BUFF = 1000;
         this.BUFF_TURN = 5;
     }
 

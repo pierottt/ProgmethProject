@@ -43,23 +43,18 @@ public class Pikachu extends BasePokemon{
     }
 
     public void attack(BasePokemon pokemon) {
-        if(pokemon.getElement()==Element.ELECTRIC) {
-            pokemon.decreaseHp(getAtk() - pokemon.getDef());
-        } else if (pokemon.getElement()==Element.FIRE || pokemon.getElement()==Element.ICE) {
-            pokemon.decreaseHp(getAtk()*1.5 - pokemon.getDef());
-        } else {
-            pokemon.decreaseHp(getAtk()*0.5 - pokemon.getDef());
-        }
+        pokemon.decreaseHp(getAtk() - pokemon.getDef());
     }
 
     @Override
     public void useSkill(BasePokemon pokemon){
-        pokemon.decreaseHp(100);
-    }
-
-    @Override
-    public int getPrice() {
-        return 100;
+        if(pokemon.getElement()==Element.ELECTRIC) {
+            pokemon.decreaseHp(getAtk()+200);
+        } else if (pokemon.getElement()==Element.FIRE || pokemon.getElement()==Element.ICE) {
+            pokemon.decreaseHp((getAtk()+200)*1.5);
+        } else {
+            pokemon.decreaseHp((getAtk()+200)*0.5);
+        }
     }
 
     @Override

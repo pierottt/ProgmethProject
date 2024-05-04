@@ -2,6 +2,7 @@ package game;
 
 import javafx.animation.FadeTransition;
 import javafx.animation.PauseTransition;
+import javafx.scene.control.Button;
 import javafx.scene.image.ImageView;
 import javafx.util.Duration;
 import player.Player;
@@ -119,17 +120,41 @@ public class GameController {
 
         // Start the fade out animation for the Pokemon ImageView
         fadeOutPokemonTransition.play();
+
         PauseTransition pause = new PauseTransition(Duration.seconds(5));
         pause.setOnFinished(e -> {
             if(isEnemy){
                 Goto.victoryPage();
-            }
-            else {
+            } else {
                 Goto.faintPane();
             }
 
+            // After the pause, fade in the Pokemon ImageView and set its scale to 1.0
+            FadeTransition fadeInPokemonTransition = new FadeTransition(Duration.millis(1000), pokemon);
+            fadeInPokemonTransition.setFromValue(0.0);
+            fadeInPokemonTransition.setToValue(1.0);
+            pokemon.setVisible(true);
+
+            // Reset scale to 1.0
+            pokemon.setScaleX(1.0);
+            pokemon.setScaleY(1.0);
+
+            // Start the fade in animation for the Pokemon ImageView
+            fadeInPokemonTransition.play();
         });
+
         pause.play();
+    }
+
+
+    public void stopController(ImageView atkBtn,ImageView skillBtn,ImageView catchedBtn,ImageView leaveBtn,ImageView atkPotion , ImageView defPotion , ImageView healPotion){
+        atkBtn.setDisable(true);
+        skillBtn.setDisable(true);
+        catchedBtn.setDisable(true);
+        leaveBtn.setDisable(true);
+        atkPotion.setDisable(true);
+        defPotion.setDisable(true);
+        healPotion.setDisable(true);
     }
 
 

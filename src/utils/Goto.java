@@ -22,6 +22,11 @@ public class Goto {
         rootPane.getChildren().add(new StartPane());
     }
 
+    public  static  void gotchaPage(){
+        clear();
+        rootPane.getChildren().add(new gotchaPane());
+    }
+
     public static void mapPage(){
         clear();
         SoundManager.getInstance().changeSound("res/backgroundMusic.mp3");

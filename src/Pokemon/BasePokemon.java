@@ -34,7 +34,9 @@ public abstract class BasePokemon implements Evolable {
     private int price;
     private Path skillPath;
     //Abstact
-    public abstract int getPrice();
+    public int getPrice(){
+        return price;
+    };
 
     public abstract boolean equals(BasePokemon pokemon);
 

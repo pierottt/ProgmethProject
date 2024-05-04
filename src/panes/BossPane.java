@@ -17,6 +17,7 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.shape.*;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
+import javafx.scene.transform.Rotate;
 import javafx.util.Duration;
 import table.Grave;
 import utils.Goto;
@@ -228,6 +229,12 @@ public class BossPane extends StackPane{
         pokeTransition.setNode(pokeballView);
         pokeTransition.setPath(pokeballPath); // Set the path along which the node will transition
         pokeTransition.setCycleCount(1);
+        RotateTransition rotateBall = new RotateTransition();
+        rotateBall.setDuration(Duration.seconds(1));
+        rotateBall.setCycleCount(TranslateTransition.INDEFINITE);
+        rotateBall.setNode(pokeballView);
+        rotateBall.setByAngle(360);
+        rotateBall.setAxis(Rotate.Z_AXIS);
 
         //BUTTON
         ImageView leaveButton = new ImageView(new Image("LeaveButton.png"));
@@ -543,6 +550,8 @@ public class BossPane extends StackPane{
             if(GameController.getInstance().getPlayer().getCurrentPokemon().isDead()){
                 System.out.println("Your pokemon is faint");
                 GameController.getInstance().endBattle(playerPokemonImg,grave.getPicture(),false);
+                GameController.getInstance().stopController(atkButton,skillButton,catchButton,leaveButton,atkButton,defPotion,healPotion);
+
 
             }
         });
@@ -599,6 +608,8 @@ public class BossPane extends StackPane{
             if(GameController.getInstance().getPlayer().getCurrentPokemon().isDead()){
                 System.out.println("Your pokemon is faint");
                 GameController.getInstance().endBattle(playerPokemonImg,grave.getPicture(),false);
+                GameController.getInstance().stopController(atkButton,skillButton,catchButton,leaveButton,atkButton,defPotion,healPotion);
+
 
             }
             PauseTransition pause = new PauseTransition(Duration.seconds(0.5));
@@ -702,8 +713,11 @@ public class BossPane extends StackPane{
                     skillImg.setVisible(false);
                     if(enemy.isDead()){
                         System.out.println("Enemy pokemon is faint");
+                        GameController.getInstance().getPlayer().setMoney(GameController.getInstance().getPlayer().getMoney()+10000);
                         GameController.getInstance().setChickenCheckpoint(true);
                         GameController.getInstance().endBattle(enemyImg,graveEnemy.getPicture(),true);
+                        GameController.getInstance().stopController(atkButton,skillButton,catchButton,leaveButton,atkButton,defPotion,healPotion);
+
 
                     }
                     if(enemySkillCoolDown == 0){
@@ -747,8 +761,10 @@ public class BossPane extends StackPane{
                         enemyHpBar.setStyle("-fx-accent: #FFFF00;");
                     if(enemy.isDead()){
                         System.out.println("Enemy pokemon is faint");
+                        GameController.getInstance().getPlayer().setMoney(GameController.getInstance().getPlayer().getMoney()+10000);
                         GameController.getInstance().setChickenCheckpoint(true);
                         GameController.getInstance().endBattle(enemyImg,graveEnemy.getPicture(),true);
+                        GameController.getInstance().stopController(atkButton,skillButton,catchButton,leaveButton,atkButton,defPotion,healPotion);
                     }
                     if(enemySkillCoolDown == 0){
                         delay2.play();
@@ -770,6 +786,7 @@ public class BossPane extends StackPane{
                 pokeballView.setVisible(true);
                 pokeballView.toFront();
                 pokeTransition.play();
+                rotateBall.play();
                 pokeTransition.setOnFinished(event -> {
                     pokeballView.setVisible(false);
 
@@ -778,7 +795,9 @@ public class BossPane extends StackPane{
                         GameController.getInstance().getPlayer().setChicken(GameController.getInstance().getPlayer().getChicken()+1);
                         if(!GameController.getInstance().getPlayer().getPokeDeck().getPokeDeck().contains(new Chicken())){
                             GameController.getInstance().getPlayer().getPokeDeck().getPokeDeck().add(new Chicken());
-                        }Goto.mapPage();
+                        }
+                        Goto.gotchaPage();
+
                     }
                     else{
                         atkButton.setDisable(false);
