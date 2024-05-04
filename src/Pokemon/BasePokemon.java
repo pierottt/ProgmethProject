@@ -61,10 +61,6 @@ public abstract class BasePokemon implements Evolable {
         setHp(getHp()-amount);
     }
 
-
-
-
-
     public String getName() {
         return name;
     }
