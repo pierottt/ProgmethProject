@@ -558,10 +558,9 @@ public class BossPane extends StackPane{
         //enemy Attack
         PauseTransition delay = new PauseTransition(Duration.seconds(1));
         delay.setOnFinished(event -> {
-            if(enemy.isDead()){
+            if(!enemy.isDead()){
                 enemyImg.toFront();
                 enemyAttack.play();
-//            playerKnockBack.play();
                 enemy.attack(playerPokemon);
                 System.out.println("A:" + playerPokemon.getAtk());
                 System.out.println("B:" + enemy.getAtk() * 0.5);
@@ -771,7 +770,6 @@ public class BossPane extends StackPane{
                     }else{
                         delay.play();
                     }
-//                    parallelTransition.play();
                 });
 
             }
