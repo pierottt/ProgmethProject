@@ -100,7 +100,7 @@ public class fightPane1_4 extends StackPane{
         graveEnemy.getPicture().setVisible(false);
 
         enemySkillImg.setFitWidth(300);
-        enemySkillImg.setFitHeight(400);
+        enemySkillImg.setFitHeight(300);
         enemySkillImg.setVisible(false);
         playerPokemonImgAttacked.setVisible(false);
         enemyImgAttacked.setVisible(false);
@@ -140,10 +140,10 @@ public class fightPane1_4 extends StackPane{
         enemyPokemonGif.setTranslateY(-35);
         //set enemy skill path
         Path ratPath = new Path();
-        ratPath.getElements().add(new MoveTo(300,50));
-        ratPath.getElements().add(new LineTo(-250,100));
+        ratPath.getElements().add(new MoveTo(350,80));
+        ratPath.getElements().add(new LineTo(-230,150));
         PathTransition ratTransition = new PathTransition();
-        ratTransition.setDuration(Duration.seconds(2));
+        ratTransition.setDuration(Duration.seconds(5));
         ratTransition.setNode(enemySkillImg);
         ratTransition.setPath(ratPath);
         ratTransition.setOnFinished(event -> {
